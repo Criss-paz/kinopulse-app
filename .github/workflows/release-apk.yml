@@ -45,7 +45,11 @@ jobs:
           java-version: 21
           cache: gradle
 
-      - uses: android-actions/setup-android@v3
+      - name: Use preinstalled Android SDK
+        run: |
+          SDK="${ANDROID_HOME:-$ANDROID_SDK_ROOT}"
+          echo "sdk.dir=$SDK" > android/local.properties
+          yes | "$SDK/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
 
       - name: Prepare signing keystore
         env:
