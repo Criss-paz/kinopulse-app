@@ -1,0 +1,8 @@
+name = "kinopulse-cache"
+main = "cache-worker.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# Comma-separated list of app origins allowed to use the cache ("*" = any).
+ALLOWED_ORIGINS = "https://criss-paz.github.io,capacitor://localhost,https://localhost,http://localhost:5173"
+BLOCK_BOTS = "true"

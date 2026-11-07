@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    @apply bg-obsidian-950 font-sans text-white antialiased;
+  }
+  /* Keyboard / D-pad users get a loud ring; mouse and touch users don't. */
+  :focus {
+    outline: none;
+  }
+}
+
+@layer components {
+  .kp-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-white/10 px-6 py-3 text-base font-semibold text-white backdrop-blur transition duration-200 hover:bg-white/20 md:text-lg;
+  }
+  .kp-btn-sm {
+    @apply px-4 py-2 text-sm md:text-base;
+  }
+  .kp-btn-primary {
+    @apply bg-pulse-red hover:bg-red-500;
+  }
+  .kp-btn-active {
+    @apply bg-pulse-cyan/25 text-pulse-cyan;
+  }
+  .kp-btn:focus-visible,
+  .kp-seekbar:focus-visible {
+    @apply scale-105 ring-4 ring-pulse-cyan ring-offset-2 ring-offset-obsidian-950;
+    box-shadow: 0 0 28px rgba(0, 240, 255, 0.45);
+  }
+  .kp-card {
+    @apply transition duration-300 ease-out;
+  }
+  .kp-card:focus-visible,
+  .kp-card:hover {
+    @apply z-10 scale-110 ring-4 ring-pulse-cyan;
+    box-shadow: 0 0 36px rgba(0, 240, 255, 0.5);
+  }
+  .kp-row {
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    scroll-padding-inline: 3rem;
+  }
+  .kp-row::-webkit-scrollbar {
+    display: none;
+  }
+  .kp-panel {
+    @apply flex flex-col items-start gap-4 rounded-2xl border border-white/10 bg-obsidian-900 p-6;
+  }
+  .kp-panel-title {
+    @apply text-xl font-bold text-white;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .kp-card:hover {
+    transform: none;
+    box-shadow: none;
+    --tw-ring-shadow: 0 0 #0000;
+  }
+}
+
+video::cue {
+  font-size: 1.6rem;
+  background: rgba(0, 0, 0, 0.6);
+}

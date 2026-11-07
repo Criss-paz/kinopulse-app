@@ -1,0 +1,101 @@
+name: Build & Release (APK + Web)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build web (validates catalog + type-checks)
+        run: npm run build
+
+      - name: Upload web artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Prepare signing keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          else
+            # Fallback so forks still build; APKs signed this way can't update installs signed with the real key.
+            echo "::warning::KEYSTORE_BASE64 secret missing, generating a throwaway keystore"
+            keytool -genkeypair -v -keystore "$RUNNER_TEMP/release.keystore" -alias kinopulse -keyalg RSA -keysize 2048 \
+              -validity 10000 -storepass ephemeral -keypass ephemeral -dname "CN=KinoPulse, O=KinoPulse, C=US"
+            echo "KEYSTORE_PASSWORD=ephemeral" >> "$GITHUB_ENV"
+            echo "KEY_PASSWORD=ephemeral" >> "$GITHUB_ENV"
+            echo "KEY_ALIAS=kinopulse" >> "$GITHUB_ENV"
+          fi
+          echo "KEYSTORE_FILE=$RUNNER_TEMP/release.keystore" >> "$GITHUB_ENV"
+
+      - name: Assemble signed release APK
+        working-directory: android
+        env:
+          KEYSTORE_PASSWORD: ${{ env.KEYSTORE_PASSWORD || secrets.KEYSTORE_PASSWORD }}
+          KEY_PASSWORD: ${{ env.KEY_PASSWORD || secrets.KEY_PASSWORD }}
+          KEY_ALIAS: ${{ env.KEY_ALIAS || secrets.KEY_ALIAS }}
+          VERSION_CODE: ${{ github.run_number }}
+          VERSION_NAME: 1.0.${{ github.run_number }}
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+          cp app/build/outputs/apk/release/app-release.apk "$GITHUB_WORKSPACE/KinoPulse-TV-Mobile.apk"
+
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v1.0.${{ github.run_number }}
+          name: KinoPulse v1.0.${{ github.run_number }}
+          make_latest: true
+          files: KinoPulse-TV-Mobile.apk
+          body: |
+            Universal APK for Android TV, Google TV, Fire TV and Android phones.
+
+            Stable download link (always the newest build):
+            https://github.com/${{ github.repository }}/releases/latest/download/KinoPulse-TV-Mobile.apk
+
+  deploy-web:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
