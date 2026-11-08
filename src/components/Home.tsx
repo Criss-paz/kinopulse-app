@@ -1,4 +1,4 @@
-﻿import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { Movie } from '../types'
 import { categories, formatDuration, movies, moviesByCategory, refreshLiveCatalog } from '../lib/catalog'
 import { getAllProgress, formatTimeMMSS } from '../lib/progress'
@@ -7,9 +7,12 @@ import { focusFirst } from '../lib/spatial'
 interface Props {
   onOpen: (m: Movie) => void
   onPlay: (m: Movie) => void
+  searchQuery: string
+  selectedCategory: string
+  onSelectCategory: (id: string) => void
 }
 
-export default function Home({ onOpen, onPlay }: Props) {
+export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, onSelectCategory }: Props) {
   const [, setTick] = useState(0)
   const [hero, setHero] = useState<Movie>(() => movies[0])
 
@@ -29,10 +32,18 @@ export default function Home({ onOpen, onPlay }: Props) {
   }, [])
 
   const progressMap = getAllProgress()
+  const q = searchQuery.trim().toLowerCase()
+
+  const matchesSearch = (m: Movie) =>
+    !q ||
+    m.title.toLowerCase().includes(q) ||
+    m.synopsis.toLowerCase().includes(q) ||
+    String(m.year).includes(q)
+
   const continueWatching = movies
     .filter((m) => {
       const p = progressMap[m.id]
-      return p && p.time >= 15 && p.duration > 0 && p.time / p.duration < 0.95
+      return p && p.time >= 15 && p.duration > 0 && p.time / p.duration < 0.95 && matchesSearch(m)
     })
     .sort((a, b) => (progressMap[b.id]?.updatedAt || 0) - (progressMap[a.id]?.updatedAt || 0))
 
@@ -67,52 +78,107 @@ export default function Home({ onOpen, onPlay }: Props) {
     )
   }
 
+  // Categor?as que realmente tienen pel?culas cargadas
+  const activeCategories = categories.filter((c) => moviesByCategory(c.id).length > 0)
+
+  // Filtrar seg?n categor?a o b?squeda
+  const filteredMovies = movies.filter((m) => {
+    const catOk = selectedCategory === 'all' || m.category === selectedCategory
+    return catOk && matchesSearch(m)
+  })
+
   return (
     <main>
-      <section className="relative h-[62vh] min-h-[360px] w-full overflow-hidden md:h-[70vh]">
+      {/* Hero Banner */}
+      <section className="relative h-[58vh] min-h-[340px] w-full overflow-hidden md:h-[68vh]">
         <img src={hero.backdrop} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-50 blur-sm" />
         <div className="absolute inset-0 bg-gradient-to-r from-obsidian-950 via-obsidian-950/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent" />
-        <div className="relative flex h-full max-w-3xl flex-col justify-end gap-4 px-4 pb-10 md:px-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-pulse-cyan">Destacado</p>
-          <h1 className="text-4xl font-black text-white md:text-6xl">{hero.title}</h1>
+        <div className="relative flex h-full max-w-3xl flex-col justify-end gap-3 px-4 pb-8 md:px-12">
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-pulse-cyan">Destacado</p>
+          <h1 className="text-3xl font-black text-white md:text-5xl">{hero.title}</h1>
           <p className="text-sm text-white/70 md:text-base">
-            {hero.year} · {formatDuration(hero.duration)} · {hero.rating}
+            {hero.year} ? {formatDuration(hero.duration)} ? {hero.rating}
           </p>
-          <p className="line-clamp-3 text-base text-white/85 md:text-lg">{hero.synopsis}</p>
-          <div className="flex gap-3" data-nav-group="hero">
+          <p className="line-clamp-2 text-sm text-white/85 md:text-base">{hero.synopsis}</p>
+          <div className="flex gap-3 pt-1" data-nav-group="hero">
             <button data-nav data-nav-autofocus className="kp-btn kp-btn-primary" onClick={() => onPlay(hero)}>
-              ▶ Reproducir
+              ? Reproducir
             </button>
             <button data-nav className="kp-btn" onClick={() => onOpen(hero)}>
-              ⓘ Más info
+              ? M?s informaci?n
             </button>
           </div>
         </div>
       </section>
 
-      <div className="relative -mt-6 space-y-8 pb-16">
-        {continueWatching.length > 0 && (
-          <section>
-            <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">Continuar viendo</h2>
-            <div data-nav-group="continue-watching" className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
-              {continueWatching.map(renderCard)}
-            </div>
-          </section>
-        )}
+      {/* Barra de Filtros de Categor?as (Navegable con Control Remoto) */}
+      <div className="relative z-10 px-4 pt-2 pb-4 md:px-12">
+        <div data-nav-group="category-chips" className="flex items-center gap-2 overflow-x-auto py-2">
+          <button
+            data-nav
+            onClick={() => onSelectCategory('all')}
+            className={`kp-btn kp-btn-sm shrink-0 ${selectedCategory === 'all' ? 'kp-btn-primary' : ''}`}
+          >
+            Todas
+          </button>
+          {activeCategories.map((c) => (
+            <button
+              key={c.id}
+              data-nav
+              onClick={() => onSelectCategory(c.id)}
+              className={`kp-btn kp-btn-sm shrink-0 ${selectedCategory === c.id ? 'kp-btn-primary' : ''}`}
+            >
+              {c.name}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        {categories.map((c) => {
-          const list = moviesByCategory(c.id)
-          if (!list.length) return null
-          return (
-            <section key={c.id}>
-              <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">{c.name}</h2>
-              <div data-nav-group={c.id} className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
-                {list.map(renderCard)}
+      <div className="relative space-y-8 pb-16">
+        {/* Si el usuario est? buscando texto o eligi? una categor?a espec?fica, mostrar cuadr?cula filtrada */}
+        {(q !== '' || selectedCategory !== 'all') ? (
+          <section className="px-4 md:px-12">
+            <h2 className="mb-4 text-xl font-bold text-white md:text-2xl">
+              {q !== ''
+                ? `Resultados para "${searchQuery}" (${filteredMovies.length})`
+                : activeCategories.find((c) => c.id === selectedCategory)?.name || 'Pel?culas'}
+            </h2>
+            {filteredMovies.length === 0 ? (
+              <p className="py-12 text-center text-white/60">
+                No se encontraron pel?culas que coincidan con tu b?squeda.
+              </p>
+            ) : (
+              <div data-nav-group="filtered-grid" className="flex flex-wrap gap-4 py-2 md:gap-6">
+                {filteredMovies.map(renderCard)}
               </div>
-            </section>
-          )
-        })}
+            )}
+          </section>
+        ) : (
+          <>
+            {continueWatching.length > 0 && (
+              <section>
+                <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">Continuar viendo</h2>
+                <div data-nav-group="continue-watching" className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
+                  {continueWatching.map(renderCard)}
+                </div>
+              </section>
+            )}
+
+            {activeCategories.map((c) => {
+              const list = moviesByCategory(c.id)
+              if (!list.length) return null
+              return (
+                <section key={c.id}>
+                  <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">{c.name}</h2>
+                  <div data-nav-group={c.id} className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
+                    {list.map(renderCard)}
+                  </div>
+                </section>
+              )
+            })}
+          </>
+        )}
       </div>
     </main>
   )

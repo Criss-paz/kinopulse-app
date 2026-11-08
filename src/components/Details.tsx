@@ -1,4 +1,4 @@
-﻿import { useEffect } from 'react'
+import { useEffect } from 'react'
 import type { Movie } from '../types'
 import { formatDuration } from '../lib/catalog'
 import { getMovieProgress, formatTimeMMSS } from '../lib/progress'

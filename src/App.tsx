@@ -1,4 +1,4 @@
-﻿import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import type { Movie, View } from './types'
 import Home from './components/Home'
 import Details from './components/Details'
@@ -19,10 +19,15 @@ export default function App() {
   const [legal, setLegal] = useState(false)
   const [syncing, setSyncing] = useState(false)
   const [toast, setToast] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('all')
   const [resumePrompt, setResumePrompt] = useState<{ movie: Movie; savedTime: number } | null>(null)
   const [updateRelease, setUpdateRelease] = useState<{ tag: string; notes: string } | null>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
   const returnFocus = useRef<HTMLElement[]>([])
   const view = stack[stack.length - 1]
+  const runningInApp = isNative()
 
   const showToast = useCallback((msg: string) => {
     setToast(msg)
@@ -49,6 +54,15 @@ export default function App() {
       setLegal(false)
       return true
     }
+    if (searchOpen && searchQuery) {
+      setSearchQuery('')
+      setSearchOpen(false)
+      return true
+    }
+    if (selectedCategory !== 'all') {
+      setSelectedCategory('all')
+      return true
+    }
     if (stack.length > 1) {
       setStack((s) => s.slice(0, -1))
       const el = returnFocus.current.pop()
@@ -56,11 +70,10 @@ export default function App() {
       return true
     }
     return false
-  }, [legal, resumePrompt, updateRelease, stack.length])
+  }, [legal, resumePrompt, updateRelease, searchOpen, searchQuery, selectedCategory, stack.length])
 
   useEffect(() => initSpatialNav(back), [back])
 
-  // Verifica si hay nuevo APK en GitHub Releases y actualiza el catálogo en vivo
   const checkUpdatesAndSync = useCallback(async (manual = false) => {
     if (manual) setSyncing(true)
     try {
@@ -86,17 +99,16 @@ export default function App() {
           const keys = await caches.keys()
           await Promise.all(keys.map((k) => caches.delete(k)))
         }
-        showToast('Catálogo sincronizado al día. Reiniciando...')
+        showToast('Cat?logo sincronizado al d?a. Reiniciando...')
         window.setTimeout(() => window.location.reload(), 900)
       }
     } catch {
-      if (manual) showToast('Error al sincronizar. Verifica tu conexión.')
+      if (manual) showToast('Error al sincronizar. Verifica tu conexi?n.')
     } finally {
       if (manual) setSyncing(false)
     }
   }, [showToast])
 
-  // Auto-sincronizar al iniciar y cada vez que la TV o celular despierte la app
   useEffect(() => {
     checkUpdatesAndSync(false)
     const onWake = () => {
@@ -118,9 +130,8 @@ export default function App() {
     }
   }, [resumePrompt, updateRelease])
 
-  // Botón Atrás físico del control remoto Android TV
   useEffect(() => {
-    if (!isNative()) return
+    if (!runningInApp) return
     let remove: (() => void) | undefined
     import('@capacitor/app').then(({ App: CapApp }) =>
       CapApp.addListener('backButton', () => {
@@ -128,12 +139,24 @@ export default function App() {
       }).then((h) => (remove = () => h.remove())),
     )
     return () => remove?.()
-  }, [back])
+  }, [back, runningInApp])
 
   useEffect(() => {
     if (view.name === 'downloads') history.replaceState(null, '', '#/descargar')
     else if (location.hash) history.replaceState(null, '', location.pathname)
   }, [view])
+
+  const toggleSearch = () => {
+    setSearchOpen((prev) => {
+      const next = !prev
+      if (next) {
+        setTimeout(() => searchInputRef.current?.focus(), 60)
+      } else {
+        setSearchQuery('')
+      }
+      return next
+    })
+  }
 
   const open = (m: Movie) => push({ name: 'details', movie: m })
 
@@ -166,7 +189,7 @@ export default function App() {
   }
 
   const exitOrRestartApp = () => {
-    if (isNative()) {
+    if (runningInApp) {
       import('@capacitor/app').then(({ App: CapApp }) => CapApp.exitApp())
     } else {
       window.location.reload()
@@ -184,35 +207,79 @@ export default function App() {
       )}
 
       <div aria-hidden={underlayHidden} className={underlayHidden ? 'invisible' : ''}>
-        <header className="fixed inset-x-0 top-0 z-30 flex flex-wrap items-center gap-3 bg-obsidian-950/85 px-4 py-3 backdrop-blur-md md:px-12">
-          <img src="./logo.svg" alt="KinoPulse" className="h-8 w-auto md:h-10" />
+        <header className="fixed inset-x-0 top-0 z-30 flex flex-wrap items-center gap-3 bg-obsidian-950/90 px-4 py-3 backdrop-blur-md md:px-12">
+          <img
+            src="./logo.svg"
+            alt="KinoPulse"
+            className="h-8 w-auto cursor-pointer md:h-10"
+            onClick={() => {
+              setSelectedCategory('all')
+              setSearchQuery('')
+              setSearchOpen(false)
+            }}
+          />
+
+          {searchOpen && (
+            <div className="flex flex-1 items-center gap-2 max-w-md ml-2">
+              <input
+                ref={searchInputRef}
+                data-nav
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar t?tulo, a?o o g?nero..."
+                className="w-full rounded-lg border border-white/20 bg-obsidian-900 px-3 py-1.5 text-sm text-white placeholder-white/40 focus:border-pulse-cyan focus:outline-none"
+              />
+              {searchQuery && (
+                <button
+                  data-nav
+                  className="kp-btn kp-btn-sm"
+                  onClick={() => setSearchQuery('')}
+                >
+                  ?
+                </button>
+              )}
+            </div>
+          )}
+
           <nav className="ml-auto flex flex-wrap items-center gap-2" data-nav-group="nav">
+            <button data-nav className="kp-btn kp-btn-sm" onClick={toggleSearch}>
+              ?? {searchOpen ? 'Cerrar b?squeda' : 'Buscar'}
+            </button>
             <button
               data-nav
               className="kp-btn kp-btn-sm"
               onClick={() => checkUpdatesAndSync(true)}
               disabled={syncing}
             >
-              {syncing ? '⟳ Sincronizando...' : '🔄 Actualizar'}
+              {syncing ? 'Sincronizando...' : '?? Actualizar'}
             </button>
-            <button data-nav className="kp-btn kp-btn-sm" onClick={() => push({ name: 'downloads' })}>
-              ⬇ Descargar App
-            </button>
-            <button data-nav className="kp-btn kp-btn-sm" onClick={() => setLegal(true)}>
-              Info
-            </button>
+            {/* Solo muestra el bot?n de Descargar si est? en un navegador Web, NO dentro del APK instalado */}
+            {!runningInApp && (
+              <button data-nav className="kp-btn kp-btn-sm kp-btn-primary" onClick={() => push({ name: 'downloads' })}>
+                ? Descargar App
+              </button>
+            )}
             <button
               data-nav
               className="kp-btn kp-btn-sm border-pulse-red/40 text-red-200"
               onClick={exitOrRestartApp}
             >
-              ⏻ Salir
+              ? Salir
             </button>
           </nav>
         </header>
-        <Home onOpen={open} onPlay={play} />
+
+        <Home
+          onOpen={open}
+          onPlay={play}
+          searchQuery={searchQuery}
+          selectedCategory={selectedCategory}
+          onSelectCategory={setSelectedCategory}
+        />
+
         <footer className="px-4 pb-10 text-center text-xs text-white/40 md:px-12">
-          KinoPulse Streaming · Android TV, Mobile & Web
+          KinoPulse Streaming ? Android TV, Mobile & Web
         </footer>
       </div>
 
@@ -225,14 +292,14 @@ export default function App() {
       {view.name === 'downloads' && <Downloads onBack={back} />}
       {legal && <LegalModal onClose={back} />}
 
-      {/* Modal: ¿Reanudar o empezar desde cero? */}
+      {/* Modal: ?Reanudar o empezar desde cero? */}
       {resumePrompt && (
         <div data-nav-scope className="fixed inset-0 z-50 grid place-items-center bg-black/85 p-6 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-2xl border border-white/15 bg-obsidian-900 p-6 text-center shadow-2xl">
             <img src={resumePrompt.movie.poster} alt="" className="mx-auto mb-4 h-36 w-24 rounded-lg object-cover shadow-lg" />
             <h2 className="text-2xl font-bold text-white">{resumePrompt.movie.title}</h2>
             <p className="mt-2 text-sm text-white/70">
-              Dejaste esta película en el minuto <span className="font-semibold text-pulse-cyan">{formatTimeMMSS(resumePrompt.savedTime)}</span>. ¿Deseas retomar donde te quedaste?
+              Dejaste esta pel?cula en el minuto <span className="font-semibold text-pulse-cyan">{formatTimeMMSS(resumePrompt.savedTime)}</span>. ?Deseas retomar donde te quedaste?
             </p>
             <div className="mt-6 flex flex-col gap-3">
               <button
@@ -241,14 +308,14 @@ export default function App() {
                 className="kp-btn kp-btn-primary w-full justify-center"
                 onClick={() => startPlayback(resumePrompt.movie, resumePrompt.savedTime)}
               >
-                ▶ Reanudar ({formatTimeMMSS(resumePrompt.savedTime)})
+                ? Reanudar ({formatTimeMMSS(resumePrompt.savedTime)})
               </button>
               <button
                 data-nav
                 className="kp-btn w-full justify-center"
                 onClick={() => startPlayback(resumePrompt.movie, 0)}
               >
-                ↺ Empezar desde el principio
+                ? Empezar desde el principio
               </button>
               <button
                 data-nav
@@ -262,14 +329,14 @@ export default function App() {
         </div>
       )}
 
-      {/* Modal: Aviso de Nueva Actualización de la App */}
+      {/* Modal: Aviso de Nueva Actualizaci?n de la App */}
       {updateRelease && (
         <div data-nav-scope className="fixed inset-0 z-50 grid place-items-center bg-black/85 p-6 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-2xl border border-pulse-red/40 bg-obsidian-900 p-6 text-center shadow-2xl">
-            <p className="text-xs font-bold uppercase tracking-widest text-pulse-cyan">Nueva Versión Disponible</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-pulse-cyan">Nueva Versi?n Disponible</p>
             <h2 className="mt-2 text-2xl font-black text-white">{updateRelease.notes}</h2>
             <p className="mt-2 text-sm text-white/75">
-              Hay una actualización de KinoPulse lista para instalar con mejoras de rendimiento y nuevas funciones.
+              Hay una actualizaci?n de KinoPulse lista para instalar con mejoras de rendimiento y nuevas funciones.
             </p>
             <div className="mt-6 flex flex-col gap-3">
               <button
@@ -278,14 +345,14 @@ export default function App() {
                 className="kp-btn kp-btn-primary w-full justify-center"
                 onClick={triggerUpdateInstall}
               >
-                ⬇ Actualizar ahora ({updateRelease.tag})
+                ? Actualizar ahora ({updateRelease.tag})
               </button>
               <button
                 data-nav
                 className="kp-btn w-full justify-center"
                 onClick={dismissUpdate}
               >
-                Más tarde
+                M?s tarde
               </button>
             </div>
           </div>

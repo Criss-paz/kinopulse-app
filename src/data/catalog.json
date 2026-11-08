@@ -3,15 +3,31 @@
   "categories": [
     {
       "id": "accion",
-      "name": "Acci?n & Adrenalina"
+      "name": "Acci?n y Adrenalina"
     },
     {
       "id": "terror",
-      "name": "Terror & Suspenso"
+      "name": "Terror y Suspenso"
     },
     {
       "id": "fantasia",
-      "name": "Fantas?a & Animaci?n"
+      "name": "Fantas?a y Animaci?n"
+    },
+    {
+      "id": "ciencia_ficcion",
+      "name": "Ciencia Ficci?n"
+    },
+    {
+      "id": "comedia",
+      "name": "Comedia"
+    },
+    {
+      "id": "drama",
+      "name": "Drama"
+    },
+    {
+      "id": "epica",
+      "name": "Tierra Media y ?pica"
     }
   ],
   "movies": [

@@ -1,4 +1,4 @@
-﻿import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 import type { Movie } from '../types'
 import { streamUrl } from '../lib/config'
