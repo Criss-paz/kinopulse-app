@@ -1,12 +1,48 @@
-import raw from '../data/catalog.json'
-import type { Catalog, Movie } from '../types'
+﻿import raw from '../data/catalog.json'
+import type { Catalog, Category, Movie } from '../types'
+import { REPO } from './config'
 
-const catalog = raw as Catalog
+const CACHE_KEY = 'kp_live_catalog_cache_v1'
+const LIVE_CATALOG_URL = `https://raw.githubusercontent.com/${REPO}/main/src/data/catalog.json`
 
-export const categories = catalog.categories
-export const movies: Movie[] = catalog.movies.filter((m) => !m.draft && m.stream)
+function loadInitialCatalog(): Catalog {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY)
+    if (cached) {
+      const parsed = JSON.parse(cached) as Catalog
+      if (Array.isArray(parsed.movies) && parsed.movies.length > 0) {
+        return parsed
+      }
+    }
+  } catch {
+    // fallback to bundled
+  }
+  return raw as Catalog
+}
+
+let currentCatalog: Catalog = loadInitialCatalog()
+
+export let categories: Category[] = currentCatalog.categories
+export let movies: Movie[] = currentCatalog.movies.filter((m) => !m.draft && m.stream)
 
 export const moviesByCategory = (id: string) => movies.filter((m) => m.category === id)
+
+export async function refreshLiveCatalog(): Promise<boolean> {
+  try {
+    const res = await fetch(`${LIVE_CATALOG_URL}?t=${Date.now()}`, { cache: 'no-store' })
+    if (!res.ok) return false
+    const live = (await res.json()) as Catalog
+    if (!live || !Array.isArray(live.movies) || !Array.isArray(live.categories)) return false
+    currentCatalog = live
+    categories = live.categories
+    movies = live.movies.filter((m) => !m.draft && m.stream)
+    localStorage.setItem(CACHE_KEY, JSON.stringify(live))
+    window.dispatchEvent(new Event('kp-catalog-updated'))
+    return true
+  } catch {
+    return false
+  }
+}
 
 export function formatDuration(min: number): string {
   const h = Math.floor(min / 60)

@@ -1,12 +1,15 @@
-import { useEffect } from 'react'
+﻿import { useEffect } from 'react'
 import type { Movie } from '../types'
 import { formatDuration } from '../lib/catalog'
+import { getMovieProgress, formatTimeMMSS } from '../lib/progress'
 import { focusFirst } from '../lib/spatial'
 
 export default function Details({ movie, onPlay, onBack }: { movie: Movie; onPlay: () => void; onBack: () => void }) {
   useEffect(() => {
     focusFirst()
   }, [movie])
+
+  const saved = getMovieProgress(movie.id)
 
   return (
     <div data-nav-scope className="fixed inset-0 z-40 overflow-y-auto bg-obsidian-950">
@@ -20,15 +23,22 @@ export default function Details({ movie, onPlay, onBack }: { movie: Movie; onPla
             {movie.year} · {formatDuration(movie.duration)} · {movie.rating}
           </p>
           <p className="max-w-2xl text-lg leading-relaxed text-white/90">{movie.synopsis}</p>
-          <p className="text-sm text-white/50">
-            Licencia: {movie.license} ·{' '}
-            <a href={movie.source} target="_blank" rel="noopener noreferrer" className="underline">
-              fuente
-            </a>
-          </p>
+          {saved && (
+            <div className="max-w-md space-y-1.5">
+              <p className="text-sm font-medium text-pulse-cyan">
+                En progreso: {formatTimeMMSS(saved.time)} / {formatTimeMMSS(saved.duration)}
+              </p>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-white/20">
+                <div
+                  className="h-full bg-pulse-red"
+                  style={{ width: `${Math.min(95, (saved.time / saved.duration) * 100)}%` }}
+                />
+              </div>
+            </div>
+          )}
           <div className="flex gap-3 pt-2">
             <button data-nav data-nav-autofocus className="kp-btn kp-btn-primary" onClick={onPlay}>
-              ▶ Reproducir
+              ▶ {saved ? `Continuar (${formatTimeMMSS(saved.time)})` : 'Reproducir'}
             </button>
             <button data-nav className="kp-btn" onClick={onBack}>
               ← Volver

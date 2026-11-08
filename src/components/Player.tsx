@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+﻿import { useCallback, useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 import type { Movie } from '../types'
 import { streamUrl } from '../lib/config'
+import { saveMovieProgress, clearMovieProgress } from '../lib/progress'
 import { focusEl } from '../lib/spatial'
 
 const HIDE_AFTER = 3000
@@ -15,10 +16,12 @@ const fmt = (s: number) => {
   return h ? `${h}:${m.toString().padStart(2, '0')}:${sec}` : `${m}:${sec}`
 }
 
-export default function Player({ movie, onExit }: { movie: Movie; onExit: () => void }) {
+export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; startAt?: number; onExit: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const playRef = useRef<HTMLButtonElement>(null)
   const hideTimer = useRef<number>()
+  const lastSavedRef = useRef<number>(0)
+  const appliedStartRef = useRef<boolean>(false)
   const visibleRef = useRef(true)
   const [visible, setVisibleState] = useState(true)
   const [playing, setPlaying] = useState(false)
@@ -36,8 +39,8 @@ export default function Player({ movie, onExit }: { movie: Movie; onExit: () => 
     setVisibleState(v)
   }
 
-  // Source setup: hls.js where MSE exists, native HLS (Safari / some WebViews) otherwise, plain MP4 for direct files.
   useEffect(() => {
+    appliedStartRef.current = false
     const video = videoRef.current!
     const src = streamUrl(movie.stream)
     let hls: Hls | undefined
@@ -56,6 +59,9 @@ export default function Player({ movie, onExit }: { movie: Movie; onExit: () => 
     }
     video.play().catch(() => setPlaying(false))
     return () => {
+      if (video.currentTime > 10 && video.duration > 0) {
+        saveMovieProgress(movie.id, video.currentTime, video.duration)
+      }
       hls?.destroy()
       video.removeAttribute('src')
       video.load()
@@ -91,11 +97,11 @@ export default function Player({ movie, onExit }: { movie: Movie; onExit: () => 
   const seek = useCallback((delta: number) => {
     const v = videoRef.current!
     v.currentTime = Math.max(0, Math.min((v.duration || 0) - 1, v.currentTime + delta))
+    if (v.duration > 0) saveMovieProgress(movie.id, v.currentTime, v.duration)
     setFlash(delta > 0 ? `+${delta}s` : `${delta}s`)
     window.setTimeout(() => setFlash(''), 600)
-  }, [])
+  }, [movie.id])
 
-  // Captured before the global D-pad engine: with hidden controls, arrows seek and Enter toggles playback.
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const wasVisible = visibleRef.current
@@ -111,7 +117,6 @@ export default function Player({ movie, onExit }: { movie: Movie; onExit: () => 
         e.stopPropagation()
         seek(e.key === 'ArrowRight' ? SEEK_STEP : -SEEK_STEP)
       } else if (!wasVisible && (e.key === 'Enter' || e.key.startsWith('Arrow'))) {
-        // First key press only wakes the controls (Enter also toggles playback).
         e.preventDefault()
         e.stopPropagation()
         if (e.key === 'Enter') toggle()
@@ -137,15 +142,34 @@ export default function Player({ movie, onExit }: { movie: Movie; onExit: () => 
           const r = e.currentTarget.getBoundingClientRect()
           seek(e.clientX - r.left > r.width / 2 ? SEEK_STEP : -SEEK_STEP)
         }}
+        onLoadedMetadata={(e) => {
+          const v = e.currentTarget
+          setDuration(v.duration)
+          if (!appliedStartRef.current && startAt > 0 && startAt < v.duration - 5) {
+            v.currentTime = startAt
+            setTime(startAt)
+            appliedStartRef.current = true
+          }
+        }}
         onPlay={() => {
           setPlaying(true)
           poke()
         }}
-        onPause={() => {
+        onPause={(e) => {
           setPlaying(false)
           setVisible(true)
+          const v = e.currentTarget
+          if (v.duration > 0) saveMovieProgress(movie.id, v.currentTime, v.duration)
         }}
-        onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
+        onTimeUpdate={(e) => {
+          const v = e.currentTarget
+          setTime(v.currentTime)
+          const now = Date.now()
+          if (now - lastSavedRef.current >= 5000 && v.duration > 0) {
+            lastSavedRef.current = now
+            saveMovieProgress(movie.id, v.currentTime, v.duration)
+          }
+        }}
         onDurationChange={(e) => setDuration(e.currentTarget.duration)}
         onProgress={(e) => {
           const b = e.currentTarget.buffered
@@ -154,7 +178,10 @@ export default function Player({ movie, onExit }: { movie: Movie; onExit: () => 
         onWaiting={() => setWaiting(true)}
         onPlaying={() => setWaiting(false)}
         onCanPlay={() => setWaiting(false)}
-        onEnded={onExit}
+        onEnded={() => {
+          clearMovieProgress(movie.id)
+          onExit()
+        }}
         onError={() => setError('No se pudo cargar el video. Revisa tu conexión.')}
       >
         {subs.map((s) => (

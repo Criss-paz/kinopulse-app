@@ -1,4 +1,4 @@
-export interface Subtitle {
+﻿export interface Subtitle {
   lang: string
   label: string
   src: string
@@ -36,5 +36,5 @@ export interface Catalog {
 export type View =
   | { name: 'home' }
   | { name: 'details'; movie: Movie }
-  | { name: 'player'; movie: Movie }
+  | { name: 'player'; movie: Movie; startAt?: number }
   | { name: 'downloads' }

@@ -1,2 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
+
+Sitemap: https://criss-paz.github.io/kinopulse-app/sitemap.xml
