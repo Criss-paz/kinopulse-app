@@ -7,6 +7,7 @@ import LegalModal from './components/LegalModal'
 import { focusEl, focusFirst, initSpatialNav } from './lib/spatial'
 import { APK_URL, REPO, isNative } from './lib/config'
 import { getMovieProgress, clearMovieProgress, formatTimeMMSS } from './lib/progress'
+import { refreshLiveCatalog } from './lib/catalog'
 
 const Player = lazy(() => import('./components/Player'))
 
@@ -16,10 +17,17 @@ const initialStack = (): View[] =>
 export default function App() {
   const [stack, setStack] = useState<View[]>(initialStack)
   const [legal, setLegal] = useState(false)
+  const [syncing, setSyncing] = useState(false)
+  const [toast, setToast] = useState('')
   const [resumePrompt, setResumePrompt] = useState<{ movie: Movie; savedTime: number } | null>(null)
   const [updateRelease, setUpdateRelease] = useState<{ tag: string; notes: string } | null>(null)
   const returnFocus = useRef<HTMLElement[]>([])
   const view = stack[stack.length - 1]
+
+  const showToast = useCallback((msg: string) => {
+    setToast(msg)
+    window.setTimeout(() => setToast(''), 3000)
+  }, [])
 
   const push = useCallback((v: View) => {
     returnFocus.current.push(document.activeElement as HTMLElement)
@@ -52,30 +60,57 @@ export default function App() {
 
   useEffect(() => initSpatialNav(back), [back])
 
-  // Check GitHub Releases for new APK update on startup
-  useEffect(() => {
-    const checkUpdate = async () => {
-      try {
-        const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest`, { cache: 'no-store' })
-        if (!res.ok) return
+  // Verifica si hay nuevo APK en GitHub Releases y actualiza el catálogo en vivo
+  const checkUpdatesAndSync = useCallback(async (manual = false) => {
+    if (manual) setSyncing(true)
+    try {
+      await refreshLiveCatalog()
+      const res = await fetch(`https://api.github.com/repos/${REPO}/releases/latest?t=${Date.now()}`, { cache: 'no-store' })
+      if (res.ok) {
         const data = await res.json()
         const latestTag = (data?.tag_name as string | undefined) || ''
-        if (!latestTag) return
-        const installedTag = localStorage.getItem('kp_installed_release_tag')
-        const dismissedTag = sessionStorage.getItem('kp_dismissed_release_tag')
-        if (!installedTag) {
-          localStorage.setItem('kp_installed_release_tag', latestTag)
-          return
+        if (latestTag) {
+          const installedTag = localStorage.getItem('kp_installed_release_tag')
+          const dismissedTag = sessionStorage.getItem('kp_dismissed_release_tag')
+          if (!installedTag) {
+            localStorage.setItem('kp_installed_release_tag', latestTag)
+          } else if (installedTag !== latestTag && (manual || dismissedTag !== latestTag)) {
+            setUpdateRelease({ tag: latestTag, notes: data?.name || `KinoPulse ${latestTag}` })
+            if (manual) setSyncing(false)
+            return
+          }
         }
-        if (installedTag !== latestTag && dismissedTag !== latestTag) {
-          setUpdateRelease({ tag: latestTag, notes: data?.name || `KinoPulse ${latestTag}` })
+      }
+      if (manual) {
+        if ('caches' in window) {
+          const keys = await caches.keys()
+          await Promise.all(keys.map((k) => caches.delete(k)))
         }
-      } catch {
-        // ignore network errors
+        showToast('Catálogo sincronizado al día. Reiniciando...')
+        window.setTimeout(() => window.location.reload(), 900)
+      }
+    } catch {
+      if (manual) showToast('Error al sincronizar. Verifica tu conexión.')
+    } finally {
+      if (manual) setSyncing(false)
+    }
+  }, [showToast])
+
+  // Auto-sincronizar al iniciar y cada vez que la TV o celular despierte la app
+  useEffect(() => {
+    checkUpdatesAndSync(false)
+    const onWake = () => {
+      if (document.visibilityState === 'visible') {
+        checkUpdatesAndSync(false)
       }
     }
-    checkUpdate()
-  }, [])
+    document.addEventListener('visibilitychange', onWake)
+    window.addEventListener('focus', onWake)
+    return () => {
+      document.removeEventListener('visibilitychange', onWake)
+      window.removeEventListener('focus', onWake)
+    }
+  }, [checkUpdatesAndSync])
 
   useEffect(() => {
     if (resumePrompt || updateRelease) {
@@ -83,7 +118,7 @@ export default function App() {
     }
   }, [resumePrompt, updateRelease])
 
-  // Android hardware / remote Back button.
+  // Botón Atrás físico del control remoto Android TV
   useEffect(() => {
     if (!isNative()) return
     let remove: (() => void) | undefined
@@ -130,19 +165,48 @@ export default function App() {
     requestAnimationFrame(() => focusFirst())
   }
 
+  const exitOrRestartApp = () => {
+    if (isNative()) {
+      import('@capacitor/app').then(({ App: CapApp }) => CapApp.exitApp())
+    } else {
+      window.location.reload()
+    }
+  }
+
   const underlayHidden = view.name !== 'home'
 
   return (
     <div className="min-h-screen bg-obsidian-950 text-white">
+      {toast && (
+        <div className="fixed top-16 left-1/2 z-50 -translate-x-1/2 rounded-full border border-pulse-cyan/40 bg-obsidian-900/95 px-6 py-2.5 text-sm font-semibold text-white shadow-2xl">
+          {toast}
+        </div>
+      )}
+
       <div aria-hidden={underlayHidden} className={underlayHidden ? 'invisible' : ''}>
-        <header className="fixed inset-x-0 top-0 z-30 flex items-center gap-4 bg-obsidian-950/85 px-4 py-3 backdrop-blur-md md:px-12">
+        <header className="fixed inset-x-0 top-0 z-30 flex flex-wrap items-center gap-3 bg-obsidian-950/85 px-4 py-3 backdrop-blur-md md:px-12">
           <img src="./logo.svg" alt="KinoPulse" className="h-8 w-auto md:h-10" />
-          <nav className="ml-auto flex gap-2" data-nav-group="nav">
+          <nav className="ml-auto flex flex-wrap items-center gap-2" data-nav-group="nav">
+            <button
+              data-nav
+              className="kp-btn kp-btn-sm"
+              onClick={() => checkUpdatesAndSync(true)}
+              disabled={syncing}
+            >
+              {syncing ? '⟳ Sincronizando...' : '🔄 Actualizar'}
+            </button>
             <button data-nav className="kp-btn kp-btn-sm" onClick={() => push({ name: 'downloads' })}>
               ⬇ Descargar App
             </button>
             <button data-nav className="kp-btn kp-btn-sm" onClick={() => setLegal(true)}>
               Info
+            </button>
+            <button
+              data-nav
+              className="kp-btn kp-btn-sm border-pulse-red/40 text-red-200"
+              onClick={exitOrRestartApp}
+            >
+              ⏻ Salir
             </button>
           </nav>
         </header>
