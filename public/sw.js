@@ -1,6 +1,6 @@
 // KinoPulse service worker: app shell offline, never caches video (range requests stream from origin/edge).
-const CACHE = 'kinopulse-v1'
-const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png']
+const CACHE = 'kinopulse-v2'
+const SHELL = ['./', './index.html', './manifest.webmanifest', './favicon.svg', './logo.svg', './pwa-192x192.png', './pwa-512x512.png']
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(SHELL)).then(() => self.skipWaiting()))

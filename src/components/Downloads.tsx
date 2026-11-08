@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { APK_URL, WEB_URL } from '../lib/config'
+import { APK_URL, DOWNLOADER_CODE, WEB_URL } from '../lib/config'
 import { focusFirst } from '../lib/spatial'
 
 interface InstallPrompt extends Event {
@@ -46,6 +46,7 @@ export default function Downloads({ onBack }: { onBack: () => void }) {
         <button data-nav className="kp-btn mb-8" onClick={onBack}>
           ← Volver
         </button>
+        <img src="./logo.svg" alt="KinoPulse" className="mb-6 h-12 w-auto md:h-16" />
         <h1 className="mb-2 text-4xl font-black text-white md:text-5xl">Centro de descargas</h1>
         <p className="mb-10 text-white/60">Instala KinoPulse en tu PC, teléfono o televisor.</p>
 
@@ -83,16 +84,21 @@ export default function Downloads({ onBack }: { onBack: () => void }) {
               <li>
                 Ajustes → Apps → Acceso especial → <b>Instalar apps desconocidas</b> → activa Downloader.
               </li>
-              <li>Abre Downloader y escribe en el campo de URL:</li>
+              <li>Abre Downloader y escribe este código:</li>
             </ol>
-            <code className="block break-all rounded-xl bg-black/50 p-4 font-mono text-lg text-pulse-cyan md:text-2xl">{SHORT_APK}</code>
+            <div className="flex w-full flex-wrap items-center gap-5 rounded-xl bg-black/50 p-4">
+              <img src="./favicon.svg" alt="" className="h-16 w-16" />
+              <div>
+                <p className="font-mono text-4xl font-black tracking-widest text-pulse-cyan md:text-5xl">{DOWNLOADER_CODE}</p>
+                <p className="text-sm text-white/60">aftv.news/{DOWNLOADER_CODE}</p>
+              </div>
+            </div>
+            <p className="text-sm text-white/50">Si el código no funciona, escribe la URL completa:</p>
+            <code className="block break-all rounded-xl bg-black/50 p-3 font-mono text-sm text-white/80 md:text-base">{SHORT_APK}</code>
             <ol start={4} className="list-decimal space-y-2 pl-6 text-white/80">
               <li>Pulsa <b>Go</b>, espera la descarga y elige <b>Instalar</b>.</li>
               <li>KinoPulse aparecerá en la fila de apps de tu televisor.</li>
             </ol>
-            <p className="text-sm text-white/50">
-              Consejo: puedes registrar un código numérico corto para esta URL en aftvnews.com/downloader-codes y escribir solo ese número en Downloader.
-            </p>
           </section>
         </div>
       </div>

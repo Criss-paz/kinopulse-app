@@ -64,9 +64,7 @@ export default function App() {
     <div className="min-h-screen bg-obsidian-950 text-white">
       <div aria-hidden={underlayHidden} className={underlayHidden ? 'invisible' : ''}>
         <header className="fixed inset-x-0 top-0 z-30 flex items-center gap-4 bg-obsidian-950/85 px-4 py-3 backdrop-blur-md md:px-12">
-          <span className="text-2xl font-black tracking-tight">
-            Kino<span className="text-pulse-red">Pulse</span>
-          </span>
+          <img src="./logo.svg" alt="KinoPulse" className="h-8 w-auto md:h-10" />
           <nav className="ml-auto flex gap-2" data-nav-group="nav">
             <button data-nav className="kp-btn kp-btn-sm" onClick={() => push({ name: 'downloads' })}>
               ⬇ Descargar

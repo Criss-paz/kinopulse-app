@@ -10,3 +10,8 @@ android/app/build
 android/local.properties
 .idea
 *.log
+
+scripts/upload-hf.py
+*.mp4
+*.mkv
+.env*
