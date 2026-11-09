@@ -39,15 +39,15 @@ export default function App() {
   return (
     <div className="min-h-screen bg-obsidian-950 text-white selection:bg-pulse-cyan selection:text-obsidian-950 font-sans">
       {updateData && (
-        <UpdateModal 
-          version={updateData} 
-          onClose={() => setUpdateData(null)} 
+        <UpdateModal
+          version={updateData}
+          onClose={() => setUpdateData(null)}
         />
       )}
 
       {view === 'home' && (
-        <Home 
-          onOpen={openDetails} 
+        <Home
+          onOpen={openDetails}
           onPlay={playMovie}
           searchQuery={searchQuery}
           selectedCategory={selectedCategory}
@@ -56,17 +56,17 @@ export default function App() {
       )}
 
       {view === 'details' && selectedMovie && (
-        <Details 
-          movie={selectedMovie} 
-          onClose={() => setView('home')} 
-          onPlay={() => setView('player')} 
+        <Details
+          movie={selectedMovie}
+          onBack={() => setView('home')}
+          onPlay={() => setView('player')}
         />
       )}
 
       {view === 'player' && selectedMovie && (
-        <Player 
-          movie={selectedMovie} 
-          onExit={closePlayer} 
+        <Player
+          movie={selectedMovie}
+          onExit={closePlayer}
         />
       )}
     </div>

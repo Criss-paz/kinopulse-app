@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AppVersion } from '../lib/updater';
 
 interface Props {
@@ -14,7 +14,7 @@ export default function UpdateModal({ version, onClose }: Props) {
     try {
       // Inicia la descarga del APK
       window.location.href = version.url;
-      
+
       // Esperar un poco y cerrar el modal
       setTimeout(() => {
         setDownloading(false);
@@ -40,14 +40,14 @@ export default function UpdateModal({ version, onClose }: Props) {
           <span className="text-white/80">{version.releaseNotes}</span>
         </p>
         <div className="flex flex-col gap-3">
-          <button 
+          <button
             onClick={handleUpdate}
             disabled={downloading}
             className="kp-btn kp-btn-primary w-full py-3 font-bold"
           >
             {downloading ? 'Descargando...' : 'Actualizar Ahora'}
           </button>
-          <button 
+          <button
             onClick={onClose}
             className="kp-btn w-full py-2 text-white/40 hover:text-white transition-colors"
           >
