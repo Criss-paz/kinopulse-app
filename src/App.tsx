@@ -3,7 +3,8 @@ import Home from './components/Home'
 import Player from './components/Player'
 import Details from './components/Details'
 import UpdateModal from './components/UpdateModal'
-import { checkUpdate, AppVersion, APK_URL, isNativeApp } from './lib/updater'
+import DownloadButtons from './components/DownloadButtons'
+import { checkUpdate, AppVersion, isNativeApp } from './lib/updater'
 import { Movie } from './types'
 
 // Injected by CI as 1.0.<run_number>, matching the release tag.
@@ -47,12 +48,7 @@ export default function App() {
       )}
 
       {view === 'home' && !isNativeApp() && (
-        <a
-          href={APK_URL}
-          className="kp-btn kp-btn-primary fixed bottom-4 right-4 z-50 px-4 py-2 font-bold shadow-2xl"
-        >
-          Descargar app Android
-        </a>
+        <DownloadButtons />
       )}
 
       {view === 'home' && (
