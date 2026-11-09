@@ -6,8 +6,8 @@ export interface AppVersion {
   releaseNotes: string;
 }
 
-// The APK bundles its own copy of /version.json, so the installed app must read the published one from GitHub.
-const VERSION_URL = 'https://raw.githubusercontent.com/Criss-paz/kinopulse-app/main/public/version.json'
+// Every push to main publishes a release v1.0.<run>; the newest one is the available update.
+const LATEST_RELEASE_URL = 'https://api.github.com/repos/Criss-paz/kinopulse-app/releases/latest'
 
 export const APK_URL = 'https://github.com/Criss-paz/kinopulse-app/releases/latest/download/KinoPulse-TV-Mobile.apk'
 
@@ -29,9 +29,14 @@ export async function checkUpdate(currentVersion: string): Promise<{ shouldUpdat
   if (!isNativeApp()) return { shouldUpdate: false };
 
   try {
-    const response = await fetch(`${VERSION_URL}?t=${Date.now()}`);
+    const response = await fetch(LATEST_RELEASE_URL);
     if (!response.ok) throw new Error('Failed to fetch version');
-    const data: AppVersion = await response.json();
+    const release = await response.json();
+    const data: AppVersion = {
+      version: String(release.tag_name).replace(/^v/, ''),
+      url: APK_URL,
+      releaseNotes: 'Nuevas películas, mejoras y correcciones.',
+    };
 
     const isNewer = isNewerVersion(data.version, currentVersion);
 

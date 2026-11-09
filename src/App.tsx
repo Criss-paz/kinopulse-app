@@ -6,7 +6,8 @@ import UpdateModal from './components/UpdateModal'
 import { checkUpdate, AppVersion, APK_URL, isNativeApp } from './lib/updater'
 import { Movie } from './types'
 
-const APP_VERSION = '1.0.0'
+// Injected by CI as 1.0.<run_number>, matching the release tag.
+const APP_VERSION = import.meta.env.VITE_APP_VERSION || '0.0.0'
 
 export default function App() {
   const [view, setView] = useState<'home' | 'details' | 'player'>('home')
