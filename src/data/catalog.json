@@ -816,6 +816,51 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_053",
+      "title": "Chucky: El muñeco diabólico 3",
+      "year": 1991,
+      "duration": 90,
+      "category": "terror",
+      "rating": "+13",
+      "synopsis": "Ocho años después, Chucky regresa una vez más para perseguir a un Andy adolescente que ahora asiste a una estricta academia militar.",
+      "poster": "https://image.tmdb.org/t/p/w780/4zjzGqAUX6EqEA6sl436QHM9q4U.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8kZT97Ml1ZyawrfHCajmP2b0wPC.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_a85b38f066.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_054",
+      "title": "La novia de Chucky",
+      "year": 1998,
+      "duration": 89,
+      "category": "terror",
+      "rating": "+13",
+      "synopsis": "Chucky es resucitado por su antigua cómplice y novia, Tiffany, y tras transferir el alma de ella a otra muñeca, ambos emprenden un sangriento viaje por carretera.",
+      "poster": "https://image.tmdb.org/t/p/w780/sHWzPfi9aTA82aFiRi9aC5dh2Gq.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fLTd0VxpijUt6Hm1QM2ehLpWPeu.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_dad7465a09.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_055",
+      "title": "El hijo de Chucky",
+      "year": 2004,
+      "duration": 87,
+      "category": "terror",
+      "rating": "+13",
+      "synopsis": "Chucky y Tiffany son resucitados por su inocente hijo, Glen, y se dirigen a Hollywood donde desatan el caos en pleno rodaje cinematográfico.",
+      "poster": "https://image.tmdb.org/t/p/w780/dYbp4NwCTQN8JLxKh5i4vech3td.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eZOt0qAmxwCXyJHLgEIEKdjQVM8.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e911fe5ff3.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }

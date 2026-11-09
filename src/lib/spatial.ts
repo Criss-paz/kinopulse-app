@@ -31,8 +31,10 @@ const groupOf = (el: Element | null) => el?.closest<HTMLElement>('[data-nav-grou
 
 export function focusEl(el: HTMLElement) {
   el.focus({ preventScroll: true })
-  if (el.closest('header')) window.scrollTo({ top: 0, behavior: 'smooth' })
-  else el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+  // Instant scroll: on TV WebViews a smooth scroll is cut short by the next key press, so one
+  // press never finished the move and the row needed several presses to catch up.
+  if (el.closest('header')) window.scrollTo({ top: 0, behavior: 'auto' })
+  else el.scrollIntoView({ behavior: 'auto', block: 'center', inline: 'center' })
 }
 
 export function focusFirst() {
@@ -101,7 +103,8 @@ export function initSpatialNav(onBack: () => void) {
       if (move(dir)) e.preventDefault()
       return
     }
-    if (e.key === 'Escape' || e.key === 'Backspace' || e.key === 'GoBack' || e.key === 'BrowserBack') {
+    const typing = (e.target as HTMLElement).tagName === 'INPUT'
+    if (e.key === 'Escape' || (e.key === 'Backspace' && !typing) || e.key === 'GoBack' || e.key === 'BrowserBack') {
       e.preventDefault()
       onBack()
     }

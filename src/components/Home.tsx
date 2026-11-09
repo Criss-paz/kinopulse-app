@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import type { Movie } from '../types'
 import { categories, formatDuration, movies, moviesByCategory, refreshLiveCatalog } from '../lib/catalog'
 import { getAllProgress, formatTimeMMSS } from '../lib/progress'
@@ -10,6 +10,28 @@ interface Props {
   searchQuery: string
   selectedCategory: string
   onSelectCategory: (id: string) => void
+}
+
+// Fila horizontal; con ratón muestra flechas para avanzar/retroceder una pantalla.
+function Row({ group, children }: { group: string; children: ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null)
+  const page = (dir: 1 | -1) => {
+    const el = ref.current
+    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' })
+  }
+  return (
+    <div className="group/row relative">
+      <button tabIndex={-1} className="kp-row-arrow left-0" onClick={() => page(-1)} aria-label="Anterior">
+        ‹
+      </button>
+      <div ref={ref} data-nav-group={group} className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
+        {children}
+      </div>
+      <button tabIndex={-1} className="kp-row-arrow right-0" onClick={() => page(1)} aria-label="Siguiente">
+        ›
+      </button>
+    </div>
+  )
 }
 
 export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, onSelectCategory }: Props) {
@@ -89,8 +111,8 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
 
   return (
     <main>
-      {/* Hero Banner */}
-      <section className="relative h-[58vh] min-h-[340px] w-full overflow-hidden md:h-[68vh]">
+      {/* Hero Banner (oculto al buscar para que los resultados queden a la vista) */}
+      {q === '' && <section className="relative h-[58vh] min-h-[340px] w-full overflow-hidden md:h-[68vh]">
         <img src={hero.backdrop} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-50 blur-sm" />
         <div className="absolute inset-0 bg-gradient-to-r from-obsidian-950 via-obsidian-950/70 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-transparent to-transparent" />
@@ -110,7 +132,7 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
             </button>
           </div>
         </div>
-      </section>
+      </section>}
 
       {/* Barra de Filtros de Categorías (Navegable con Control Remoto) */}
       <div className="relative z-10 px-4 pt-2 pb-4 md:px-12">
@@ -159,9 +181,7 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
             {continueWatching.length > 0 && (
               <section>
                 <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">Continuar viendo</h2>
-                <div data-nav-group="continue-watching" className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
-                  {continueWatching.map(renderCard)}
-                </div>
+                <Row group="continue-watching">{continueWatching.map(renderCard)}</Row>
               </section>
             )}
 
@@ -171,9 +191,7 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
               return (
                 <section key={c.id}>
                   <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">{c.name}</h2>
-                  <div data-nav-group={c.id} className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
-                    {list.map(renderCard)}
-                  </div>
+                  <Row group={c.id}>{list.map(renderCard)}</Row>
                 </section>
               )
             })}
