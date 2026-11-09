@@ -3,7 +3,7 @@ import Home from './components/Home'
 import Player from './components/Player'
 import Details from './components/Details'
 import UpdateModal from './components/UpdateModal'
-import { checkUpdate, AppVersion } from './lib/updater'
+import { checkUpdate, AppVersion, APK_URL, isNativeApp } from './lib/updater'
 import { Movie } from './types'
 
 const APP_VERSION = '1.0.0'
@@ -43,6 +43,15 @@ export default function App() {
           version={updateData}
           onClose={() => setUpdateData(null)}
         />
+      )}
+
+      {view === 'home' && !isNativeApp() && (
+        <a
+          href={APK_URL}
+          className="kp-btn kp-btn-primary fixed bottom-4 right-4 z-50 px-4 py-2 font-bold shadow-2xl"
+        >
+          Descargar app Android
+        </a>
       )}
 
       {view === 'home' && (
