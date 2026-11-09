@@ -11,7 +11,7 @@ const APP_VERSION = '1.0.0'
 export default function App() {
   const [view, setView] = useState<'home' | 'details' | 'player'>('home')
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [searchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [updateData, setUpdateData] = useState<AppVersion | null>(null)
 
