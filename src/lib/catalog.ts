@@ -2,7 +2,7 @@ import raw from '../data/catalog.json'
 import type { Catalog, Category, Movie } from '../types'
 import { REPO } from './config'
 
-const CACHE_KEY = 'kp_live_catalog_cache_v1'
+const CACHE_KEY = 'kp_live_catalog_cache_v2'
 const LIVE_CATALOG_URL = `https://raw.githubusercontent.com/${REPO}/main/src/data/catalog.json`
 
 function loadInitialCatalog(): Catalog {
