@@ -5,7 +5,6 @@ import Details from './components/Details'
 import UpdateModal from './components/UpdateModal'
 import { checkUpdate, AppVersion } from './lib/updater'
 import { Movie } from './types'
-import { focusFirst } from './lib/spatial'
 
 const APP_VERSION = '1.0.0'
 
