@@ -29,8 +29,6 @@ jobs:
         run: npm ci
 
       - name: Build web (validates catalog + type-checks)
-        env:
-          VITE_APP_VERSION: 1.0.${{ github.run_number }}
         run: npm run build
 
       - name: Upload web artifact for GitHub Pages

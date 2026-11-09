@@ -1,4 +1,4 @@
-﻿export interface Subtitle {
+export interface Subtitle {
   lang: string
   label: string
   src: string
@@ -20,11 +20,13 @@ export interface Movie {
   source: string
   subtitles?: Subtitle[]
   draft?: boolean
+  legacyNotice?: boolean
 }
 
 export interface Category {
   id: string
   name: string
+  legacyNotice?: boolean
 }
 
 export interface Catalog {

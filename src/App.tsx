@@ -4,24 +4,28 @@ import Player from './components/Player'
 import Details from './components/Details'
 import UpdateModal from './components/UpdateModal'
 import DownloadButtons from './components/DownloadButtons'
-import { checkUpdate, AppVersion, isNativeApp } from './lib/updater'
+import { App as NativeApp } from '@capacitor/app'
+import { isNativeApp, isUpdateRequired, UPDATE_CHECK_MS } from './lib/updater'
 import { Movie } from './types'
-
-// Injected by CI as 1.0.<run_number>, matching the release tag.
-const APP_VERSION = import.meta.env.VITE_APP_VERSION || '0.0.0'
 
 export default function App() {
   const [view, setView] = useState<'home' | 'details' | 'player'>('home')
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
   const [searchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
-  const [updateData, setUpdateData] = useState<AppVersion | null>(null)
+  const [updateRequired, setUpdateRequired] = useState(false)
 
   useEffect(() => {
-    // Verificar actualizaciones al iniciar la app
-    checkUpdate(APP_VERSION).then(({ shouldUpdate, data }) => {
-      if (shouldUpdate && data) setUpdateData(data)
-    })
+    if (!isNativeApp()) return
+    // Al abrir, cada pocos minutos (aunque se esté viendo una película) y al volver a la app.
+    const check = () => isUpdateRequired().then((required) => required && setUpdateRequired(true))
+    check()
+    const timer = setInterval(check, UPDATE_CHECK_MS)
+    const resume = NativeApp.addListener('resume', check)
+    return () => {
+      clearInterval(timer)
+      resume.then((h) => h.remove())
+    }
   }, [])
 
   const openDetails = (m: Movie) => {
@@ -40,12 +44,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-obsidian-950 text-white selection:bg-pulse-cyan selection:text-obsidian-950 font-sans">
-      {updateData && (
-        <UpdateModal
-          version={updateData}
-          onClose={() => setUpdateData(null)}
-        />
-      )}
+      {updateRequired && <UpdateModal />}
 
       {view === 'home' && !isNativeApp() && (
         <DownloadButtons />

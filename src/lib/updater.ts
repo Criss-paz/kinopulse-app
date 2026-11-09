@@ -1,51 +1,39 @@
-import { Capacitor } from '@capacitor/core'
-
-export interface AppVersion {
-  version: string;
-  url: string;
-  releaseNotes: string;
-}
-
-// Every push to main publishes a release v1.0.<run>; the newest one is the available update.
-const LATEST_RELEASE_URL = 'https://api.github.com/repos/Criss-paz/kinopulse-app/releases/latest'
+import { App } from '@capacitor/app'
+import { Capacitor, registerPlugin, type PluginListenerHandle } from '@capacitor/core'
 
 export const APK_URL = 'https://github.com/Criss-paz/kinopulse-app/releases/latest/download/KinoPulse-TV-Mobile.apk'
 
+// The interface is loaded live from the web, so normal changes need no update at all.
+// Raise "minNativeBuild" in public/app-config.json to a release's build number (the N in v1.0.N)
+// only when the Android part changes (AndroidManifest, Java, Capacitor plugins): older apps are
+// then forced to update, even mid-movie, within UPDATE_CHECK_MS.
+const APP_CONFIG_URL = 'https://kinopulse.vercel.app/app-config.json'
+export const UPDATE_CHECK_MS = 5 * 60 * 1000
+
 export const isNativeApp = () => Capacitor.isNativePlatform()
 
-// "1.0.10" > "1.0.9"
-function isNewerVersion(remote: string, current: string) {
-  const a = remote.split('.').map(Number)
-  const b = current.split('.').map(Number)
-  for (let i = 0; i < Math.max(a.length, b.length); i++) {
-    const diff = (a[i] || 0) - (b[i] || 0)
-    if (diff !== 0) return diff > 0
-  }
-  return false
+interface ApkInstallerPlugin {
+  canInstall(): Promise<{ allowed: boolean }>
+  openInstallSettings(): Promise<void>
+  downloadAndInstall(opts: { url: string }): Promise<void>
+  addListener(event: 'progress', cb: (p: { percent: number }) => void): Promise<PluginListenerHandle>
 }
 
-export async function checkUpdate(currentVersion: string): Promise<{ shouldUpdate: boolean; data?: AppVersion }> {
-  // The web version is always up to date; updates only apply to the installed app.
-  if (!isNativeApp()) return { shouldUpdate: false };
+export const ApkInstaller = registerPlugin<ApkInstallerPlugin>('ApkInstaller')
 
+// Apps from before in-app updates have no ApkInstaller and must be replaced through the browser.
+export const hasInAppInstaller = () => Capacitor.isPluginAvailable('ApkInstaller')
+
+export async function isUpdateRequired(): Promise<boolean> {
+  if (!isNativeApp()) return false
+  if (!hasInAppInstaller()) return true
   try {
-    const response = await fetch(LATEST_RELEASE_URL);
-    if (!response.ok) throw new Error('Failed to fetch version');
-    const release = await response.json();
-    const data: AppVersion = {
-      version: String(release.tag_name).replace(/^v/, ''),
-      url: APK_URL,
-      releaseNotes: 'Nuevas películas, mejoras y correcciones.',
-    };
-
-    const isNewer = isNewerVersion(data.version, currentVersion);
-
-    return {
-      shouldUpdate: isNewer,
-      data: isNewer ? data : undefined
-    };
-  } catch (error) {
-    console.error('Update check failed:', error);
-    return { shouldUpdate: false };
+    const res = await fetch(`${APP_CONFIG_URL}?t=${Date.now()}`, { cache: 'no-store' })
+    if (!res.ok) return false
+    const { minNativeBuild } = (await res.json()) as { minNativeBuild: number }
+    const { build } = await App.getInfo()
+    return Number(build) < minNativeBuild
+  } catch {
+    return false
   }
 }

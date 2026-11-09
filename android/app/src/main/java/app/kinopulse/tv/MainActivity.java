@@ -15,6 +15,7 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        registerPlugin(ApkInstallerPlugin.class);
         super.onCreate(savedInstanceState);
         UiModeManager ui = (UiModeManager) getSystemService(Context.UI_MODE_SERVICE);
         boolean isTv = ui != null && ui.getCurrentModeType() == Configuration.UI_MODE_TYPE_TELEVISION;

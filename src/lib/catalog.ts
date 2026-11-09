@@ -1,4 +1,4 @@
-﻿import raw from '../data/catalog.json'
+import raw from '../data/catalog.json'
 import type { Catalog, Category, Movie } from '../types'
 import { REPO } from './config'
 
@@ -22,8 +22,12 @@ function loadInitialCatalog(): Catalog {
 
 let currentCatalog: Catalog = loadInitialCatalog()
 
-export let categories: Category[] = currentCatalog.categories
-export let movies: Movie[] = currentCatalog.movies.filter((m) => !m.draft && m.stream)
+// legacyNotice entries are an "update your app" banner aimed at old installs, which don't know to hide them.
+const visibleCategories = (c: Catalog) => c.categories.filter((cat) => !cat.legacyNotice)
+const visibleMovies = (c: Catalog) => c.movies.filter((m) => !m.draft && !m.legacyNotice && m.stream)
+
+export let categories: Category[] = visibleCategories(currentCatalog)
+export let movies: Movie[] = visibleMovies(currentCatalog)
 
 export const moviesByCategory = (id: string) => movies.filter((m) => m.category === id)
 
@@ -34,8 +38,8 @@ export async function refreshLiveCatalog(): Promise<boolean> {
     const live = (await res.json()) as Catalog
     if (!live || !Array.isArray(live.movies) || !Array.isArray(live.categories)) return false
     currentCatalog = live
-    categories = live.categories
-    movies = live.movies.filter((m) => !m.draft && m.stream)
+    categories = visibleCategories(live)
+    movies = visibleMovies(live)
     localStorage.setItem(CACHE_KEY, JSON.stringify(live))
     window.dispatchEvent(new Event('kp-catalog-updated'))
     return true
