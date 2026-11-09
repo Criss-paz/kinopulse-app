@@ -3,7 +3,7 @@
   "categories": [
     {
       "id": "accion",
-      "name": "Acci?n y Adrenalina"
+      "name": "Acción y Adrenalina"
     },
     {
       "id": "terror",
@@ -11,11 +11,11 @@
     },
     {
       "id": "fantasia",
-      "name": "Fantas?a y Animaci?n"
+      "name": "Fantasía y Animación"
     },
     {
       "id": "ciencia_ficcion",
-      "name": "Ciencia Ficci?n"
+      "name": "Ciencia Ficción"
     },
     {
       "id": "comedia",
@@ -27,7 +27,7 @@
     },
     {
       "id": "epica",
-      "name": "Tierra Media y ?pica"
+      "name": "Tierra Media y Épica"
     }
   ],
   "movies": [
@@ -98,9 +98,9 @@
       "duration": 118,
       "category": "fantasia",
       "rating": "ATP",
-      "synopsis": "En la Espa?a de 1944, la joven Ofelia descubre un antiguo laberinto donde un fauno le revela que ella es la princesa perdida de un reino m?gico.",
-      "poster": "https://image.tmdb.org/t/p/w780/tP5I2efYV2U3fB7EGNrPfb2uF7U.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/tP5I2efYV2U3fB7EGNrPfb2uF7U.jpg",
+      "synopsis": "En la España de 1944, la joven Ofelia descubre un antiguo laberinto donde un fauno le revela que ella es la princesa perdida de un reino mágico.",
+      "poster": "https://image.tmdb.org/t/p/w780/qS79vM6yUuL2M6Vn4vA6M1P5J9D.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qS79vM6yUuL2M6Vn4vA6M1P5J9D.jpg",
       "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_eb2648a306.mp4",
       "type": "mp4",
       "license": "Private Stream",
@@ -108,14 +108,14 @@
     },
     {
       "id": "kp_012",
-      "title": "Obsesi?n",
+      "title": "Obsesión",
       "year": 2025,
       "duration": 98,
       "category": "terror",
       "rating": "+16",
       "synopsis": "Un joven desesperado realiza un pacto oscuro junto a un sauce ceremonial para conquistar el amor de una chica, desencadenando una pesadilla sobrenatural inevitable.",
-      "poster": "https://image.tmdb.org/t/p/w780/7fn624j5lj3xTme2SgiLCeuedmO.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/7fn624j5lj3xTme2SgiLCeuedmO.jpg",
+      "poster": "https://image.tmdb.org/t/p/w780/zW9uI4LpC4vK1S8mO2N3P6L5H7G.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zW9uI4LpC4vK1S8mO2N3P6L5H7G.jpg",
       "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_2b877404ab.mp4",
       "type": "mp4",
       "license": "Private Stream",
@@ -137,15 +137,15 @@
       "source": "HuggingFace CDN"
     },
     {
-      "id": "kp_008",
-      "title": "Obsesi?n",
+      "id": "kp_014",
+      "title": "Obsesión (Duplicado)",
       "year": 2025,
       "duration": 98,
       "category": "terror",
       "rating": "+16",
       "synopsis": "Un joven desesperado realiza un pacto oscuro junto a un sauce ceremonial para conquistar el amor de una chica, desencadenando una pesadilla sobrenatural inevitable.",
-      "poster": "https://image.tmdb.org/t/p/w780/7fn624j5lj3xTme2SgiLCeuedmO.jpg",
-      "backdrop": "https://image.tmdb.org/t/p/w1280/7fn624j5lj3xTme2SgiLCeuedmO.jpg",
+      "poster": "https://image.tmdb.org/t/p/w780/zW9uI4LpC4vK1S8mO2N3P6L5H7G.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zW9uI4LpC4vK1S8mO2N3P6L5H7G.jpg",
       "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_5ee56f4901.mp4",
       "type": "mp4",
       "license": "Private Stream",

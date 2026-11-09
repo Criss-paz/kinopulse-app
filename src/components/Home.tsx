@@ -98,21 +98,21 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-pulse-cyan">Destacado</p>
           <h1 className="text-3xl font-black text-white md:text-5xl">{hero.title}</h1>
           <p className="text-sm text-white/70 md:text-base">
-            {hero.year} ? {formatDuration(hero.duration)} ? {hero.rating}
+            {hero.year} • {formatDuration(hero.duration)} • {hero.rating}
           </p>
           <p className="line-clamp-2 text-sm text-white/85 md:text-base">{hero.synopsis}</p>
           <div className="flex gap-3 pt-1" data-nav-group="hero">
             <button data-nav data-nav-autofocus className="kp-btn kp-btn-primary" onClick={() => onPlay(hero)}>
-              ? Reproducir
+              ▶ Reproducir
             </button>
             <button data-nav className="kp-btn" onClick={() => onOpen(hero)}>
-              ? M?s informaci?n
+              ℹ Más información
             </button>
           </div>
         </div>
       </section>
 
-      {/* Barra de Filtros de Categor?as (Navegable con Control Remoto) */}
+      {/* Barra de Filtros de Categorías (Navegable con Control Remoto) */}
       <div className="relative z-10 px-4 pt-2 pb-4 md:px-12">
         <div data-nav-group="category-chips" className="flex items-center gap-2 overflow-x-auto py-2">
           <button
@@ -136,17 +136,17 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
       </div>
 
       <div className="relative space-y-8 pb-16">
-        {/* Si el usuario est? buscando texto o eligi? una categor?a espec?fica, mostrar cuadr?cula filtrada */}
+        {/* Si el usuario está buscando texto o eligió una categoría específica, mostrar cuadrícula filtrada */}
         {(q !== '' || selectedCategory !== 'all') ? (
           <section className="px-4 md:px-12">
             <h2 className="mb-4 text-xl font-bold text-white md:text-2xl">
               {q !== ''
                 ? `Resultados para "${searchQuery}" (${filteredMovies.length})`
-                : activeCategories.find((c) => c.id === selectedCategory)?.name || 'Pel?culas'}
+                : activeCategories.find((c) => c.id === selectedCategory)?.name || 'Películas'}
             </h2>
             {filteredMovies.length === 0 ? (
               <p className="py-12 text-center text-white/60">
-                No se encontraron pel?culas que coincidan con tu b?squeda.
+                No se encontraron películas que coincidan con tu búsqueda.
               </p>
             ) : (
               <div data-nav-group="filtered-grid" className="flex flex-wrap gap-4 py-2 md:gap-6">
