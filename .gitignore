@@ -15,3 +15,5 @@ scripts/upload-hf.py
 *.mp4
 *.mkv
 .env*
+
+scripts/batch-upload.py
