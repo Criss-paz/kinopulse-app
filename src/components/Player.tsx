@@ -12,6 +12,8 @@ const SEEK_STEP = 10
 const SCRUB_COMMIT_MS = 450
 const scrubStep = (repeats: number) => (repeats < 5 ? SEEK_STEP : repeats < 15 ? 30 : 60)
 
+const UNSUPPORTED = 'Este navegador no puede reproducir el formato de esta película. Prueba en la app de Android/TV o en Microsoft Edge.'
+
 // Safari on iPhone can only fullscreen the <video> itself; it has no Element.requestFullscreen.
 type IOSVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void }
 
@@ -263,13 +265,22 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
           if (b.length) setBuffered(b.end(b.length - 1))
         }}
         onWaiting={() => setWaiting(true)}
-        onPlaying={() => setWaiting(false)}
+        onPlaying={(e) => {
+          setWaiting(false)
+          // Sin decodificador (p. ej. HEVC en Chrome/Firefox) suena el audio pero la imagen queda negra.
+          const v = e.currentTarget
+          window.setTimeout(() => {
+            if (!v.paused && v.currentTime > 0 && v.videoWidth === 0) setError(UNSUPPORTED)
+          }, 2500)
+        }}
         onCanPlay={() => setWaiting(false)}
         onEnded={() => {
           clearMovieProgress(movie.id)
           onExit()
         }}
-        onError={() => setError('No se pudo cargar el video. Revisa tu conexión.')}
+        onError={(e) =>
+          setError(e.currentTarget.error?.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED ? UNSUPPORTED : 'No se pudo cargar el video. Revisa tu conexión.')
+        }
       >
         {subs.map((s) => (
           <track key={s.lang} kind="subtitles" srcLang={s.lang} label={s.label} src={s.src} />
