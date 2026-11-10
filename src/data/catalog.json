@@ -2,21 +2,12 @@
   "version": 1,
   "categories": [
     {
-      "id": "aviso",
-      "name": "⚠️ Actualiza KinoPulse",
-      "legacyNotice": true
-    },
-    {
       "id": "accion",
-      "name": "Acción y Adrenalina"
+      "name": "Acci?n y Adrenalina"
     },
     {
       "id": "superheroes",
-      "name": "Superhéroes"
-    },
-    {
-      "id": "ciencia_ficcion",
-      "name": "Ciencia Ficción y Monstruos"
+      "name": "Superh?roes y Marvel"
     },
     {
       "id": "terror",
@@ -27,43 +18,31 @@
       "name": "Suspenso y Misterio"
     },
     {
+      "id": "ciencia_ficcion",
+      "name": "Ciencia Ficci?n y Monstruos"
+    },
+    {
       "id": "comedia",
       "name": "Comedia"
     },
     {
       "id": "drama",
-      "name": "Drama y Romance"
+      "name": "Drama"
     },
     {
       "id": "animacion",
-      "name": "Animación"
+      "name": "Animaci?n"
     },
     {
       "id": "fantasia",
-      "name": "Fantasía"
+      "name": "Fantas?a"
     },
     {
       "id": "epica",
-      "name": "Tierra Media y Épica"
+      "name": "?pica y Aventura"
     }
   ],
   "movies": [
-    {
-      "id": "kp_900",
-      "legacyNotice": true,
-      "title": "⚠️ Actualiza KinoPulse",
-      "year": 2026,
-      "duration": 1,
-      "category": "aviso",
-      "rating": "ATP",
-      "synopsis": "Tu versión de KinoPulse ya no recibe mejoras. Para actualizar: abre kinopulse.vercel.app en tu celular o PC (o el Downloader en tu TV con la misma dirección), descarga la app Android e instálala encima. No pierdes nada. A partir de ahí la app se actualiza sola.",
-      "poster": "https://kinopulse.vercel.app/og-image.png",
-      "backdrop": "https://kinopulse.vercel.app/og-image.png",
-      "stream": "https://github.com/Criss-paz/kinopulse-app/releases/latest/download/KinoPulse-TV-Mobile.apk",
-      "type": "mp4",
-      "license": "Aviso",
-      "source": "https://kinopulse.vercel.app"
-    },
     {
       "id": "kp_007",
       "title": "John Wick: Otro día para matar",
