@@ -31,8 +31,12 @@
   }
   .kp-btn:focus-visible,
   .kp-seekbar:focus-visible {
-    @apply scale-105 ring-4 ring-pulse-cyan ring-offset-2 ring-offset-obsidian-950;
+    @apply ring-4 ring-pulse-cyan ring-offset-2 ring-offset-obsidian-950;
     box-shadow: 0 0 28px rgba(0, 240, 255, 0.45);
+  }
+  /* La barra ocupa todo el ancho: crecer la sacaría de la pantalla. */
+  .kp-btn:focus-visible {
+    @apply scale-105;
   }
   .kp-card {
     @apply transition duration-300 ease-out;

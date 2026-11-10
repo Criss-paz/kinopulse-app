@@ -7,6 +7,13 @@ import { focusEl } from '../lib/spatial'
 
 const HIDE_AFTER = 3000
 const SEEK_STEP = 10
+// Holding an arrow on the seek bar speeds up: 10 s per step, then 30 s, then 60 s. The jump is
+// applied once the key is released (or after a short pause), so the video seeks once, not 40 times.
+const SCRUB_COMMIT_MS = 450
+const scrubStep = (repeats: number) => (repeats < 5 ? SEEK_STEP : repeats < 15 ? 30 : 60)
+
+// Safari on iPhone can only fullscreen the <video> itself; it has no Element.requestFullscreen.
+type IOSVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void }
 
 const fmt = (s: number) => {
   if (!isFinite(s)) return '0:00'
@@ -18,6 +25,11 @@ const fmt = (s: number) => {
 
 export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; startAt?: number; onExit: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const rootRef = useRef<HTMLDivElement>(null)
+  const barRef = useRef<HTMLDivElement>(null)
+  const scrubRef = useRef<number | null>(null)
+  const scrubRepeats = useRef(0)
+  const scrubTimer = useRef<number>()
   const playRef = useRef<HTMLButtonElement>(null)
   const hideTimer = useRef<number>()
   const lastSavedRef = useRef<number>(0)
@@ -32,7 +44,14 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
   const [error, setError] = useState('')
   const [subIndex, setSubIndex] = useState(-1)
   const [flash, setFlash] = useState('')
+  const [scrub, setScrubState] = useState<number | null>(null)
+  const [fullscreen, setFullscreen] = useState(false)
   const subs = movie.subtitles ?? []
+
+  const setScrub = (t: number | null) => {
+    scrubRef.current = t
+    setScrubState(t)
+  }
 
   const setVisible = (v: boolean) => {
     visibleRef.current = v
@@ -102,6 +121,66 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
     window.setTimeout(() => setFlash(''), 600)
   }, [movie.id])
 
+  const commitScrub = useCallback(() => {
+    window.clearTimeout(scrubTimer.current)
+    const t = scrubRef.current
+    scrubRepeats.current = 0
+    if (t === null) return
+    const v = videoRef.current!
+    v.currentTime = t
+    setTime(t)
+    if (v.duration > 0) saveMovieProgress(movie.id, t, v.duration)
+    setScrub(null)
+  }, [movie.id])
+
+  // Arrow keys on the seek bar: move a preview marker, accelerating while held, and jump once.
+  const scrubBy = useCallback((dir: 1 | -1, repeat: boolean) => {
+    const v = videoRef.current!
+    if (!v.duration) return
+    scrubRepeats.current = repeat ? scrubRepeats.current + 1 : 0
+    const from = scrubRef.current ?? v.currentTime
+    setScrub(Math.max(0, Math.min(v.duration - 1, from + dir * scrubStep(scrubRepeats.current))))
+    window.clearTimeout(scrubTimer.current)
+    scrubTimer.current = window.setTimeout(commitScrub, SCRUB_COMMIT_MS)
+  }, [commitScrub])
+
+  // Mouse/touch on the seek bar: drag the marker freely, the video jumps on release.
+  const timeAt = (clientX: number) => {
+    const r = barRef.current!.getBoundingClientRect()
+    return Math.max(0, Math.min(1, (clientX - r.left) / r.width)) * (videoRef.current?.duration || 0)
+  }
+
+  const toggleFullscreen = useCallback(() => {
+    const doc = document as Document & { webkitFullscreenElement?: Element; webkitExitFullscreen?: () => void }
+    const root = rootRef.current as (HTMLDivElement & { webkitRequestFullscreen?: () => void }) | null
+    if (document.fullscreenElement || doc.webkitFullscreenElement) {
+      ;(document.exitFullscreen?.() ?? doc.webkitExitFullscreen?.())
+      return
+    }
+    if (root?.requestFullscreen) {
+      root.requestFullscreen().then(() => {
+        // En el móvil, gira a horizontal; donde no se pueda (PC, TV) se ignora.
+        const o = screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> }
+        o?.lock?.('landscape').catch(() => undefined)
+      }).catch(() => undefined)
+    } else if (root?.webkitRequestFullscreen) root.webkitRequestFullscreen()
+    else (videoRef.current as IOSVideo | null)?.webkitEnterFullscreen?.()
+  }, [])
+
+  useEffect(() => {
+    const onChange = () => setFullscreen(!!(document.fullscreenElement || (document as Document & { webkitFullscreenElement?: Element }).webkitFullscreenElement))
+    document.addEventListener('fullscreenchange', onChange)
+    document.addEventListener('webkitfullscreenchange', onChange)
+    return () => {
+      document.removeEventListener('fullscreenchange', onChange)
+      document.removeEventListener('webkitfullscreenchange', onChange)
+      window.clearTimeout(scrubTimer.current)
+      // Al salir del reproductor, la app vuelve a su tamaño normal.
+      if (document.fullscreenElement) document.exitFullscreen().catch(() => undefined)
+      ;(screen.orientation as ScreenOrientation & { unlock?: () => void })?.unlock?.()
+    }
+  }, [])
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const wasVisible = visibleRef.current
@@ -112,10 +191,17 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         toggle()
       } else if (e.key === 'MediaFastForward') seek(SEEK_STEP)
       else if (e.key === 'MediaRewind') seek(-SEEK_STEP)
-      else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && (!wasVisible || onSeekBar)) {
+      else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && onSeekBar) {
+        e.preventDefault()
+        e.stopPropagation()
+        scrubBy(e.key === 'ArrowRight' ? 1 : -1, e.repeat)
+      } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !wasVisible) {
         e.preventDefault()
         e.stopPropagation()
         seek(e.key === 'ArrowRight' ? SEEK_STEP : -SEEK_STEP)
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault()
+        toggleFullscreen()
       } else if (!wasVisible && (e.key === 'Enter' || e.key.startsWith('Arrow'))) {
         e.preventDefault()
         e.stopPropagation()
@@ -124,13 +210,14 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
     }
     window.addEventListener('keydown', onKey, true)
     return () => window.removeEventListener('keydown', onKey, true)
-  }, [poke, seek, toggle])
+  }, [poke, seek, toggle, scrubBy, toggleFullscreen])
 
-  const progress = duration ? (time / duration) * 100 : 0
+  const shown = scrub ?? time
+  const progress = duration ? (shown / duration) * 100 : 0
   const bufPct = duration ? (buffered / duration) * 100 : 0
 
   return (
-    <div data-nav-scope className="fixed inset-0 z-50 bg-black" onMouseMove={poke} onTouchStart={poke}>
+    <div ref={rootRef} data-nav-scope className="fixed inset-0 z-50 bg-black" onMouseMove={poke} onTouchStart={poke}>
       <video
         ref={videoRef}
         className="h-full w-full object-contain"
@@ -220,28 +307,45 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
 
         <div className="bg-gradient-to-t from-black/90 to-transparent p-6 md:p-10">
           <div className="mb-3 flex justify-between text-sm text-white/80 md:text-lg">
-            <span>{fmt(time)}</span>
-            <span>-{fmt(Math.max(0, duration - time))}</span>
+            <span className={scrub !== null ? 'font-bold text-pulse-cyan' : ''}>{fmt(shown)}</span>
+            <span>-{fmt(Math.max(0, duration - shown))}</span>
           </div>
+          {/* Zona táctil alta (py-3) alrededor de una barra fina, para atinarle fácil con el dedo o el ratón. */}
           <div
+            ref={barRef}
             data-nav
             data-seekbar
             tabIndex={0}
             role="slider"
-            aria-label="Progreso (izquierda/derecha para moverse 10 s)"
+            aria-label="Progreso (mantén izquierda/derecha para avanzar más rápido)"
             aria-valuemin={0}
             aria-valuemax={Math.round(duration)}
-            aria-valuenow={Math.round(time)}
-            className="kp-seekbar relative mb-6 h-3 cursor-pointer rounded-full bg-white/20"
-            onClick={(e) => {
-              const r = e.currentTarget.getBoundingClientRect()
-              const v = videoRef.current!
-              v.currentTime = ((e.clientX - r.left) / r.width) * (v.duration || 0)
+            aria-valuenow={Math.round(shown)}
+            className="kp-seekbar group/bar relative mb-4 cursor-pointer touch-none rounded-full py-3"
+            onPointerDown={(e) => {
+              if (!duration) return
+              e.currentTarget.setPointerCapture(e.pointerId)
+              setScrub(timeAt(e.clientX))
+              poke()
             }}
+            onPointerMove={(e) => {
+              if (scrubRef.current === null || !e.currentTarget.hasPointerCapture(e.pointerId)) return
+              setScrub(timeAt(e.clientX))
+              poke()
+            }}
+            onPointerUp={commitScrub}
+            onPointerCancel={() => setScrub(null)}
           >
-            <div className="absolute inset-y-0 left-0 rounded-full bg-white/30" style={{ width: `${bufPct}%` }} />
-            <div className="absolute inset-y-0 left-0 rounded-full bg-pulse-red" style={{ width: `${progress}%` }} />
-            <div className="absolute top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-lg" style={{ left: `${progress}%` }} />
+            <div className="relative h-2 rounded-full bg-white/20 transition-[height] group-hover/bar:h-3 group-focus-visible/bar:h-3">
+              <div className="absolute inset-y-0 left-0 rounded-full bg-white/30" style={{ width: `${bufPct}%` }} />
+              <div className="absolute inset-y-0 left-0 rounded-full bg-pulse-red" style={{ width: `${progress}%` }} />
+              <div className="absolute top-1/2 h-5 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white shadow-lg group-hover/bar:h-6 group-hover/bar:w-6" style={{ left: `${progress}%` }} />
+              {scrub !== null && (
+                <div className="absolute bottom-6 -translate-x-1/2 rounded-lg bg-black/85 px-3 py-1 text-lg font-bold text-white" style={{ left: `${progress}%` }}>
+                  {fmt(scrub)}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 md:gap-4">
@@ -253,6 +357,10 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
             </button>
             <button data-nav className="kp-btn" onClick={() => seek(SEEK_STEP)} aria-label="Adelantar 10 segundos">
               10 ⟳
+            </button>
+            <button data-nav className="kp-btn" onClick={toggleFullscreen} aria-label={fullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}>
+              {fullscreen ? '🗗' : '⛶'}
+              <span className="hidden sm:inline">{fullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}</span>
             </button>
             <div className="ml-auto flex flex-wrap gap-2">
               <button data-nav className={`kp-btn ${subIndex === -1 ? 'kp-btn-active' : ''}`} onClick={() => setSubIndex(-1)}>
