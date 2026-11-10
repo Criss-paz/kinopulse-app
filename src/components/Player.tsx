@@ -48,6 +48,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
   const [flash, setFlash] = useState('')
   const [scrub, setScrubState] = useState<number | null>(null)
   const [fullscreen, setFullscreen] = useState(false)
+  const [audioWarning, setAudioWarning] = useState(false)
   const subs = movie.subtitles ?? []
 
   const setScrub = (t: number | null) => {
@@ -271,6 +272,12 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
           const v = e.currentTarget
           window.setTimeout(() => {
             if (!v.paused && v.currentTime > 0 && v.videoWidth === 0) setError(UNSUPPORTED)
+            // Al revés: audio sin decodificador (p. ej. AC3/DTS en Chrome/Firefox) = imagen sin sonido.
+            // Todas las películas tienen audio, así que 0 bytes decodificados significa formato no soportado.
+            const decoded = (v as HTMLVideoElement & { webkitAudioDecodedByteCount?: number; mozHasAudio?: boolean })
+            if (!v.paused && v.currentTime > 1 && (decoded.webkitAudioDecodedByteCount === 0 || decoded.mozHasAudio === false)) {
+              setAudioWarning(true)
+            }
           }, 2500)
         }}
         onCanPlay={() => setWaiting(false)}
@@ -295,6 +302,17 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
       {flash && (
         <div className="pointer-events-none absolute inset-0 grid place-items-center">
           <div className="rounded-full bg-black/60 px-8 py-4 text-4xl font-bold text-white">{flash}</div>
+        </div>
+      )}
+      {audioWarning && !error && (
+        <div className="absolute inset-x-4 top-24 z-10 mx-auto flex max-w-xl items-center gap-3 rounded-2xl bg-black/85 p-4 text-white md:top-32">
+          <span className="text-2xl">🔇</span>
+          <p className="flex-1 text-sm md:text-base">
+            Este navegador no puede reproducir el audio de esta película. Prueba en la app de Android/TV o en Microsoft Edge.
+          </p>
+          <button className="kp-btn kp-btn-sm" onClick={() => setAudioWarning(false)} aria-label="Cerrar aviso">
+            ✕
+          </button>
         </div>
       )}
       {error && (
