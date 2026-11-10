@@ -3,7 +3,7 @@ import Hls from 'hls.js'
 import type { Movie } from '../types'
 import { streamUrl } from '../lib/config'
 import { saveMovieProgress, clearMovieProgress } from '../lib/progress'
-import { focusEl } from '../lib/spatial'
+import { dirOf, focusEl } from '../lib/spatial'
 
 const HIDE_AFTER = 3000
 const SEEK_STEP = 10
@@ -186,6 +186,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      const dir = dirOf(e)
       const wasVisible = visibleRef.current
       poke()
       const onSeekBar = (document.activeElement as HTMLElement | null)?.dataset.seekbar !== undefined
@@ -194,18 +195,18 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         toggle()
       } else if (e.key === 'MediaFastForward') seek(SEEK_STEP)
       else if (e.key === 'MediaRewind') seek(-SEEK_STEP)
-      else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && onSeekBar) {
+      else if ((dir === 'left' || dir === 'right') && onSeekBar) {
         e.preventDefault()
         e.stopPropagation()
-        scrubBy(e.key === 'ArrowRight' ? 1 : -1, e.repeat)
-      } else if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && !wasVisible) {
+        scrubBy(dir === 'right' ? 1 : -1, e.repeat)
+      } else if ((dir === 'left' || dir === 'right') && !wasVisible) {
         e.preventDefault()
         e.stopPropagation()
-        seek(e.key === 'ArrowRight' ? SEEK_STEP : -SEEK_STEP)
+        seek(dir === 'right' ? SEEK_STEP : -SEEK_STEP)
       } else if (e.key === 'f' || e.key === 'F') {
         e.preventDefault()
         toggleFullscreen()
-      } else if (!wasVisible && (e.key === 'Enter' || e.key.startsWith('Arrow'))) {
+      } else if (!wasVisible && (e.key === 'Enter' || dir)) {
         e.preventDefault()
         e.stopPropagation()
         if (e.key === 'Enter') toggle()

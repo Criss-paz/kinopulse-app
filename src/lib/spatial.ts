@@ -10,7 +10,17 @@ const KEY_DIR: Record<string, Dir> = {
   ArrowRight: 'right',
   ArrowUp: 'up',
   ArrowDown: 'down',
+  // Older Android TV WebViews report the D-pad with the legacy names.
+  Left: 'left',
+  Right: 'right',
+  Up: 'up',
+  Down: 'down',
 }
+
+// Some TV WebViews send e.key "Unidentified": fall back to the key code (browser arrows, or Android DPAD_*).
+const CODE_DIR: Record<number, Dir> = { 37: 'left', 38: 'up', 39: 'right', 40: 'down', 19: 'up', 20: 'down', 21: 'left', 22: 'right' }
+
+export const dirOf = (e: KeyboardEvent): Dir | undefined => KEY_DIR[e.key] ?? (e.key === 'Unidentified' || !e.key ? CODE_DIR[e.keyCode] : undefined)
 
 const lastInGroup = new Map<string, HTMLElement>()
 
@@ -96,11 +106,14 @@ export function initSpatialNav(onBack: () => void) {
   }
   const onKey = (e: KeyboardEvent) => {
     if (e.defaultPrevented) return
-    const dir = KEY_DIR[e.key]
+    const dir = dirOf(e)
     if (dir) {
       const t = e.target as HTMLElement
       if (t.tagName === 'INPUT' && (dir === 'left' || dir === 'right')) return
-      if (move(dir)) e.preventDefault()
+      // Always swallow the key, even with no target in that direction: otherwise the TV's own
+      // focus search takes over and jumps to whatever is above, usually the sticky top bar.
+      e.preventDefault()
+      move(dir)
       return
     }
     const typing = (e.target as HTMLElement).tagName === 'INPUT'

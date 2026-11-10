@@ -7,7 +7,12 @@ import DownloadButtons from './components/DownloadButtons'
 import TopBar, { ExitDialog, canExit } from './components/TopBar'
 import { App as NativeApp } from '@capacitor/app'
 import { isNativeApp, isUpdateRequired, UPDATE_CHECK_MS } from './lib/updater'
-import { initSpatialNav } from './lib/spatial'
+import { focusEl, initSpatialNav } from './lib/spatial'
+
+const focusTopBar = () => {
+  const first = document.querySelector<HTMLElement>('header [data-nav]')
+  if (first) focusEl(first)
+}
 import { Movie } from './types'
 
 export default function App() {
@@ -32,11 +37,19 @@ export default function App() {
   }, [])
 
   // Atrás (control remoto, Esc o botón de Android): cierra lo que haya encima; en el inicio ofrece salir.
+  // Desde una fila de películas, Atrás sube directo a la barra de arriba; ya en ella, ofrece salir.
   const goBack = useRef(() => {})
+  const lastBack = useRef(0)
   goBack.current = () => {
+    // Algunas TVs entregan la misma pulsación como tecla y como botón de Android: contarla una vez.
+    const now = Date.now()
+    if (now - lastBack.current < 400) return
+    lastBack.current = now
+    const inTopBar = !!document.activeElement?.closest('header')
     if (exitOpen) setExitOpen(false)
     else if (view !== 'home') setView('home')
     else if (searchQuery) setSearchQuery('')
+    else if (!inTopBar) focusTopBar()
     else if (canExit()) setExitOpen(true)
   }
 
