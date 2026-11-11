@@ -2007,6 +2007,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_141",
+      "title": "Godzilla Minus One",
+      "year": 2023,
+      "duration": 126,
+      "category": "ciencia_ficcion",
+      "rating": "+13",
+      "synopsis": "En el Japón de la posguerra, devastado y sin recursos, un expiloto kamikaze atormentado por la culpa se une a un grupo de civiles para enfrentar a Godzilla, una amenaza que podría llevar al país más allá de cero.",
+      "poster": "https://image.tmdb.org/t/p/w780/q35kdC8ci9Fm2gVQazJdsohtGpD.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/oHBhHoNe59VH6bUMazDtJmWOFSS.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_5e3c13c5a6.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
