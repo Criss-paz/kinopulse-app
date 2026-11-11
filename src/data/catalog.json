@@ -1977,6 +1977,36 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_139",
+      "title": "Batman v Superman: El origen de la justicia",
+      "year": 2016,
+      "duration": 182,
+      "category": "superheroes",
+      "rating": "+13",
+      "synopsis": "Temiendo las acciones de un superhéroe con poderes casi divinos, el justiciero de Ciudad Gótica se enfrenta a Superman, mientras una nueva amenaza pone en peligro a la humanidad. Versión extendida.",
+      "poster": "https://image.tmdb.org/t/p/w780/ogl7euSNTWPpnB7nnq9E6RDTHNK.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5fX1oSGuYdKgwWmUTAN5MNSQGzr.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ea6a32df4a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_140",
+      "title": "El Señor de los Anillos: Las dos torres",
+      "year": 2002,
+      "duration": 235,
+      "category": "epica",
+      "rating": "+13",
+      "synopsis": "Con la Comunidad dividida, Frodo y Sam avanzan hacia Mordor guiados por Gollum, mientras Aragorn, Legolas y Gimli defienden el reino de Rohan de los ejércitos de Saruman. Versión extendida.",
+      "poster": "https://image.tmdb.org/t/p/w780/up6gIHZlfEQZkHIfQwcOOaGOzOt.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6G73mNyooWAEQTpckPSnFxFoNmc.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_9ebebc3bdf.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
