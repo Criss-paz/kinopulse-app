@@ -2056,6 +2056,66 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_144",
+      "title": "Mi pobre angelito 2: Perdido en Nueva York",
+      "year": 1992,
+      "duration": 120,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "Kevin toma el avión equivocado y termina solo en Nueva York en plena Navidad, donde vuelve a cruzarse con los dos ladrones que juraron vengarse de él.",
+      "poster": "https://image.tmdb.org/t/p/w780/48Wa6L2QzY47nWqtRCgiqYlecc9.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8fnYJPoXxwAN4valDLgz2whMGTH.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_9bcaaa0d94.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_145",
+      "title": "El Grinch (2000)",
+      "year": 2000,
+      "duration": 105,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "En Villa Quién todos aman la Navidad, excepto el Grinch, un ser verde y gruñón que vive en la montaña y planea robarles las fiestas, hasta que la pequeña Cindy Lou le muestra su verdadero significado.",
+      "poster": "https://image.tmdb.org/t/p/w780/yCZ3xAPM5009ltBUUwPtCeWKQWy.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/sy0vo1cmpKqwPRiMUiJ45jyLsX7.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_4d92ccf20b.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_146",
+      "title": "El Grinch",
+      "year": 2018,
+      "duration": 86,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "Un gruñón solitario que odia la Navidad trama un plan para robarla y arruinar las fiestas de Villa Quién, hasta que una niña llena de alegría cambia su corazón.",
+      "poster": "https://image.tmdb.org/t/p/w780/eCHNCoat9L0Q3p4XjBQqV2Zn7Ux.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5lWIYxYEqWi8j3ZloxXntw3ImBo.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ac53a44500.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_147",
+      "title": "Elf, el duende",
+      "year": 2003,
+      "duration": 97,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "Buddy, un humano criado como elfo en el Polo Norte, viaja a Nueva York para conocer a su verdadero padre y descubre un mundo que ha olvidado el espíritu navideño.",
+      "poster": "https://image.tmdb.org/t/p/w780/nIFkyvrwXk4LIEGaImb0h8HumpC.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5nhp41gx49vXjwXuDXJwQrRFsng.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_a1994a78cf.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
