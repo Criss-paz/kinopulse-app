@@ -2116,6 +2116,66 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_148",
+      "title": "Santa Cláusula",
+      "year": 1994,
+      "duration": 97,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "Cuando Santa Claus cae del tejado de su casa en Nochebuena, Scott Calvin se pone el traje y, por una cláusula mágica, se convierte en el nuevo Santa.",
+      "poster": "https://image.tmdb.org/t/p/w780/4s0E1WJZ7dVHyJ0eyWvQU3aA2gj.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/p89QeYRc2u0rX0eKKU4TLJStwHO.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_a72539b495.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_149",
+      "title": "Santa Cláusula 2",
+      "year": 2002,
+      "duration": 104,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "Scott Calvin lleva ocho años como Santa, pero una nueva cláusula le obliga a casarse antes de Navidad o dejará de serlo para siempre.",
+      "poster": "https://image.tmdb.org/t/p/w780/mrq96F52yJ4L6XDLu5O7QUP7KqR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ycQyXPqcTOgBNVDCTBTHBqsAbOk.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_8a79badcdb.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_150",
+      "title": "El expreso polar",
+      "year": 2004,
+      "duration": 100,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "En la víspera de Navidad, un niño lleno de dudas sube a bordo de un misterioso tren con destino al Polo Norte en un viaje mágico de autodescubrimiento.",
+      "poster": "https://image.tmdb.org/t/p/w780/jV3VtoGojwLHNvBEZwsqwyIuQgh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jtOvTVlkF8TlaOq94oNXRc9u2yp.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_caea97a60c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_151",
+      "title": "La leyenda de Klaus",
+      "year": 2019,
+      "duration": 98,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "Un cartero egoísta enviado a una isla helada hace un trato con un solitario juguetero para llevar felicidad al pueblo más desdichado del mundo, dando origen a una leyenda navideña.",
+      "poster": "https://image.tmdb.org/t/p/w780/wLjDdsdYTl6C88EMCTvvRK4VNHS.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cYQvXNPZLow73lhspVQ7CYlT3Mi.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e9b9024da6.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
