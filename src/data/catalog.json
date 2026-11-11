@@ -2,6 +2,10 @@
   "version": 1,
   "categories": [
     {
+      "id": "navidad",
+      "name": "🎄 Navidad"
+    },
+    {
       "id": "accion",
       "name": "Acción y Adrenalina"
     },
@@ -2019,6 +2023,36 @@
       "poster": "https://image.tmdb.org/t/p/w780/q35kdC8ci9Fm2gVQazJdsohtGpD.jpg",
       "backdrop": "https://image.tmdb.org/t/p/w1280/oHBhHoNe59VH6bUMazDtJmWOFSS.jpg",
       "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_5e3c13c5a6.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_142",
+      "title": "El Señor de los Anillos: El retorno del rey",
+      "year": 2003,
+      "duration": 263,
+      "category": "epica",
+      "rating": "+13",
+      "synopsis": "Aragorn reúne a los pueblos libres para la batalla final contra Sauron mientras Frodo y Sam llegan al Monte del Destino para destruir el Anillo Único. Versión extendida.",
+      "poster": "https://image.tmdb.org/t/p/w780/vvxufoFLVxdA8JoCqjUGjHlTs5V.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ctiw6FZK4N36LmkjSklWEbuvlq9.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_eedb0eaee0.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_143",
+      "title": "Mi pobre angelito",
+      "year": 1990,
+      "duration": 103,
+      "category": "navidad",
+      "rating": "ATP",
+      "synopsis": "Olvidado por su familia en Navidad, el pequeño Kevin McCallister debe defender su casa de dos torpes ladrones con trampas tan ingeniosas como dolorosas.",
+      "poster": "https://image.tmdb.org/t/p/w780/iruzQaa7OHmtb6qKbW278v6Ml4b.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ih2xVgeMS8R5WUetYE8Mr9hVTlB.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_d6279b47d3.mp4",
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
