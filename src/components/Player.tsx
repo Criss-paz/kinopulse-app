@@ -99,6 +99,9 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
   }, [subIndex])
 
   const poke = useCallback(() => {
+    // Con los controles ocultos no se refresca el reloj (ver onTimeUpdate): al reaparecer,
+    // se pone al día de una vez para que no muestre el tiempo de hace un rato.
+    if (!visibleRef.current && videoRef.current) setTime(videoRef.current.currentTime)
     setVisible(true)
     window.clearTimeout(hideTimer.current)
     hideTimer.current = window.setTimeout(() => {
@@ -237,7 +240,9 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
       <video
         ref={videoRef}
         className="h-full w-full object-contain"
-        preload="metadata"
+        // "auto": el navegador llena el buffer en cuanto abre la pelicula, en vez de
+        // esperar a tener solo los metadatos y arrancar justo al limite.
+        preload="auto"
         playsInline
         poster={movie.backdrop}
         onClick={toggle}
@@ -266,7 +271,10 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         }}
         onTimeUpdate={(e) => {
           const v = e.currentTarget
-          setTime(v.currentTime)
+          // Repintar el reproductor cuatro veces por segundo le quita tiempo al decodificador
+          // y en TVs y móviles modestos la imagen se ve a tirones. Con los controles ocultos
+          // no hay nada que actualizar en pantalla, así que no se toca el estado.
+          if (visibleRef.current || scrubRef.current !== null) setTime(v.currentTime)
           const now = Date.now()
           if (now - lastSavedRef.current >= 5000 && v.duration > 0) {
             lastSavedRef.current = now
@@ -275,6 +283,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         }}
         onDurationChange={(e) => setDuration(e.currentTarget.duration)}
         onProgress={(e) => {
+          if (!visibleRef.current) return
           const b = e.currentTarget.buffered
           if (b.length) setBuffered(b.end(b.length - 1))
         }}

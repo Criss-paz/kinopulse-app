@@ -17,3 +17,9 @@ scripts/upload-hf.py
 .env*
 
 scripts/batch-upload.py
+
+tsconfig.tsbuildinfo
+
+scripts/upload-pending51.py
+scripts/upload-batch10.py
+scripts/__pycache__/
