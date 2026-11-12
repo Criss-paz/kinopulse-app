@@ -1,7 +1,9 @@
 import { App } from '@capacitor/app'
 import { Capacitor, registerPlugin, type PluginListenerHandle } from '@capacitor/core'
 
-export const APK_URL = 'https://github.com/Criss-paz/kinopulse-app/releases/latest/download/KinoPulse-TV-Mobile.apk'
+// Una sola definicion, en config.ts: aqui se reexporta para no tener dos URLs que
+// se puedan desincronizar si algun dia cambia el repo o el nombre del APK.
+export { APK_URL } from './config'
 
 // The interface is loaded live from the web, so normal changes need no update at all.
 // Raise "minNativeBuild" in public/app-config.json to a release's build number (the N in v1.0.N)

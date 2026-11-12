@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { APK_URL } from '../lib/updater'
+import { APK_URL, DOWNLOADER_CODE } from '../lib/config'
 
 // Chrome/Edge fire this when the site can be installed as an app; not yet in the TS DOM lib.
 interface BeforeInstallPromptEvent extends Event {
@@ -10,7 +10,7 @@ interface BeforeInstallPromptEvent extends Event {
 const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches
 const isWindows = () => /Windows/i.test(navigator.userAgent)
 
-export default function DownloadButtons() {
+export default function DownloadButtons({ onOpenDownloads }: { onOpenDownloads: () => void }) {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [installed, setInstalled] = useState(isStandalone)
 
@@ -42,15 +42,21 @@ export default function DownloadButtons() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2 sm:flex-row">
+    <div className="fixed bottom-4 right-4 z-50 flex flex-col items-stretch gap-2 sm:flex-row sm:items-center">
       {isWindows() && (
         <button onClick={installWindows} className="kp-btn kp-btn-primary px-4 py-2 font-bold shadow-2xl">
           Instalar en Windows
         </button>
       )}
-      <a href={APK_URL} className="kp-btn kp-btn-primary px-4 py-2 font-bold shadow-2xl">
-        Descargar app Android
+      {/* El teléfono se lleva el APK directo; la TV no tiene navegador usable, así que ese
+          botón abre las instrucciones de Downloader con el código bien grande. */}
+      <a href={APK_URL} className="kp-btn kp-btn-primary px-4 py-2 font-bold shadow-2xl" rel="noopener">
+        📱 Descargar para Android
       </a>
+      <button onClick={onOpenDownloads} className="kp-btn kp-btn-primary px-4 py-2 font-bold shadow-2xl">
+        📺 Descargar para Android TV
+        <span className="ml-2 rounded bg-black/40 px-2 font-mono tracking-widest">{DOWNLOADER_CODE}</span>
+      </button>
     </div>
   )
 }

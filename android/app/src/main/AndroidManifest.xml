@@ -6,15 +6,17 @@
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
     <uses-feature android:name="android.hardware.faketouch" android:required="false" />
 
+    <!-- allowBackup=false y usesCleartextTraffic=false: todo (sitio, catalogo, streams y
+         actualizaciones) va por HTTPS, y el progreso de visionado no sale en copias de adb. -->
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="KinoPulse"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:banner="@drawable/tv_banner"
         android:hardwareAccelerated="true"
-        android:usesCleartextTraffic="true"
+        android:usesCleartextTraffic="false"
         android:theme="@style/AppTheme">
 
         <activity

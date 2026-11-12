@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import Home from './components/Home'
 import Player from './components/Player'
 import Details from './components/Details'
+import Downloads from './components/Downloads'
 import UpdateModal from './components/UpdateModal'
 import DownloadButtons from './components/DownloadButtons'
 import TopBar, { ExitDialog, canExit } from './components/TopBar'
@@ -17,7 +18,7 @@ import { clearMovieProgress, getMovieProgress } from './lib/progress'
 import { Movie } from './types'
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'details' | 'player'>('home')
+  const [view, setView] = useState<'home' | 'details' | 'player' | 'downloads'>('home')
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
   const [startAt, setStartAt] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
@@ -89,8 +90,10 @@ export default function App() {
       {updateRequired && <UpdateModal />}
 
       {view === 'home' && !isNativeApp() && (
-        <DownloadButtons />
+        <DownloadButtons onOpenDownloads={() => setView('downloads')} />
       )}
+
+      {view === 'downloads' && <Downloads onBack={() => setView('home')} />}
 
       {exitOpen && <ExitDialog onCancel={() => setExitOpen(false)} />}
 

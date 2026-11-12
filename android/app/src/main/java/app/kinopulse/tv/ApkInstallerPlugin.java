@@ -42,11 +42,42 @@ public class ApkInstallerPlugin extends Plugin {
         call.resolve();
     }
 
+    /**
+     * Hosts allowed to serve an update. The interface is loaded from the live site, so any
+     * script running there can call this plugin: without this list, a compromised or injected
+     * page could make every installed app download and install an APK of someone else's
+     * choosing. "latest/download" redirects to githubusercontent, so that host is allowed too.
+     * Only HTTPS, and every redirect hop is checked again.
+     */
+    private static final String[] ALLOWED_HOSTS = {
+        "github.com",
+        "objects.githubusercontent.com",
+        "release-assets.githubusercontent.com",
+    };
+
+    private static boolean isAllowed(String url) {
+        try {
+            URL u = new URL(url);
+            if (!"https".equalsIgnoreCase(u.getProtocol())) return false;
+            String host = u.getHost().toLowerCase();
+            for (String allowed : ALLOWED_HOSTS) {
+                if (host.equals(allowed)) return true;
+            }
+        } catch (Exception e) {
+            // Falls through to false: an unparseable URL is not allowed.
+        }
+        return false;
+    }
+
     @PluginMethod
     public void downloadAndInstall(PluginCall call) {
         String url = call.getString("url");
         if (url == null) {
             call.reject("url is required");
+            return;
+        }
+        if (!isAllowed(url)) {
+            call.reject("Update URL not allowed: " + url);
             return;
         }
         new Thread(() -> {
@@ -78,8 +109,14 @@ public class ApkInstallerPlugin extends Plugin {
             conn.setReadTimeout(30000);
             int code = conn.getResponseCode();
             if (code >= 300 && code < 400) {
-                src = conn.getHeaderField("Location");
+                String next = conn.getHeaderField("Location");
                 conn.disconnect();
+                // Un redirect es otra URL distinta a la que ya se valido: se comprueba igual,
+                // si no basta con una redireccion a un host cualquiera para saltarse la lista.
+                if (next == null) throw new Exception("Redirect without Location");
+                if (next.startsWith("/")) next = new URL(new URL(src), next).toString();
+                if (!isAllowed(next)) throw new Exception("Redirect to a host that is not allowed");
+                src = next;
                 continue;
             }
             if (code != 200) throw new Exception("HTTP " + code);
