@@ -108,6 +108,7 @@ export default function App() {
           searchQuery={searchQuery}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
+          lastOpenedId={selectedMovie?.id}
         />
       )}
 

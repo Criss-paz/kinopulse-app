@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
 import type { Movie } from '../types'
 import { categories, formatDuration, movies, moviesByCategory, refreshLiveCatalog } from '../lib/catalog'
 import { getAllProgress, formatTimeMMSS } from '../lib/progress'
@@ -10,7 +10,14 @@ interface Props {
   searchQuery: string
   selectedCategory: string
   onSelectCategory: (id: string) => void
+  /** Película que se abrió por última vez: al volver, el foco regresa a su tarjeta. */
+  lastOpenedId?: string
 }
+
+// Abrir una película desmonta el inicio, así que su posición se guarda aquí (fuera del
+// componente, que es lo que se destruye) y se restaura al volver. Sin esto, volver de una
+// ficha o del reproductor dejaba al usuario arriba del todo, perdiendo la fila donde estaba.
+let savedView: { y: number; rows: Record<string, number> } | null = null
 
 // Fila horizontal; con ratón muestra flechas para avanzar/retroceder una pantalla.
 function Row({ group, children }: { group: string; children: ReactNode }) {
@@ -34,12 +41,56 @@ function Row({ group, children }: { group: string; children: ReactNode }) {
   )
 }
 
-export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, onSelectCategory }: Props) {
+export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, onSelectCategory, lastOpenedId }: Props) {
   const [, setTick] = useState(0)
   const [hero, setHero] = useState<Movie>(() => movies[0])
 
+  // En una ref para que el efecto sea solo de montaje/desmontaje: si fuera dependencia,
+  // cambiar de película con el inicio montado volvería a mover el foco.
+  const lastOpenedRef = useRef(lastOpenedId)
+  lastOpenedRef.current = lastOpenedId
+
+  // Antes de que el navegador pinte: así no se ve el salto al inicio y de vuelta.
+  useLayoutEffect(() => {
+    const rows = () => document.querySelectorAll<HTMLElement>('main [data-nav-group]')
+
+    const restore = () => {
+      if (!savedView) return
+      window.scrollTo({ top: savedView.y, behavior: 'auto' })
+      rows().forEach((row) => {
+        const left = savedView!.rows[row.dataset.navGroup ?? '']
+        if (left != null) row.scrollLeft = left
+      })
+    }
+
+    if (savedView) {
+      restore()
+      // Las portadas son lazy: si alguna llega tarde, la altura cambia y la posición se
+      // va. Un segundo intento tras el primer fotograma la deja en su sitio.
+      requestAnimationFrame(restore)
+      // El foco se devuelve a la tarjeta de la que se salió, sin mover el scroll que
+      // acabamos de restaurar (focusEl lo recentraría).
+      const openedId = lastOpenedRef.current
+      const card = openedId
+        ? document.querySelector<HTMLElement>(`main [data-movie-id="${CSS.escape(openedId)}"]`)
+        : null
+      if (card) card.focus({ preventScroll: true })
+      else focusFirst()
+    } else {
+      focusFirst()
+    }
+
+    return () => {
+      const map: Record<string, number> = {}
+      rows().forEach((row) => {
+        const key = row.dataset.navGroup
+        if (key) map[key] = row.scrollLeft
+      })
+      savedView = { y: window.scrollY, rows: map }
+    }
+  }, [])
+
   useEffect(() => {
-    focusFirst()
     refreshLiveCatalog()
     const rerender = () => {
       setTick((t) => t + 1)
@@ -78,6 +129,7 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
       <button
         key={m.id}
         data-nav
+        data-movie-id={m.id}
         className="kp-card group relative aspect-[2/3] w-32 shrink-0 overflow-hidden rounded-xl bg-obsidian-800 sm:w-40 md:w-48"
         onFocus={() => setHero(m)}
         onMouseEnter={() => setHero(m)}
