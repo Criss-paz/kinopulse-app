@@ -13,11 +13,13 @@ const focusTopBar = () => {
   const first = document.querySelector<HTMLElement>('header [data-nav]')
   if (first) focusEl(first)
 }
+import { clearMovieProgress, getMovieProgress } from './lib/progress'
 import { Movie } from './types'
 
 export default function App() {
   const [view, setView] = useState<'home' | 'details' | 'player'>('home')
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
+  const [startAt, setStartAt] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [updateRequired, setUpdateRequired] = useState(false)
@@ -47,6 +49,7 @@ export default function App() {
     lastBack.current = now
     const inTopBar = !!document.activeElement?.closest('header')
     if (exitOpen) setExitOpen(false)
+    else if (view === 'player') setView('details')
     else if (view !== 'home') setView('home')
     else if (searchQuery) setSearchQuery('')
     else if (!inTopBar) focusTopBar()
@@ -68,13 +71,17 @@ export default function App() {
     setView('details')
   }
 
-  const playMovie = (m: Movie) => {
+  // Reproduce desde donde se quedó (si hay progreso guardado) o, con fromStart, desde el principio.
+  const playMovie = (m: Movie, fromStart = false) => {
+    if (fromStart) clearMovieProgress(m.id)
+    setStartAt(fromStart ? 0 : getMovieProgress(m.id)?.time ?? 0)
     setSelectedMovie(m)
     setView('player')
   }
 
+  // Al salir del reproductor se vuelve a la ficha (Continuar / Desde el principio), no al inicio.
   const closePlayer = () => {
-    setView('home')
+    setView('details')
   }
 
   return (
@@ -105,13 +112,14 @@ export default function App() {
         <Details
           movie={selectedMovie}
           onBack={() => setView('home')}
-          onPlay={() => setView('player')}
+          onPlay={(fromStart) => playMovie(selectedMovie, fromStart)}
         />
       )}
 
       {view === 'player' && selectedMovie && (
         <Player
           movie={selectedMovie}
+          startAt={startAt}
           onExit={closePlayer}
         />
       )}

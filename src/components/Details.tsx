@@ -1,13 +1,22 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { Movie } from '../types'
 import { formatDuration } from '../lib/catalog'
 import { getMovieProgress, formatTimeMMSS } from '../lib/progress'
 import { focusFirst } from '../lib/spatial'
 
-export default function Details({ movie, onPlay, onBack }: { movie: Movie; onPlay: () => void; onBack: () => void }) {
+export default function Details({ movie, onPlay, onBack }: { movie: Movie; onPlay: (fromStart?: boolean) => void; onBack: () => void }) {
+  const [, setTick] = useState(0)
+
   useEffect(() => {
     focusFirst()
   }, [movie])
+
+  // Al volver del reproductor, el último progreso se guarda justo después de dibujar esta ficha.
+  useEffect(() => {
+    const refresh = () => setTick((t) => t + 1)
+    window.addEventListener('kp-progress-updated', refresh)
+    return () => window.removeEventListener('kp-progress-updated', refresh)
+  }, [])
 
   const saved = getMovieProgress(movie.id)
 
@@ -36,10 +45,15 @@ export default function Details({ movie, onPlay, onBack }: { movie: Movie; onPla
               </div>
             </div>
           )}
-          <div className="flex gap-3 pt-2">
-            <button data-nav data-nav-autofocus className="kp-btn kp-btn-primary" onClick={onPlay}>
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button data-nav data-nav-autofocus className="kp-btn kp-btn-primary" onClick={() => onPlay()}>
               ▶ {saved ? `Continuar (${formatTimeMMSS(saved.time)})` : 'Reproducir'}
             </button>
+            {saved && (
+              <button data-nav className="kp-btn" onClick={() => onPlay(true)}>
+                ⟲ Desde el principio
+              </button>
+            )}
             <button data-nav className="kp-btn" onClick={onBack}>
               ← Volver
             </button>

@@ -36,6 +36,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
   const hideTimer = useRef<number>()
   const lastSavedRef = useRef<number>(0)
   const appliedStartRef = useRef<boolean>(false)
+  const resumeRetried = useRef(false)
   const visibleRef = useRef(true)
   const [visible, setVisibleState] = useState(true)
   const [playing, setPlaying] = useState(false)
@@ -63,6 +64,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
 
   useEffect(() => {
     appliedStartRef.current = false
+    resumeRetried.current = false
     const video = videoRef.current!
     const src = streamUrl(movie.stream)
     let hls: Hls | undefined
@@ -122,6 +124,16 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
     if (v.duration > 0) saveMovieProgress(movie.id, v.currentTime, v.duration)
     setFlash(delta > 0 ? `+${delta}s` : `${delta}s`)
     window.setTimeout(() => setFlash(''), 600)
+  }, [movie.id])
+
+  const restart = useCallback(() => {
+    const v = videoRef.current!
+    v.currentTime = 0
+    setTime(0)
+    clearMovieProgress(movie.id)
+    v.play().catch(() => undefined)
+    setFlash('⏮ Desde el principio')
+    window.setTimeout(() => setFlash(''), 900)
   }, [movie.id])
 
   const commitScrub = useCallback(() => {
@@ -281,7 +293,15 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
             }
           }, 2500)
         }}
-        onCanPlay={() => setWaiting(false)}
+        onCanPlay={(e) => {
+          setWaiting(false)
+          // Algunas TVs ignoran el salto pedido en loadedmetadata y arrancan en 0: se repite una vez aquí.
+          const v = e.currentTarget
+          // Solo en el primer canplay: después, un canplay viene de un salto del usuario (p. ej. Reiniciar).
+          if (resumeRetried.current) return
+          resumeRetried.current = true
+          if (appliedStartRef.current && startAt > 0 && v.currentTime < startAt - 5) v.currentTime = startAt
+        }}
         onEnded={() => {
           clearMovieProgress(movie.id)
           onExit()
@@ -379,6 +399,9 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
           </div>
 
           <div className="flex flex-wrap items-center gap-3 md:gap-4">
+            <button data-nav className="kp-btn" onClick={restart} aria-label="Reiniciar desde el principio">
+              ⏮<span className="hidden sm:inline">Reiniciar</span>
+            </button>
             <button data-nav className="kp-btn" onClick={() => seek(-SEEK_STEP)} aria-label="Atrasar 10 segundos">
               ⟲ 10
             </button>
