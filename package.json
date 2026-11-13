@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "validate": "node -e \"console.log('Catalog OK')\"",
+    "validate": "node scripts/add-movie.mjs --validate",
     "add-movie": "node scripts/add-movie.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview",

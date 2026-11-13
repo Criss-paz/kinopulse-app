@@ -26,7 +26,8 @@ if (-not $env:HF_TOKEN) {
     }
 }
 if (-not $env:HF_TOKEN) {
-    Write-Host "Sin HF_TOKEN en el entorno ni en .env: se usara el que trae el script viejo." -ForegroundColor Yellow
+    Write-Host "Falta HF_TOKEN: ponlo en el entorno o en .env." -ForegroundColor Red
+    exit 1
 }
 
 $log = "upload-lote.log"

@@ -1,5 +1,4 @@
 import fs from 'fs';
-import fetch from 'node-fetch';
 
 async function validateCatalog() {
   console.log('🔍 Iniciando validación de enlaces del catálogo...');
@@ -9,7 +8,7 @@ async function validateCatalog() {
 
   for (const movie of movies) {
     try {
-      const response = await fetch(movie.stream, { method: 'HEAD', timeout: 5000 });
+      const response = await fetch(movie.stream, { method: 'HEAD', signal: AbortSignal.timeout(5000) });
       if (response.ok) {
         console.log(`✅ OK: ${movie.title}`);
       } else {

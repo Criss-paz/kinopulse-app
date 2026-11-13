@@ -45,12 +45,6 @@ def hf_token():
         m = re.search(r"^\s*HF_TOKEN\s*=\s*(\S+)", env.read_text(encoding="utf-8", errors="ignore"), re.M)
         if m:
             return m.group(1)
-    # Mientras el token siga dentro del script viejo, se acepta como último recurso.
-    prev = REPO / "scripts" / "upload-pending51.py"
-    if prev.exists():
-        m = re.search(r'"(hf_[A-Za-z0-9]+)"', prev.read_text(encoding="utf-8", errors="ignore"))
-        if m:
-            return m.group(1)
     sys.exit("Falta HF_TOKEN (ponlo en el entorno o en .env).")
 
 

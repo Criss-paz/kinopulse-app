@@ -29,3 +29,5 @@ scripts/.assets-huerfanos.txt
 src/data/.catalog.lock
 src/data/catalog.json.tmp
 arreglar-fps.log
+
+scripts/upload-batch21.py
