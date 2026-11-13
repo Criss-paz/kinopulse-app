@@ -23,3 +23,4 @@ tsconfig.tsbuildinfo
 scripts/upload-pending51.py
 scripts/upload-batch10.py
 scripts/__pycache__/
+upload-lote.log
