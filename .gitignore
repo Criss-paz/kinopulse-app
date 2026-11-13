@@ -31,3 +31,7 @@ src/data/catalog.json.tmp
 arreglar-fps.log
 
 scripts/upload-batch21.py
+
+# Cloudflare (estado local de wrangler y secretos de desarrollo)
+.wrangler
+.dev.vars

@@ -3,12 +3,14 @@ import Home from './components/Home'
 import Player from './components/Player'
 import Details from './components/Details'
 import Downloads from './components/Downloads'
+import Admin from './components/Admin'
 import UpdateModal from './components/UpdateModal'
 import DownloadButtons from './components/DownloadButtons'
 import TopBar, { ExitDialog, canExit } from './components/TopBar'
 import { App as NativeApp } from '@capacitor/app'
 import { isNativeApp, isUpdateRequired, UPDATE_CHECK_MS } from './lib/updater'
 import { focusEl, initSpatialNav } from './lib/spatial'
+import { startHeartbeat } from './lib/stats'
 
 const focusTopBar = () => {
   const first = document.querySelector<HTMLElement>('header [data-nav]')
@@ -17,8 +19,15 @@ const focusTopBar = () => {
 import { clearMovieProgress, getMovieProgress } from './lib/progress'
 import { Movie } from './types'
 
+// The admin panel has no visible button. It opens from #/admin, by holding the logo, or — on a TV
+// remote, where neither is possible — by typing this in the search box.
+const ADMIN_HASH = '#/admin'
+const ADMIN_SEARCH = '/admin'
+
 export default function App() {
-  const [view, setView] = useState<'home' | 'details' | 'player' | 'downloads'>('home')
+  const [view, setView] = useState<'home' | 'details' | 'player' | 'downloads' | 'admin'>(() =>
+    window.location.hash === ADMIN_HASH ? 'admin' : 'home',
+  )
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
   const [startAt, setStartAt] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
@@ -39,6 +48,25 @@ export default function App() {
     }
   }, [])
 
+  useEffect(() => startHeartbeat(), [])
+
+  useEffect(() => {
+    const onHash = () => window.location.hash === ADMIN_HASH && setView('admin')
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
+
+  useEffect(() => {
+    if (searchQuery.trim().toLowerCase() !== ADMIN_SEARCH) return
+    setSearchQuery('')
+    setView('admin')
+  }, [searchQuery])
+
+  const closeAdmin = () => {
+    if (window.location.hash === ADMIN_HASH) history.replaceState(null, '', window.location.pathname + window.location.search)
+    setView('home')
+  }
+
   // Atrás (control remoto, Esc o botón de Android): cierra lo que haya encima; en el inicio ofrece salir.
   // Desde una fila de películas, Atrás sube directo a la barra de arriba; ya en ella, ofrece salir.
   const goBack = useRef(() => {})
@@ -51,6 +79,7 @@ export default function App() {
     const inTopBar = !!document.activeElement?.closest('header')
     if (exitOpen) setExitOpen(false)
     else if (view === 'player') setView('details')
+    else if (view === 'admin') closeAdmin()
     else if (view !== 'home') setView('home')
     else if (searchQuery) setSearchQuery('')
     else if (!inTopBar) focusTopBar()
@@ -95,10 +124,12 @@ export default function App() {
 
       {view === 'downloads' && <Downloads onBack={() => setView('home')} />}
 
+      {view === 'admin' && <Admin onBack={closeAdmin} />}
+
       {exitOpen && <ExitDialog onCancel={() => setExitOpen(false)} />}
 
       {view === 'home' && (
-        <TopBar searchQuery={searchQuery} onSearch={setSearchQuery} onExit={() => setExitOpen(true)} />
+        <TopBar searchQuery={searchQuery} onSearch={setSearchQuery} onExit={() => setExitOpen(true)} onSecret={() => setView('admin')} />
       )}
 
       {view === 'home' && (

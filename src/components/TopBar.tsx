@@ -7,7 +7,10 @@ interface Props {
   searchQuery: string
   onSearch: (q: string) => void
   onExit: () => void
+  onSecret: () => void
 }
+
+const SECRET_HOLD_MS = 2000
 
 const isStandalone = () => window.matchMedia('(display-mode: standalone)').matches
 
@@ -19,7 +22,15 @@ export function exitApp() {
   else window.close()
 }
 
-export default function TopBar({ searchQuery, onSearch, onExit }: Props) {
+export default function TopBar({ searchQuery, onSearch, onExit, onSecret }: Props) {
+  // Holding the logo opens the hidden admin panel.
+  const holdTimer = useRef(0)
+  const startHold = () => {
+    holdTimer.current = window.setTimeout(onSecret, SECRET_HOLD_MS)
+  }
+  const endHold = () => window.clearTimeout(holdTimer.current)
+  useEffect(() => endHold, [])
+
   const [searchOpen, setSearchOpen] = useState(searchQuery !== '')
   const inputRef = useRef<HTMLInputElement>(null)
 
@@ -38,7 +49,14 @@ export default function TopBar({ searchQuery, onSearch, onExit }: Props) {
 
   return (
     <header className="sticky top-0 z-30 flex items-center gap-2 bg-obsidian-950/95 px-4 shadow-lg shadow-black/40 backdrop-blur py-3 md:px-12">
-      <span className="mr-auto text-xl font-black tracking-tight text-white md:text-2xl">
+      <span
+        className="mr-auto select-none text-xl font-black tracking-tight text-white md:text-2xl"
+        onPointerDown={startHold}
+        onPointerUp={endHold}
+        onPointerLeave={endHold}
+        onPointerCancel={endHold}
+        onContextMenu={(e) => e.preventDefault()}
+      >
         Kino<span className="text-pulse-cyan">Pulse</span>
       </span>
 

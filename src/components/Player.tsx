@@ -3,6 +3,7 @@ import Hls from 'hls.js'
 import type { Movie } from '../types'
 import { streamUrl } from '../lib/config'
 import { saveMovieProgress, clearMovieProgress } from '../lib/progress'
+import { PLAY_AFTER_MS, setWatching, trackPlay } from '../lib/stats'
 import { dirOf, focusEl } from '../lib/spatial'
 
 const HIDE_AFTER = 3000
@@ -91,6 +92,15 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
       video.load()
     }
   }, [movie])
+
+  useEffect(() => {
+    setWatching(movie.id)
+    const played = window.setTimeout(() => trackPlay(movie.id), PLAY_AFTER_MS)
+    return () => {
+      window.clearTimeout(played)
+      setWatching(null)
+    }
+  }, [movie.id])
 
   useEffect(() => {
     const tracks = videoRef.current?.textTracks

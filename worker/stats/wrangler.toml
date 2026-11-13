@@ -1,0 +1,14 @@
+name = "kinopulse-stats"
+main = "stats-worker.js"
+compatibility_date = "2025-01-01"
+
+# No database_id: wrangler creates the D1 database on the first deploy and remembers it.
+[[d1_databases]]
+binding = "DB"
+database_name = "kinopulse-stats"
+
+[vars]
+# Comma-separated list of app origins allowed to report and read stats ("*" = any).
+ALLOWED_ORIGINS = "https://kinopulse.vercel.app,https://criss-paz.github.io,http://localhost:5173"
+
+# The admin password is a secret, never a var:  npx wrangler secret put ADMIN_PASSWORD
