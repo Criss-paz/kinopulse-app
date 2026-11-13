@@ -12,6 +12,9 @@ no cambia nada salvo que deja de dar tirones.
 Es reanudable: al arrancar vuelve a mirar qué sigue a 30 fps, así que si se corta se
 relanza y sigue. El audio no se recomprime nunca (-c:a copy).
 """
+import sys
+sys.path.insert(0, str(__import__('pathlib').Path(__file__).resolve().parent))
+from kp_mirror import espejar
 import json
 import os
 import re
@@ -177,6 +180,7 @@ def main():
             print(f"   Subiendo {remote} ({despues / 60:.0f} min, 24 fps)...", flush=True)
             api.upload_file(path_or_fileobj=str(tmp), path_in_repo=remote,
                             repo_id=repo_id, repo_type="dataset")
+            espejar(remote)
         except Exception as e:
             print(f"   ERROR en '{title}': {e}", flush=True)
             continue
