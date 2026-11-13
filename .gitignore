@@ -24,3 +24,7 @@ scripts/upload-pending51.py
 scripts/upload-batch10.py
 scripts/__pycache__/
 upload-lote.log
+scripts/.fps-cache.json
+scripts/.assets-huerfanos.txt
+src/data/.catalog.lock
+src/data/catalog.json.tmp
