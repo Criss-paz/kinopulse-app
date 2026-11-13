@@ -47,7 +47,7 @@ function validate(catalog) {
     if (m.draft) continue
     for (const k of REQUIRED) if (m[k] === undefined || m[k] === '' || m[k] === 0) errors.push(`${where}: falta "${k}"`)
     if (!cats.has(m.category)) errors.push(`${where}: categoría desconocida "${m.category}"`)
-    for (const k of ['poster', 'backdrop', 'stream', 'source']) if (m[k] && !isHttps(m[k])) errors.push(`${where}: ${k} debe ser una URL https`)
+    for (const k of ['poster', 'backdrop', 'stream']) if (m[k] && !isHttps(m[k])) errors.push(`${where}: ${k} debe ser una URL https`)
     if (!['hls', 'mp4'].includes(m.type)) errors.push(`${where}: type debe ser "hls" o "mp4"`)
     if (m.type === 'hls' && !/\.m3u8(\?|$)/.test(m.stream)) errors.push(`${where}: type hls requiere un .m3u8`)
     if (m.year < 1880 || m.year > new Date().getFullYear() + 1) errors.push(`${where}: año inválido`)

@@ -60,6 +60,34 @@ function Table({ title, rows, empty }: { title: string; rows: [string, number | 
   )
 }
 
+// One series (devices per day), so one colour and no legend: the title names it. Every bar carries
+// its value, and the day shows under the first, the last and every few in between.
+function DaysChart({ days }: { days: Stats['days'] }) {
+  const rows = [...days].reverse()
+  const max = Math.max(1, ...rows.map((d) => d.devices))
+  const every = Math.ceil(rows.length / 7)
+  return (
+    <section className="kp-panel md:col-span-2">
+      <h2 className="kp-panel-title">Dispositivos activos por día (14 días)</h2>
+      {rows.length === 0 ? (
+        <p className="text-white/50">Aún no hay datos.</p>
+      ) : (
+        <div className="flex h-48 items-stretch gap-0.5" role="img" aria-label={rows.map((d) => `${d.day}: ${d.devices}`).join(', ')}>
+          {rows.map((d, i) => (
+            <div key={d.day} className="group flex min-w-0 flex-1 flex-col items-center" title={`${d.day}: ${d.devices} dispositivos`}>
+              <div className="flex w-full flex-1 flex-col items-center justify-end">
+                <span className="mb-1 text-xs tabular-nums text-white/70 group-hover:text-white">{d.devices}</span>
+                <div className="w-full max-w-10 rounded-t bg-pulse-cyan/80 group-hover:bg-pulse-cyan" style={{ height: `${(d.devices / max) * 80}%`, minHeight: 2 }} />
+              </div>
+              <span className="mt-1 h-4 whitespace-nowrap text-xs text-white/50">{i % every === 0 || i === rows.length - 1 ? d.day.slice(5) : ''}</span>
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
+  )
+}
+
 export default function Admin({ onBack }: { onBack: () => void }) {
   const [password, setPassword] = useState(savedPass)
   const [draft, setDraft] = useState('')
@@ -198,6 +226,7 @@ export default function Admin({ onBack }: { onBack: () => void }) {
             </div>
 
             <div className="mt-6 grid gap-6 md:grid-cols-2">
+              <DaysChart days={stats.days} />
               <Table title="Viendo ahora" empty="Nadie está viendo nada en este momento." rows={stats.watchingNow.map((w) => [titleOf(w.movie), w.devices])} />
               <Table
                 title="Por tipo de dispositivo (30 días)"
@@ -206,7 +235,6 @@ export default function Admin({ onBack }: { onBack: () => void }) {
               />
               <Table title="Más vistas (7 días)" empty="Aún no hay reproducciones." rows={stats.topWeek.map((t) => [titleOf(t.movie), t.plays])} />
               <Table title="Más vistas (siempre)" empty="Aún no hay reproducciones." rows={stats.topAll.map((t) => [titleOf(t.movie), t.plays])} />
-              <Table title="Dispositivos activos por día" empty="Aún no hay datos." rows={stats.days.map((d) => [d.day, d.devices])} />
               <Table title="Versión de la app instalada (30 días)" empty="Aún no hay apps instaladas reportando." rows={stats.versions.map((v) => [v.version, v.devices])} />
             </div>
             <p className="mt-6 text-sm text-white/40">

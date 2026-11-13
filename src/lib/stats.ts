@@ -60,7 +60,8 @@ function deviceId(): string {
 let sessionId: string | undefined
 
 function platform(): Platform {
-  if (isNative()) return /\bTV\b|AFT|BRAVIA|SHIELD|Chromecast/i.test(navigator.userAgent) ? 'tv' : 'android'
+  // Many TV WebViews don't say "TV" in the user agent, but no TV has a touch screen and every phone does.
+  if (isNative()) return /\bTV\b|AFT|BRAVIA|SHIELD|Chromecast/i.test(navigator.userAgent) || navigator.maxTouchPoints === 0 ? 'tv' : 'android'
   return window.matchMedia('(display-mode: standalone)').matches ? 'pwa' : 'web'
 }
 

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 import type { Movie } from '../types'
-import { streamUrl } from '../lib/config'
+import { mirrorUrl, streamUrl } from '../lib/config'
 import { saveMovieProgress, clearMovieProgress } from '../lib/progress'
 import { PLAY_AFTER_MS, setWatching, trackPlay } from '../lib/stats'
 import { dirOf, focusEl } from '../lib/spatial'
@@ -38,6 +38,8 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
   const lastSavedRef = useRef<number>(0)
   const appliedStartRef = useRef<boolean>(false)
   const resumeRetried = useRef(false)
+  const mirrorTried = useRef(false)
+  const mirrorResumeAt = useRef(0)
   const visibleRef = useRef(true)
   const [visible, setVisibleState] = useState(true)
   const [playing, setPlaying] = useState(false)
@@ -66,6 +68,8 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
   useEffect(() => {
     appliedStartRef.current = false
     resumeRetried.current = false
+    mirrorTried.current = false
+    mirrorResumeAt.current = 0
     const video = videoRef.current!
     const src = streamUrl(movie.stream)
     let hls: Hls | undefined
@@ -263,7 +267,12 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         onLoadedMetadata={(e) => {
           const v = e.currentTarget
           setDuration(v.duration)
-          if (!appliedStartRef.current && startAt > 0 && startAt < v.duration - 5) {
+          if (mirrorResumeAt.current > 0) {
+            // Recién cambiado al espejo: sigue donde iba la película.
+            v.currentTime = Math.min(mirrorResumeAt.current, v.duration - 5)
+            mirrorResumeAt.current = 0
+            appliedStartRef.current = true
+          } else if (!appliedStartRef.current && startAt > 0 && startAt < v.duration - 5) {
             v.currentTime = startAt
             setTime(startAt)
             appliedStartRef.current = true
@@ -325,9 +334,20 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
           clearMovieProgress(movie.id)
           onExit()
         }}
-        onError={(e) =>
-          setError(e.currentTarget.error?.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED ? UNSUPPORTED : 'No se pudo cargar el video. Revisa tu conexión.')
-        }
+        onError={(e) => {
+          const v = e.currentTarget
+          // Antes de rendirse, una vez: la misma película desde el servidor espejo.
+          const mirror = movie.type === 'mp4' && !mirrorTried.current ? mirrorUrl(movie.stream) : null
+          if (mirror) {
+            mirrorTried.current = true
+            mirrorResumeAt.current = v.currentTime > 0 ? v.currentTime : appliedStartRef.current ? 0 : startAt
+            resumeRetried.current = true
+            v.src = streamUrl(mirror)
+            v.play().catch(() => setPlaying(false))
+            return
+          }
+          setError(v.error?.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED ? UNSUPPORTED : 'No se pudo cargar el video. Revisa tu conexión.')
+        }}
       >
         {subs.map((s) => (
           <track key={s.lang} kind="subtitles" srcLang={s.lang} label={s.label} src={s.src} />
