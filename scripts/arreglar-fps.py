@@ -36,7 +36,8 @@ DATASET_NAME = "kp-media-vault"
 # Las dos formas de lo mismo: 30 exactos y 29.97. La segunda es igual de común en las
 # copias de internet y da el mismo tirón, y el script anterior solo miraba la primera.
 MALOS = ("30/1", "30000/1001")
-BUENO = "24000/1001"
+# Quitar uno de cada cinco deja 24 exactos si venía de 30 y 23.976 si venía de 29.97.
+BUENOS = ("24/1", "24000/1001")
 
 
 def hf_token():
@@ -164,7 +165,10 @@ def main():
                 "-reconnect", "1", "-reconnect_streamed", "1", "-reconnect_delay_max", "30",
                 "-i", url,
                 "-map", "0:v:0", "-map", "0:a:0",
-                "-vf", f"fps={BUENO}",
+                # decimate busca en cada grupo de 5 fotogramas cuál es el repetido y quita ese.
+                # fps= quitaba uno de cada cinco a ciegas: si no coincidía con el repetido, se
+                # quedaba el repetido y se perdía uno bueno, y la película seguía a tirones.
+                "-vf", "decimate=cycle=5",
                 "-c:v", "libx264", "-preset", "faster", "-crf", "21",
                 "-maxrate", "9000k", "-bufsize", "18000k",
                 "-pix_fmt", "yuv420p", "-profile:v", "high", "-level", "4.1",
@@ -174,7 +178,7 @@ def main():
 
             despues = duration(tmp)
             rate = frame_rate(tmp)
-            if abs(despues - antes) > 5 or rate != BUENO:
+            if abs(despues - antes) > 5 or rate not in BUENOS:
                 raise RuntimeError(f"verificación fallida: {antes:.0f}s -> {despues:.0f}s, {rate}")
 
             print(f"   Subiendo {remote} ({despues / 60:.0f} min, 24 fps)...", flush=True)
@@ -195,7 +199,7 @@ def main():
             entry["stream"] = destino
 
         save_catalog(repuntar)
-        cache[remote] = BUENO
+        cache[remote] = rate
         CACHE.write_text(json.dumps(cache, indent=0), encoding="utf-8")
 
         # El asset viejo se queda en el servidor sin que nadie lo use: se anota para
