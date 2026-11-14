@@ -76,6 +76,23 @@ def duration(src):
         return 0.0
 
 
+def repetidos(src, dur):
+    """Porcentaje de fotogramas repetidos en seis tramos de la película (None = escena quieta)."""
+    res = []
+    for frac in (0.15, 0.3, 0.45, 0.6, 0.75, 0.9):
+        out = subprocess.run([
+            "ffmpeg", "-v", "error", "-ss", str(int(dur * frac)), "-t", "6", "-i", src, "-an",
+            "-vf", "scale=480:-2,tblend=all_mode=difference,signalstats,"
+                   "metadata=print:key=lavfi.signalstats.YAVG:file=-",
+            "-f", "null", "-",
+        ], capture_output=True, text=True).stdout
+        v = [float(x) for x in re.findall(r"YAVG=([\d.]+)", out)]
+        med = sorted(v)[len(v) // 2] if v else 0
+        # Con la imagen casi quieta todos los fotogramas se parecen y la medida no dice nada.
+        res.append(None if len(v) < 50 or med < 0.25 else 100 * sum(x < max(0.08, med * 0.12) for x in v) / len(v))
+    return res
+
+
 def save_catalog(mutate):
     """Modifica el catálogo bajo un candado y lo escribe de una pieza.
 
@@ -111,6 +128,8 @@ def save_catalog(mutate):
 
 def main():
     listar = "--listar" in sys.argv
+    # --rehacer kp_021=URL: vuelve a hacer una ya arreglada partiendo de otra copia (la de 30 fps).
+    rehacer = dict(a.split("=", 1) for i, a in enumerate(sys.argv) if i and sys.argv[i - 1] == "--rehacer")
     api = HfApi(token=hf_token())
     repo_id = f"{api.whoami()['name']}/{DATASET_NAME}"
 
@@ -138,7 +157,9 @@ def main():
             if rate:
                 cache[asset] = rate
                 CACHE.write_text(json.dumps(cache, indent=0), encoding="utf-8")
-        if rate in MALOS:
+        if m["id"] in rehacer:
+            todo.append((m, "rehacer"))
+        elif rate in MALOS and not rehacer:
             todo.append((m, rate))
 
     print(f"\n{len(todo)} películas a 30 fps para devolver a 24 fps:", flush=True)
@@ -151,19 +172,30 @@ def main():
     for i, (m, _) in enumerate(todo, 1):
         title, url = m["title"], m["stream"]
         print(f"\n[{i}/{len(todo)}] {title}", flush=True)
-        remote = f"kp_asset_{hashlib.sha256(f'{title.lower()}_24fps'.encode()).hexdigest()[:10]}.mp4"
+        fuente = rehacer.get(m["id"], url)
+        sufijo = "_24fps_b" if m["id"] in rehacer else "_24fps"
+        remote = f"kp_asset_{hashlib.sha256(f'{title.lower()}{sufijo}'.encode()).hexdigest()[:10]}.mp4"
         tmp = REPO / f"temp_{remote}"
         try:
-            antes = duration(url)
+            antes = duration(fuente)
             if antes <= 0:
                 raise RuntimeError("no se pudo leer la duración del original")
+            # Hay copias a 30 fps sin repetidos (hechas mezclando fotogramas): ahí no hay nada
+            # que quitar, y quitar uno de cada cinco tiraría fotogramas buenos. Se dejan como están.
+            rep = [r for r in repetidos(fuente, antes) if r is not None]
+            if rep and max(rep) < 10:
+                print(f"   SIN ARREGLO ({m['id']}): no tiene fotogramas repetidos "
+                      f"({', '.join(f'{r:.0f}%' for r in rep)}). Hace falta otra copia.", flush=True)
+                cache[url.rsplit("/", 1)[-1]] = "30-sin-repetidos"
+                CACHE.write_text(json.dumps(cache, indent=0), encoding="utf-8")
+                continue
             # Mismos ajustes que las subidas nuevas: sin el tope de 3500k, que dejaba las
             # escenas con mucho movimiento sin bits, y keyframes cada 2 s para que la barra
             # responda al saltar. El audio se copia tal cual.
             subprocess.run([
                 "ffmpeg", "-y", "-loglevel", "error", "-stats",
                 "-reconnect", "1", "-reconnect_streamed", "1", "-reconnect_delay_max", "30",
-                "-i", url,
+                "-i", fuente,
                 "-map", "0:v:0", "-map", "0:a:0",
                 # decimate busca en cada grupo de 5 fotogramas cuál es el repetido y quita ese.
                 # fps= quitaba uno de cada cinco a ciegas: si no coincidía con el repetido, se
