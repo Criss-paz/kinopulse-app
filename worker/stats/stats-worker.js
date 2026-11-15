@@ -2,6 +2,10 @@
 //
 //   POST /ping   {id, platform, version, watching}   anonymous heartbeat, one per minute while the app is open
 //   POST /play   {id, movie}                         a movie was actually watched (not just opened)
+//   POST /report {id, movie, kind, platform}         a movie failed to play, or the viewer reported a problem with it
+//   GET  /top                                        ids of the most watched movies of the last 30 days (public, no counts)
+//   POST /sync   {id, code?, data}                   save a device's progress and list; without code, makes a new one
+//   GET  /sync?code=XXXXXXXX                         what was saved under that code
 //   GET  /stats  Authorization: Bearer <password>    everything the admin panel shows
 //
 // The device id is a random UUID the app makes up on first launch: it identifies an install, not a
@@ -16,6 +20,12 @@ const DAY_S = 86400
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const MOVIE = /^kp_\d{1,6}$/
 const PLATFORMS = ['tv', 'android', 'pwa', 'web']
+// err_* are sent by the player on its own when a movie fails; the rest are picked by the viewer.
+const REPORT_KINDS = ['err_network', 'err_decode', 'err_format', 'no_carga', 'tirones', 'audio', 'subtitulos', 'otro']
+// Sync codes: 8 characters, without the ones that get confused when read aloud or typed (0/O, 1/I).
+const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
+const CODE = /^[A-HJ-NP-Z2-9]{8}$/
+const MAX_SYNC_CHARS = 200000
 
 const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS devices (
@@ -25,6 +35,10 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS daily (day TEXT NOT NULL, id TEXT NOT NULL, PRIMARY KEY (day, id)) WITHOUT ROWID`,
   `CREATE TABLE IF NOT EXISTS plays (movie TEXT NOT NULL, day TEXT NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (movie, day)) WITHOUT ROWID`,
   `CREATE TABLE IF NOT EXISTS auth_fails (ip TEXT NOT NULL, ts INTEGER NOT NULL)`,
+  // One row per device, movie, kind and day: the same device repeating a report does not inflate the count.
+  `CREATE TABLE IF NOT EXISTS reports (day TEXT NOT NULL, id TEXT NOT NULL, movie TEXT NOT NULL, kind TEXT NOT NULL, platform TEXT NOT NULL,
+     PRIMARY KEY (day, id, movie, kind)) WITHOUT ROWID`,
+  `CREATE TABLE IF NOT EXISTS sync (code TEXT PRIMARY KEY, owner TEXT NOT NULL, data TEXT NOT NULL, updated INTEGER NOT NULL)`,
 ]
 
 // Tables are created on the first request of each isolate, so deploying needs no migration step.
@@ -57,10 +71,10 @@ async function sameSecret(a, b) {
   return diff === 0
 }
 
-async function readBody(request) {
+async function readBody(request, maxChars = 500) {
   // The app sends JSON as text/plain so the browser skips the CORS preflight on every heartbeat.
   const text = await request.text()
-  if (text.length > 500) return null
+  if (text.length > maxChars) return null
   try {
     const body = JSON.parse(text)
     return body && typeof body === 'object' ? body : null
@@ -97,12 +111,58 @@ async function play(db, body) {
   return true
 }
 
+async function report(db, body) {
+  const { id, movie, kind, platform } = body
+  if (!UUID.test(id) || !MOVIE.test(movie) || !REPORT_KINDS.includes(kind) || !PLATFORMS.includes(platform)) return false
+  await db.prepare(`INSERT OR IGNORE INTO reports (day, id, movie, kind, platform) VALUES (?1, ?2, ?3, ?4, ?5)`).bind(dayOf(now()), id, movie, kind, platform).run()
+  return true
+}
+
+async function top(db) {
+  const { results } = await db
+    .prepare(`SELECT movie FROM plays WHERE day >= ?1 GROUP BY movie ORDER BY SUM(n) DESC LIMIT 20`)
+    .bind(dayOf(now() - 29 * DAY_S))
+    .all()
+  return results.map((r) => r.movie)
+}
+
+function newCode() {
+  const bytes = crypto.getRandomValues(new Uint8Array(8))
+  return Array.from(bytes, (b) => CODE_CHARS[b % CODE_CHARS.length]).join('')
+}
+
+// Returns the code the data was saved under, or null if the request is invalid or the code unknown.
+async function syncSave(db, body) {
+  const { id, code, data } = body
+  if (!UUID.test(id) || !data || typeof data !== 'object') return null
+  const text = JSON.stringify(data)
+  const ts = now()
+  if (code !== undefined) {
+    if (!CODE.test(code)) return null
+    const done = await db.prepare(`UPDATE sync SET data = ?2, updated = ?3 WHERE code = ?1`).bind(code, text, ts).run()
+    return done.meta.changes ? code : null
+  }
+  const fresh = newCode()
+  await db.batch([
+    // A device owns one code at a time, and codes nobody has used in a year are dropped.
+    db.prepare(`DELETE FROM sync WHERE owner = ?1 OR updated < ?2`).bind(id, ts - 365 * DAY_S),
+    db.prepare(`INSERT INTO sync (code, owner, data, updated) VALUES (?1, ?2, ?3, ?4)`).bind(fresh, id, text, ts),
+  ])
+  return fresh
+}
+
+async function syncLoad(db, code) {
+  if (!CODE.test(code || '')) return null
+  const row = await db.prepare(`SELECT data, updated FROM sync WHERE code = ?1`).bind(code).first()
+  return row ? { data: JSON.parse(row.data), updated: row.updated } : null
+}
+
 async function stats(db) {
   const ts = now()
   const today = dayOf(ts)
   const since = (days) => dayOf(ts - (days - 1) * DAY_S)
   const online = ts - ONLINE_WINDOW_S
-  const [totals, platforms, versions, watching, days, topWeek, topAll] = await db.batch([
+  const [totals, platforms, versions, watching, days, topWeek, topAll, problems] = await db.batch([
     db
       .prepare(
         `SELECT
@@ -130,6 +190,7 @@ async function stats(db) {
     db.prepare(`SELECT day, COUNT(*) AS devices FROM daily WHERE day >= ?1 GROUP BY day ORDER BY day DESC`).bind(since(14)),
     db.prepare(`SELECT movie, SUM(n) AS plays FROM plays WHERE day >= ?1 GROUP BY movie ORDER BY plays DESC LIMIT 10`).bind(since(7)),
     db.prepare(`SELECT movie, SUM(n) AS plays FROM plays GROUP BY movie ORDER BY plays DESC LIMIT 10`),
+    db.prepare(`SELECT movie, kind, platform, COUNT(*) AS n FROM reports WHERE day >= ?1 GROUP BY movie, kind, platform ORDER BY n DESC, movie LIMIT 40`).bind(since(30)),
   ])
   return {
     at: ts,
@@ -140,6 +201,7 @@ async function stats(db) {
     days: days.results,
     topWeek: topWeek.results,
     topAll: topAll.results,
+    problems: problems.results,
   }
 }
 
@@ -163,20 +225,32 @@ export default {
     const origin = request.headers.get('Origin') || ''
     const headers = cors(origin, env)
     if (origin && !headers) return new Response('Origin not allowed', { status: 403 })
-    const reply = (status, body) =>
+    const reply = (status, body, cache = 'no-store') =>
       new Response(body === undefined ? null : JSON.stringify(body), {
         status,
-        headers: { ...headers, 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
+        headers: { ...headers, 'Content-Type': 'application/json', 'Cache-Control': cache, 'X-Content-Type-Options': 'nosniff' },
       })
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers })
 
-    const { pathname } = new URL(request.url)
+    const { pathname, searchParams } = new URL(request.url)
     try {
       await ensureSchema(env.DB)
-      if (request.method === 'POST' && (pathname === '/ping' || pathname === '/play')) {
+      const write = request.method === 'POST' && new Map([['/ping', ping], ['/play', play], ['/report', report]]).get(pathname)
+      if (write) {
         const body = await readBody(request)
-        const ok = body && (await (pathname === '/ping' ? ping : play)(env.DB, body))
+        const ok = body && (await write(env.DB, body))
         return reply(ok ? 204 : 400)
+      }
+      if (request.method === 'GET' && pathname === '/top') return reply(200, await top(env.DB), 'public, max-age=600')
+      if (pathname === '/sync' && request.method === 'POST') {
+        const body = await readBody(request, MAX_SYNC_CHARS)
+        if (!body) return reply(400)
+        const code = await syncSave(env.DB, body)
+        return code ? reply(200, { code }) : reply(404, { error: 404 })
+      }
+      if (pathname === '/sync' && request.method === 'GET') {
+        const saved = await syncLoad(env.DB, searchParams.get('code'))
+        return saved ? reply(200, saved) : reply(404, { error: 404 })
       }
       if (request.method === 'GET' && pathname === '/stats') {
         const status = await authorize(request, env, env.DB)

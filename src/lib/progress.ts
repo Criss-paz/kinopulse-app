@@ -1,10 +1,15 @@
-﻿export interface WatchProgress {
+﻿import { setSeen } from './library'
+
+// An entry with time 0 means "no progress, on purpose" (finished or restarted). It is kept instead
+// of deleted so a synced device doesn't bring the old position back.
+export interface WatchProgress {
   time: number
   duration: number
   updatedAt: number
 }
 
 const STORAGE_KEY = 'kp_watch_progress_v1'
+const FINISHED = 0.95
 
 export function getAllProgress(): Record<string, WatchProgress> {
   try {
@@ -12,6 +17,15 @@ export function getAllProgress(): Record<string, WatchProgress> {
     return raw ? JSON.parse(raw) : {}
   } catch {
     return {}
+  }
+}
+
+export function replaceAllProgress(all: Record<string, WatchProgress>): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(all))
+    window.dispatchEvent(new Event('kp-progress-updated'))
+  } catch {
+    // ignore storage errors
   }
 }
 
@@ -27,8 +41,9 @@ export function saveMovieProgress(movieId: string, time: number, duration: numbe
   if (!isFinite(time) || !isFinite(duration) || duration <= 0) return
   try {
     const all = getAllProgress()
-    if (time / duration >= 0.95) {
-      delete all[movieId]
+    if (time / duration >= FINISHED) {
+      all[movieId] = { time: 0, duration: Math.floor(duration), updatedAt: Date.now() }
+      setSeen(movieId, true)
     } else if (time >= 10) {
       all[movieId] = { time: Math.floor(time), duration: Math.floor(duration), updatedAt: Date.now() }
     }
@@ -42,7 +57,8 @@ export function saveMovieProgress(movieId: string, time: number, duration: numbe
 export function clearMovieProgress(movieId: string): void {
   try {
     const all = getAllProgress()
-    delete all[movieId]
+    if (!all[movieId]) return
+    all[movieId] = { ...all[movieId], time: 0, updatedAt: Date.now() }
     localStorage.setItem(STORAGE_KEY, JSON.stringify(all))
     window.dispatchEvent(new Event('kp-progress-updated'))
   } catch {

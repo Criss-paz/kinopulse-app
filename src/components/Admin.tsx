@@ -10,6 +10,17 @@ const DOWNLOADS_REFRESH_MS = 10 * 60 * 1000
 
 const PLATFORM_LABEL: Record<string, string> = { tv: 'Android TV', android: 'Android (teléfono)', pwa: 'App de escritorio (PWA)', web: 'Navegador' }
 
+const PROBLEM_LABEL: Record<string, string> = {
+  err_network: 'Falló al cargar (el servidor sí respondía)',
+  err_decode: 'El dispositivo no pudo decodificarla',
+  err_format: 'Formato no soportado por el dispositivo',
+  no_carga: 'Reporte: no carga',
+  tirones: 'Reporte: a tirones',
+  audio: 'Reporte: audio',
+  subtitulos: 'Reporte: idioma o subtítulos',
+  otro: 'Reporte: otra cosa',
+}
+
 const titleOf = (id: string) => movies.find((m) => m.id === id)?.title ?? id
 
 // The password is kept for this session only, and it is the worker that checks it: nothing here
@@ -235,6 +246,35 @@ export default function Admin({ onBack }: { onBack: () => void }) {
               />
               <Table title="Más vistas (7 días)" empty="Aún no hay reproducciones." rows={stats.topWeek.map((t) => [titleOf(t.movie), t.plays])} />
               <Table title="Más vistas (siempre)" empty="Aún no hay reproducciones." rows={stats.topAll.map((t) => [titleOf(t.movie), t.plays])} />
+              <section className="kp-panel md:col-span-2">
+                <h2 className="kp-panel-title">Películas con problemas (30 días)</h2>
+                {!stats.problems ? (
+                  <p className="text-white/50">El servidor de estadísticas es una versión anterior: vuelve a desplegarlo para ver esta lista.</p>
+                ) : stats.problems.length === 0 ? (
+                  <p className="text-white/50">Ninguna película ha fallado ni ha sido reportada.</p>
+                ) : (
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="text-sm text-white/50">
+                        <th className="pb-2 pr-4 font-medium">Película</th>
+                        <th className="pb-2 pr-4 font-medium">Problema</th>
+                        <th className="pb-2 pr-4 font-medium">Dispositivo</th>
+                        <th className="pb-2 text-right font-medium">Dispositivos</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {stats.problems.map((p) => (
+                        <tr key={`${p.movie}|${p.kind}|${p.platform}`} className="border-t border-white/5">
+                          <td className="py-2 pr-4 text-white/80">{titleOf(p.movie)}</td>
+                          <td className="py-2 pr-4 text-white/80">{PROBLEM_LABEL[p.kind] ?? p.kind}</td>
+                          <td className="py-2 pr-4 text-white/60">{PLATFORM_LABEL[p.platform] ?? p.platform}</td>
+                          <td className="py-2 text-right font-semibold tabular-nums text-white">{p.n}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+              </section>
               <Table title="Versión de la app instalada (30 días)" empty="Aún no hay apps instaladas reportando." rows={stats.versions.map((v) => [v.version, v.devices])} />
             </div>
             <p className="mt-6 text-sm text-white/40">

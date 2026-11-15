@@ -28,11 +28,16 @@ export interface Stats {
   days: { day: string; devices: number }[]
   topWeek: { movie: string; plays: number }[]
   topAll: { movie: string; plays: number }[]
+  /** Missing until the worker is redeployed with the reports table. */
+  problems?: { movie: string; kind: ReportKind; platform: Platform; n: number }[]
 }
+
+// err_* are sent by the player on its own when a movie fails; the rest are picked by the viewer.
+export type ReportKind = 'err_network' | 'err_decode' | 'err_format' | 'no_carga' | 'tirones' | 'audio' | 'subtitulos' | 'otro'
 
 export const statsEnabled = () => STATS_URL !== ''
 
-const endpoint = (path: string) => `${STATS_URL.replace(/\/$/, '')}${path}`
+export const endpoint = (path: string) => `${STATS_URL.replace(/\/$/, '')}${path}`
 
 function uuid(): string {
   if (crypto.randomUUID) return crypto.randomUUID()
@@ -44,7 +49,7 @@ function uuid(): string {
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`
 }
 
-function deviceId(): string {
+export function deviceId(): string {
   try {
     let id = localStorage.getItem(ID_KEY)
     if (!id) {
@@ -107,6 +112,39 @@ export function setWatching(movieId: string | null) {
 
 export function trackPlay(movieId: string) {
   if (statsEnabled()) post('/play', { id: deviceId(), movie: movieId })
+}
+
+export function reportProblem(movieId: string, kind: ReportKind) {
+  if (statsEnabled()) post('/report', { id: deviceId(), movie: movieId, kind, platform: platform() })
+}
+
+const TOP_KEY = 'kp_top_v1'
+const TOP_MAX_AGE_MS = 3 * 60 * 60 * 1000
+
+// Ids of the most watched movies, newest answer first from this device's cache. Empty if the
+// server has nothing (or is an older version without this list): the row just doesn't show.
+export function cachedTop(): string[] {
+  try {
+    return (JSON.parse(localStorage.getItem(TOP_KEY) || '{}') as { ids?: string[] }).ids ?? []
+  } catch {
+    return []
+  }
+}
+
+export async function refreshTop(): Promise<void> {
+  if (!statsEnabled()) return
+  try {
+    const cached = JSON.parse(localStorage.getItem(TOP_KEY) || '{}') as { at?: number }
+    if (cached.at && Date.now() - cached.at < TOP_MAX_AGE_MS) return
+    const res = await fetch(endpoint('/top'))
+    if (!res.ok) return
+    const ids = (await res.json()) as string[]
+    if (!Array.isArray(ids)) return
+    localStorage.setItem(TOP_KEY, JSON.stringify({ at: Date.now(), ids }))
+    window.dispatchEvent(new Event('kp-top-updated'))
+  } catch {
+    // offline or no storage: keep whatever was cached
+  }
 }
 
 export class StatsError extends Error {

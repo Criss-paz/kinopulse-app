@@ -1,8 +1,12 @@
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type { Movie } from '../types'
 import { categories, formatDuration, movies, moviesByCategory, refreshLiveCatalog } from '../lib/catalog'
-import { getAllProgress, formatTimeMMSS } from '../lib/progress'
+import { DONATE_URL } from '../lib/config'
+import { getLibrary, hideSeen, setHideSeen } from '../lib/library'
+import { getAllProgress } from '../lib/progress'
 import { focusFirst } from '../lib/spatial'
+import { cachedTop, refreshTop } from '../lib/stats'
+import { MovieCard, Row } from './Row'
 
 interface Props {
   onOpen: (m: Movie) => void
@@ -10,6 +14,7 @@ interface Props {
   searchQuery: string
   selectedCategory: string
   onSelectCategory: (id: string) => void
+  onOpenMore: () => void
   /** Película que se abrió por última vez: al volver, el foco regresa a su tarjeta. */
   lastOpenedId?: string
 }
@@ -19,31 +24,48 @@ interface Props {
 // ficha o del reproductor dejaba al usuario arriba del todo, perdiendo la fila donde estaba.
 let savedView: { y: number; rows: Record<string, number> } | null = null
 
-// Fila horizontal; con ratón muestra flechas para avanzar/retroceder una pantalla.
-function Row({ group, children }: { group: string; children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const page = (dir: 1 | -1) => {
-    const el = ref.current
-    if (el) el.scrollBy({ left: dir * el.clientWidth * 0.8, behavior: 'smooth' })
-  }
-  return (
-    <div className="group/row relative">
-      <button tabIndex={-1} className="kp-row-arrow left-0" onClick={() => page(-1)} aria-label="Anterior">
-        ‹
-      </button>
-      <div ref={ref} data-nav-group={group} className="kp-row flex gap-3 overflow-x-auto px-4 py-4 md:gap-5 md:px-12">
-        {children}
-      </div>
-      <button tabIndex={-1} className="kp-row-arrow right-0" onClick={() => page(1)} aria-label="Siguiente">
-        ›
-      </button>
-    </div>
-  )
-}
+// «Mi lista» se elige en la misma barra que las categorías.
+const MY_LIST = 'mylist'
+const RECENT_COUNT = 20
 
-export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, onSelectCategory, lastOpenedId }: Props) {
+// Cada botón de filtro va pasando por sus opciones al pulsarlo: con control remoto es un solo
+// botón por filtro en vez de un menú desplegable.
+const SORTS: [label: string, compare: ((a: Movie, b: Movie) => number) | null][] = [
+  ['Recomendado', null],
+  ['Más nuevas', (a, b) => b.year - a.year],
+  ['Más antiguas', (a, b) => a.year - b.year],
+  ['A–Z', (a, b) => a.title.localeCompare(b.title, 'es')],
+  ['Más cortas', (a, b) => a.duration - b.duration],
+  ['Más largas', (a, b) => b.duration - a.duration],
+]
+const YEARS: [label: string, test: (year: number) => boolean][] = [
+  ['Todos', () => true],
+  ['2020 en adelante', (y) => y >= 2020],
+  ['2010 – 2019', (y) => y >= 2010 && y < 2020],
+  ['2000 – 2009', (y) => y >= 2000 && y < 2010],
+  ['Antes de 2000', (y) => y < 2000],
+]
+const LENGTHS: [label: string, test: (min: number) => boolean][] = [
+  ['Cualquiera', () => true],
+  ['Menos de 1 h 40', (d) => d < 100],
+  ['1 h 40 a 2 h 10', (d) => d >= 100 && d <= 130],
+  ['Más de 2 h 10', (d) => d > 130],
+]
+
+// Fuera del componente por lo mismo que savedView: que al volver de una ficha sigan puestos.
+let savedFilters = { sort: 0, year: 0, length: 0 }
+
+// Los ids son correlativos (kp_001, kp_002…): el más alto es la película agregada más reciente.
+const idNumber = (m: Movie) => Number(m.id.replace(/\D/g, '')) || 0
+
+export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, onSelectCategory, onOpenMore, lastOpenedId }: Props) {
   const [, setTick] = useState(0)
   const [hero, setHero] = useState<Movie>(() => movies[0])
+  const [filters, setFiltersState] = useState(savedFilters)
+  const setFilters = (next: typeof savedFilters) => {
+    savedFilters = next
+    setFiltersState(next)
+  }
 
   // En una ref para que el efecto sea solo de montaje/desmontaje: si fuera dependencia,
   // cambiar de película con el inicio montado volvería a mover el foco.
@@ -92,19 +114,27 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
 
   useEffect(() => {
     refreshLiveCatalog()
+    refreshTop()
     const rerender = () => {
       setTick((t) => t + 1)
       setHero((prev) => movies.find((m) => m.id === prev?.id) || movies[0])
     }
     window.addEventListener('kp-catalog-updated', rerender)
     window.addEventListener('kp-progress-updated', rerender)
+    window.addEventListener('kp-library-updated', rerender)
+    window.addEventListener('kp-top-updated', rerender)
     return () => {
       window.removeEventListener('kp-catalog-updated', rerender)
       window.removeEventListener('kp-progress-updated', rerender)
+      window.removeEventListener('kp-library-updated', rerender)
+      window.removeEventListener('kp-top-updated', rerender)
     }
   }, [])
 
   const progressMap = getAllProgress()
+  const library = getLibrary()
+  const seen = (m: Movie) => library.seen[m.id] > 0
+  const hidingSeen = hideSeen()
   const q = searchQuery.trim().toLowerCase()
 
   const matchesSearch = (m: Movie) =>
@@ -122,44 +152,39 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
 
   if (!hero) return null
 
-  const renderCard = (m: Movie) => {
-    const p = progressMap[m.id]
-    const pct = p && p.duration > 0 ? Math.min(95, Math.max(5, (p.time / p.duration) * 100)) : 0
-    return (
-      <button
-        key={m.id}
-        data-nav
-        data-movie-id={m.id}
-        className="kp-card group relative aspect-[2/3] w-32 shrink-0 overflow-hidden rounded-xl bg-obsidian-800 sm:w-40 md:w-48"
-        onFocus={() => setHero(m)}
-        onMouseEnter={() => setHero(m)}
-        onClick={() => onOpen(m)}
-        aria-label={`${m.title} (${m.year})`}
-      >
-        <img src={m.poster} alt="" loading="lazy" className="h-full w-full object-cover" />
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/95 via-black/70 to-transparent p-2 pb-3 text-left">
-          <p className="truncate text-sm font-semibold text-white">{m.title}</p>
-          <p className="text-xs text-white/60">
-            {pct > 0 ? `Quedaste en ${formatTimeMMSS(p.time)}` : m.year}
-          </p>
-        </div>
-        {pct > 0 && (
-          <div className="absolute inset-x-0 bottom-0 h-1.5 bg-white/25">
-            <div className="h-full bg-pulse-red" style={{ width: `${pct}%` }} />
-          </div>
-        )}
-      </button>
-    )
-  }
+  const renderCard = (m: Movie) => (
+    <MovieCard key={m.id} movie={m} onOpen={onOpen} onHover={setHero} progress={progressMap[m.id]} seen={seen(m)} />
+  )
 
-  // Categor?as que realmente tienen pel?culas cargadas
+  // Con «Ocultar vistas», las ya vistas salen de las filas para descubrir; no de las propias
+  // (Mi lista, Continuar viendo) ni de una búsqueda por nombre.
+  const unseen = (list: Movie[]) => (hidingSeen ? list.filter((m) => !seen(m)) : list)
+
+  const myList = movies.filter((m) => library.list[m.id] > 0).sort((a, b) => library.list[b.id] - library.list[a.id])
+  const recent = unseen([...movies].sort((a, b) => idNumber(b) - idNumber(a)).slice(0, RECENT_COUNT))
+  const mostWatched = unseen(cachedTop().map((id) => movies.find((m) => m.id === id)).filter((m): m is Movie => !!m))
+
+  // Categorías que realmente tienen películas cargadas
   const activeCategories = categories.filter((c) => moviesByCategory(c.id).length > 0)
 
-  // Filtrar seg?n categor?a o b?squeda
-  const filteredMovies = movies.filter((m) => {
-    const catOk = selectedCategory === 'all' || m.category === selectedCategory
-    return catOk && matchesSearch(m)
+  const filtering = filters.sort !== 0 || filters.year !== 0 || filters.length !== 0
+  const showGrid = q !== '' || selectedCategory !== 'all' || filtering
+
+  // Filtrar según categoría, búsqueda y filtros
+  const compare = SORTS[filters.sort][1]
+  const matching = (selectedCategory === MY_LIST ? myList : movies).filter((m) => {
+    const catOk = selectedCategory === 'all' || selectedCategory === MY_LIST || m.category === selectedCategory
+    return catOk && matchesSearch(m) && YEARS[filters.year][1](m.year) && LENGTHS[filters.length][1](m.duration)
   })
+  const filteredMovies = q !== '' || selectedCategory === MY_LIST ? matching : unseen(matching)
+  if (compare) filteredMovies.sort(compare)
+
+  const gridTitle =
+    q !== ''
+      ? `Resultados para "${searchQuery}" (${filteredMovies.length})`
+      : `${selectedCategory === MY_LIST ? 'Mi lista' : activeCategories.find((c) => c.id === selectedCategory)?.name || 'Todas las películas'} (${filteredMovies.length})`
+
+  const cycle = (key: keyof typeof savedFilters, options: unknown[]) => setFilters({ ...filters, [key]: (filters[key] + 1) % options.length })
 
   return (
     <main>
@@ -196,6 +221,15 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
           >
             Todas
           </button>
+          {(myList.length > 0 || selectedCategory === MY_LIST) && (
+            <button
+              data-nav
+              onClick={() => onSelectCategory(MY_LIST)}
+              className={`kp-btn kp-btn-sm shrink-0 ${selectedCategory === MY_LIST ? 'kp-btn-primary' : ''}`}
+            >
+              ★ Mi lista
+            </button>
+          )}
           {activeCategories.map((c) => (
             <button
               key={c.id}
@@ -207,20 +241,39 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
             </button>
           ))}
         </div>
+        <div data-nav-group="filters" className="flex items-center gap-2 overflow-x-auto py-2">
+          <button data-nav className={`kp-btn kp-btn-sm shrink-0 ${filters.sort ? 'kp-btn-active' : ''}`} onClick={() => cycle('sort', SORTS)}>
+            ⇅ Orden: {SORTS[filters.sort][0]}
+          </button>
+          <button data-nav className={`kp-btn kp-btn-sm shrink-0 ${filters.year ? 'kp-btn-active' : ''}`} onClick={() => cycle('year', YEARS)}>
+            Año: {YEARS[filters.year][0]}
+          </button>
+          <button data-nav className={`kp-btn kp-btn-sm shrink-0 ${filters.length ? 'kp-btn-active' : ''}`} onClick={() => cycle('length', LENGTHS)}>
+            Duración: {LENGTHS[filters.length][0]}
+          </button>
+          <button data-nav className={`kp-btn kp-btn-sm shrink-0 ${hidingSeen ? 'kp-btn-active' : ''}`} onClick={() => setHideSeen(!hidingSeen)} aria-pressed={hidingSeen}>
+            {hidingSeen ? '✓ Ocultando las ya vistas' : 'Ocultar las ya vistas'}
+          </button>
+          {filtering && (
+            <button data-nav className="kp-btn kp-btn-sm shrink-0" onClick={() => setFilters({ sort: 0, year: 0, length: 0 })}>
+              ✕ Quitar filtros
+            </button>
+          )}
+        </div>
       </div>
 
       <div className="relative space-y-8 pb-16">
         {/* Si el usuario está buscando texto o eligió una categoría específica, mostrar cuadrícula filtrada */}
-        {(q !== '' || selectedCategory !== 'all') ? (
+        {showGrid ? (
           <section className="px-4 md:px-12">
             <h2 className="mb-4 text-xl font-bold text-white md:text-2xl">
-              {q !== ''
-                ? `Resultados para "${searchQuery}" (${filteredMovies.length})`
-                : activeCategories.find((c) => c.id === selectedCategory)?.name || 'Películas'}
+              {gridTitle}
             </h2>
             {filteredMovies.length === 0 ? (
               <p className="py-12 text-center text-white/60">
-                No se encontraron películas que coincidan con tu búsqueda.
+                {selectedCategory === MY_LIST && !q && !filtering
+                  ? 'Tu lista está vacía. Abre una película y pulsa «Mi lista» para guardarla aquí.'
+                  : 'No se encontraron películas que coincidan con tu búsqueda.'}
               </p>
             ) : (
               <div data-nav-group="filtered-grid" className="flex flex-wrap gap-4 py-2 md:gap-6">
@@ -237,8 +290,29 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
               </section>
             )}
 
+            {myList.length > 0 && (
+              <section>
+                <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">★ Mi lista</h2>
+                <Row group="my-list">{myList.map(renderCard)}</Row>
+              </section>
+            )}
+
+            {recent.length > 0 && (
+              <section>
+                <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">Recién agregadas</h2>
+                <Row group="recent">{recent.map(renderCard)}</Row>
+              </section>
+            )}
+
+            {mostWatched.length > 0 && (
+              <section>
+                <h2 className="mb-3 px-4 text-xl font-bold text-white md:px-12 md:text-2xl">Lo más visto en KinoPulse</h2>
+                <Row group="most-watched">{mostWatched.map(renderCard)}</Row>
+              </section>
+            )}
+
             {activeCategories.map((c) => {
-              const list = moviesByCategory(c.id)
+              const list = unseen(moviesByCategory(c.id))
               if (!list.length) return null
               return (
                 <section key={c.id}>
@@ -248,6 +322,20 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
               )
             })}
           </>
+        )}
+
+        {DONATE_URL && q === '' && (
+          <section className="px-4 md:px-12">
+            <div data-nav-group="donate" className="kp-panel md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="kp-panel-title">☕ ¿Te gusta KinoPulse?</p>
+                <p className="text-white/70">Invítame un café: es gratis y sin anuncios, y cualquier monto ayuda a mantenerla.</p>
+              </div>
+              <button data-nav className="kp-btn shrink-0" onClick={onOpenMore}>
+                Invitar un café
+              </button>
+            </div>
+          </section>
         )}
       </div>
     </main>

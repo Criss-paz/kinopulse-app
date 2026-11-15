@@ -4,6 +4,7 @@ import Player from './components/Player'
 import Details from './components/Details'
 import Downloads from './components/Downloads'
 import Admin from './components/Admin'
+import More from './components/More'
 import UpdateModal from './components/UpdateModal'
 import DownloadButtons from './components/DownloadButtons'
 import TopBar, { ExitDialog, canExit } from './components/TopBar'
@@ -11,6 +12,8 @@ import { App as NativeApp } from '@capacitor/app'
 import { isNativeApp, isUpdateRequired, UPDATE_CHECK_MS } from './lib/updater'
 import { focusEl, initSpatialNav } from './lib/spatial'
 import { startHeartbeat } from './lib/stats'
+import { startSync } from './lib/sync'
+import { nextInSaga } from './lib/sagas'
 
 const focusTopBar = () => {
   const first = document.querySelector<HTMLElement>('header [data-nav]')
@@ -25,7 +28,7 @@ const ADMIN_HASH = '#/admin'
 const ADMIN_SEARCH = '/admin'
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'details' | 'player' | 'downloads' | 'admin'>(() =>
+  const [view, setView] = useState<'home' | 'details' | 'player' | 'downloads' | 'admin' | 'more'>(() =>
     window.location.hash === ADMIN_HASH ? 'admin' : 'home',
   )
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null)
@@ -49,6 +52,7 @@ export default function App() {
   }, [])
 
   useEffect(() => startHeartbeat(), [])
+  useEffect(() => startSync(), [])
 
   useEffect(() => {
     const onHash = () => window.location.hash === ADMIN_HASH && setView('admin')
@@ -109,6 +113,8 @@ export default function App() {
     setView('player')
   }
 
+  const nextMovie = selectedMovie ? nextInSaga(selectedMovie.id) : null
+
   // Al salir del reproductor se vuelve a la ficha (Continuar / Desde el principio), no al inicio.
   const closePlayer = () => {
     setView('details')
@@ -126,10 +132,12 @@ export default function App() {
 
       {view === 'admin' && <Admin onBack={closeAdmin} />}
 
+      {view === 'more' && <More onBack={() => setView('home')} />}
+
       {exitOpen && <ExitDialog onCancel={() => setExitOpen(false)} />}
 
       {view === 'home' && (
-        <TopBar searchQuery={searchQuery} onSearch={setSearchQuery} onExit={() => setExitOpen(true)} onSecret={() => setView('admin')} />
+        <TopBar searchQuery={searchQuery} onSearch={setSearchQuery} onExit={() => setExitOpen(true)} onSecret={() => setView('admin')} onOpenMore={() => setView('more')} />
       )}
 
       {view === 'home' && (
@@ -139,6 +147,7 @@ export default function App() {
           searchQuery={searchQuery}
           selectedCategory={selectedCategory}
           onSelectCategory={setSelectedCategory}
+          onOpenMore={() => setView('more')}
           lastOpenedId={selectedMovie?.id}
         />
       )}
@@ -147,14 +156,19 @@ export default function App() {
         <Details
           movie={selectedMovie}
           onBack={() => setView('home')}
+          onOpen={openDetails}
           onPlay={(fromStart) => playMovie(selectedMovie, fromStart)}
         />
       )}
 
       {view === 'player' && selectedMovie && (
         <Player
+          // Otra película = otro reproductor: nada del anterior (errores, avisos, velocidad) se arrastra.
+          key={selectedMovie.id}
           movie={selectedMovie}
           startAt={startAt}
+          next={nextMovie}
+          onNext={() => nextMovie && playMovie(nextMovie)}
           onExit={closePlayer}
         />
       )}

@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import Hls from 'hls.js'
 import type { Movie } from '../types'
-import { mirrorUrl, streamUrl } from '../lib/config'
+import { isNative, mirrorUrl, streamUrl } from '../lib/config'
+import { setSeen } from '../lib/library'
 import { saveMovieProgress, clearMovieProgress } from '../lib/progress'
-import { PLAY_AFTER_MS, setWatching, trackPlay } from '../lib/stats'
+import { PLAY_AFTER_MS, reportProblem, setWatching, trackPlay, type ReportKind } from '../lib/stats'
 import { dirOf, focusEl } from '../lib/spatial'
 
 const HIDE_AFTER = 3000
@@ -14,6 +15,37 @@ const SCRUB_COMMIT_MS = 450
 const scrubStep = (repeats: number) => (repeats < 5 ? SEEK_STEP : repeats < 15 ? 30 : 60)
 
 const UNSUPPORTED = 'Este navegador no puede reproducir el formato de esta película. Prueba en la app de Android/TV o en Microsoft Edge.'
+
+const SPEEDS = [1, 1.25, 1.5, 2, 0.75]
+// Seconds the "next in the saga" card waits before playing it on its own.
+const NEXT_AFTER_S = 12
+const PROBE_TIMEOUT_MS = 8000
+
+// What actually went wrong, in words the viewer can act on. Only the first one is about their internet.
+const FAILURES: Record<'err_network' | 'err_decode' | 'err_format', string> = {
+  err_network: 'No se pudo conectar con el servidor de películas. Revisa tu conexión a internet y vuelve a intentarlo.',
+  err_decode:
+    'Este dispositivo no pudo decodificar el video de esta película. No es tu internet: el archivo usa un formato que este equipo no maneja bien. Ya quedó reportada para arreglarla; mientras tanto prueba en otro dispositivo.',
+  err_format: isNative()
+    ? 'Este dispositivo no puede reproducir el formato de esta película. No es tu internet. Ya quedó reportada para arreglarla; mientras tanto prueba en otro dispositivo.'
+    : UNSUPPORTED,
+}
+
+// Whether the video server answers at all. The response is opaque (no-cors), which is enough: it
+// resolves if the server was reached and rejects if it wasn't.
+async function reachable(url: string): Promise<boolean> {
+  if (!navigator.onLine) return false
+  const abort = new AbortController()
+  const timer = window.setTimeout(() => abort.abort(), PROBE_TIMEOUT_MS)
+  try {
+    await fetch(url, { method: 'HEAD', mode: 'no-cors', cache: 'no-store', signal: abort.signal })
+    return true
+  } catch {
+    return false
+  } finally {
+    window.clearTimeout(timer)
+  }
+}
 
 // Safari on iPhone can only fullscreen the <video> itself; it has no Element.requestFullscreen.
 type IOSVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void }
@@ -26,7 +58,16 @@ const fmt = (s: number) => {
   return h ? `${h}:${m.toString().padStart(2, '0')}:${sec}` : `${m}:${sec}`
 }
 
-export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; startAt?: number; onExit: () => void }) {
+interface Props {
+  movie: Movie
+  startAt?: number
+  /** La siguiente película de la saga, si la hay: se ofrece al terminar esta. */
+  next?: Movie | null
+  onNext?: () => void
+  onExit: () => void
+}
+
+export default function Player({ movie, startAt = 0, next, onNext, onExit }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const rootRef = useRef<HTMLDivElement>(null)
   const barRef = useRef<HTMLDivElement>(null)
@@ -53,6 +94,12 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
   const [scrub, setScrubState] = useState<number | null>(null)
   const [fullscreen, setFullscreen] = useState(false)
   const [audioWarning, setAudioWarning] = useState(false)
+  const [speed, setSpeed] = useState(1)
+  const [nextIn, setNextIn] = useState<number | null>(null)
+  const lastTimeRef = useRef(0)
+  // With the error or "next movie" card up, its buttons own the keys, not the player shortcuts.
+  const overlayRef = useRef(false)
+  overlayRef.current = error !== '' || nextIn !== null
   const subs = movie.subtitles ?? []
 
   const setScrub = (t: number | null) => {
@@ -105,6 +152,54 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
       setWatching(null)
     }
   }, [movie.id])
+
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    // defaultPlaybackRate too: loading another source (the mirror, a retry) resets playbackRate to it.
+    v.defaultPlaybackRate = speed
+    v.playbackRate = speed
+  }, [speed])
+
+  // The "next movie" card counts down and then plays it; any of its buttons gets there first.
+  useEffect(() => {
+    if (nextIn === null) return
+    if (nextIn <= 0) {
+      onNext?.()
+      return
+    }
+    const timer = window.setTimeout(() => setNextIn(nextIn - 1), 1000)
+    return () => window.clearTimeout(timer)
+  }, [nextIn, onNext])
+
+  useEffect(() => {
+    if (!overlayRef.current) return
+    const first = rootRef.current?.querySelector<HTMLElement>('[data-overlay] [data-nav]')
+    if (first) focusEl(first)
+  }, [error, nextIn === null])
+
+  // A failed load says little by itself: "network" and "format not supported" are both what a
+  // browser reports when the server can't be reached. So the server is asked directly.
+  const fail = useCallback(async (code: number | undefined) => {
+    let kind: ReportKind
+    if (code === MediaError.MEDIA_ERR_DECODE && navigator.onLine) kind = 'err_decode'
+    else if (!(await reachable(streamUrl(movie.stream)))) kind = 'err_network'
+    else kind = code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED ? 'err_format' : 'err_network'
+    // Offline there is no way (and no point) to report; a server that answers but fails mid-movie is worth knowing.
+    if (navigator.onLine) reportProblem(movie.id, kind)
+    setError(FAILURES[kind as keyof typeof FAILURES])
+  }, [movie])
+
+  const retry = useCallback(() => {
+    const v = videoRef.current!
+    setError('')
+    setWaiting(true)
+    mirrorTried.current = false
+    mirrorResumeAt.current = v.currentTime > 0 ? v.currentTime : lastTimeRef.current || startAt
+    resumeRetried.current = true
+    v.src = streamUrl(movie.stream)
+    v.play().catch(() => setPlaying(false))
+  }, [movie, startAt])
 
   useEffect(() => {
     const tracks = videoRef.current?.textTracks
@@ -215,6 +310,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
+      if (overlayRef.current) return
       const dir = dirOf(e)
       const wasVisible = visibleRef.current
       poke()
@@ -290,6 +386,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         }}
         onTimeUpdate={(e) => {
           const v = e.currentTarget
+          if (v.currentTime > 0) lastTimeRef.current = v.currentTime
           // Repintar el reproductor cuatro veces por segundo le quita tiempo al decodificador
           // y en TVs y móviles modestos la imagen se ve a tirones. Con los controles ocultos
           // no hay nada que actualizar en pantalla, así que no se toca el estado.
@@ -332,7 +429,9 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         }}
         onEnded={() => {
           clearMovieProgress(movie.id)
-          onExit()
+          setSeen(movie.id, true)
+          if (next && onNext) setNextIn(NEXT_AFTER_S)
+          else onExit()
         }}
         onError={(e) => {
           const v = e.currentTarget
@@ -346,7 +445,7 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
             v.play().catch(() => setPlaying(false))
             return
           }
-          setError(v.error?.code === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED ? UNSUPPORTED : 'No se pudo cargar el video. Revisa tu conexión.')
+          fail(v.error?.code)
         }}
       >
         {subs.map((s) => (
@@ -376,12 +475,37 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
         </div>
       )}
       {error && (
-        <div className="absolute inset-0 z-10 grid place-items-center bg-black/80 p-6 text-center">
-          <div>
-            <p className="mb-6 text-xl text-white">{error}</p>
-            <button data-nav className="kp-btn kp-btn-primary" onClick={onExit}>
-              Volver
-            </button>
+        <div data-overlay className="absolute inset-0 z-10 grid place-items-center bg-black/85 p-6 text-center">
+          <div className="max-w-2xl">
+            <p className="mb-6 text-xl leading-relaxed text-white">{error}</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              {movie.type === 'mp4' && (
+                <button data-nav className="kp-btn kp-btn-primary" onClick={retry}>
+                  ⟳ Reintentar
+                </button>
+              )}
+              <button data-nav className={`kp-btn ${movie.type === 'mp4' ? '' : 'kp-btn-primary'}`} onClick={onExit}>
+                ← Volver
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {nextIn !== null && next && !error && (
+        <div data-overlay className="absolute inset-0 z-10 grid place-items-center bg-black/85 p-6 text-center">
+          <div className="flex max-w-2xl flex-col items-center gap-5">
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-pulse-cyan">Sigue en la saga</p>
+            <img src={next.poster} alt="" className="w-36 rounded-xl shadow-2xl shadow-black md:w-48" />
+            <p className="text-2xl font-bold text-white md:text-4xl">{next.title}</p>
+            <p className="text-white/70">Empieza en {nextIn} s</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <button data-nav className="kp-btn kp-btn-primary" onClick={onNext}>
+                ▶ Ver ahora
+              </button>
+              <button data-nav className="kp-btn" onClick={onExit}>
+                ← Volver
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -453,6 +577,14 @@ export default function Player({ movie, startAt = 0, onExit }: { movie: Movie; s
             <button data-nav className="kp-btn" onClick={toggleFullscreen} aria-label={fullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}>
               {fullscreen ? '🗗' : '⛶'}
               <span className="hidden sm:inline">{fullscreen ? 'Salir de pantalla completa' : 'Pantalla completa'}</span>
+            </button>
+            <button
+              data-nav
+              className={`kp-btn ${speed !== 1 ? 'kp-btn-active' : ''}`}
+              onClick={() => setSpeed(SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length])}
+              aria-label={`Velocidad ${speed}×, pulsa para cambiarla`}
+            >
+              {speed}×<span className="hidden sm:inline">Velocidad</span>
             </button>
             <div className="ml-auto flex flex-wrap gap-2">
               <button data-nav className={`kp-btn ${subIndex === -1 ? 'kp-btn-active' : ''}`} onClick={() => setSubIndex(-1)}>

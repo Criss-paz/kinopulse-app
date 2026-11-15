@@ -8,6 +8,7 @@ interface Props {
   onSearch: (q: string) => void
   onExit: () => void
   onSecret: () => void
+  onOpenMore: () => void
 }
 
 const SECRET_HOLD_MS = 2000
@@ -22,7 +23,7 @@ export function exitApp() {
   else window.close()
 }
 
-export default function TopBar({ searchQuery, onSearch, onExit, onSecret }: Props) {
+export default function TopBar({ searchQuery, onSearch, onExit, onSecret, onOpenMore }: Props) {
   // Holding the logo opens the hidden admin panel.
   const holdTimer = useRef(0)
   const startHold = () => {
@@ -91,6 +92,9 @@ export default function TopBar({ searchQuery, onSearch, onExit, onSecret }: Prop
         </button>
         <button data-nav className="kp-btn kp-btn-sm" onClick={() => window.location.reload()} aria-label="Refrescar">
           ⟳<span className="hidden md:inline">Refrescar</span>
+        </button>
+        <button data-nav className="kp-btn kp-btn-sm" onClick={onOpenMore} aria-label="Más opciones">
+          ☰<span className="hidden md:inline">Más</span>
         </button>
         {canExit() && (
           <button data-nav className="kp-btn kp-btn-sm" onClick={onExit} aria-label="Salir de la app">
