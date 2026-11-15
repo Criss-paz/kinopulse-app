@@ -117,8 +117,9 @@ def revisar(path, size_gb=None):
         motivos.append(f"{ancho}x{alto} (máximo 1080p)")
     if size_gb > MAX_GB:
         motivos.append(f"{size_gb:.1f} GB (máximo {MAX_GB})")
-    if not str(path).lower().endswith(".mp4"):
-        motivos.append("no es .mp4")
+    # Un .mkv con H.264 válido no se recodifica: ffmpeg lo pasa a .mp4 copiando el vídeo tal cual.
+    if not str(path).lower().endswith((".mp4", ".mkv", ".mov", ".m4v")):
+        motivos.append("contenedor antiguo")
 
     filtros = ["scale='min(1920,iw)':-2"]
     rechazo = None
