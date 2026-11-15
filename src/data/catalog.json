@@ -3436,6 +3436,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_236",
+      "title": "Zootopia 2",
+      "year": 2025,
+      "duration": 108,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Los detectives Judy Hopps y Nick Wilde siguen la pista de un misterioso reptil que llega a Zootopia y pone la ciudad patas arriba, lo que los obliga a infiltrarse en barrios que nunca habían pisado.",
+      "poster": "https://image.tmdb.org/t/p/w780/LrMBxFwnsMgXTnaWqHYinn3vDN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/lgotja3xMoJZbynwHfcQcJAEMWH.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_60996d1253.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
