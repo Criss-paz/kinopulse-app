@@ -3481,6 +3481,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_239",
+      "title": "Minions y monstruos",
+      "year": 2026,
+      "duration": 93,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Los Minions conquistan Hollywood y se convierten en estrellas de cine, hasta que lo pierden todo, desatan por accidente a unos monstruos sobre el mundo y tienen que unirse para salvar el planeta.",
+      "poster": "https://image.tmdb.org/t/p/w780/uNtBRRLNsCiCcqccv3CMWPx5Xz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kkcwhgSFd81QDlXo8ytrpHPQjhy.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ccfa6cf9a0.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
