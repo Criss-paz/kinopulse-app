@@ -3451,6 +3451,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_237",
+      "title": "Moana 2",
+      "year": 2024,
+      "duration": 100,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Tras recibir una llamada inesperada de sus ancestros, Moana se embarca con Maui y una nueva tripulación hacia los mares lejanos de Oceanía para romper la maldición que separa a los pueblos del océano.",
+      "poster": "https://image.tmdb.org/t/p/w780/mLAGAFUrRw9pphjnbnhtG1hASSN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vYqt6kb4lcF8wwqsMMaULkP9OEn.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_485d9b8e9a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
