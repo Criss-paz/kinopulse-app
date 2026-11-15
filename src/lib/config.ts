@@ -10,7 +10,7 @@ const EDGE = (import.meta.env.VITE_EDGE_PROXY as string | undefined) ?? ''
 export const STATS_URL = (import.meta.env.VITE_STATS_URL as string | undefined) ?? 'https://kinopulse-stats.kinopulse.workers.dev'
 
 // "Invítame un café": where donations go (a paypal.me link). Empty hides the whole section.
-export const DONATE_URL = (import.meta.env.VITE_DONATE_URL as string | undefined) ?? ''
+export const DONATE_URL = (import.meta.env.VITE_DONATE_URL as string | undefined) ?? 'https://paypal.me/CrisPaz5712'
 
 // Backup copy of the video host (scripts/mirror-hf-backup.py keeps it in sync). The player falls
 // back to it when a movie fails to load from the main one.
