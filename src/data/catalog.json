@@ -3901,6 +3901,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_267",
+      "title": "De amor y otras adicciones",
+      "year": 2010,
+      "duration": 112,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "Jamie, un encantador vendedor farmacéutico acostumbrado a conquistar sin compromiso, conoce a Maggie, una mujer de espíritu libre que no deja que nada ni nadie la ate, y los dos caen bajo la droga más fuerte: el amor.",
+      "poster": "https://image.tmdb.org/t/p/w780/b8gw9s7hWbcA0kuezuV10DKgjRP.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ca4DAKJ1stCFeU6wq16hxmTAba.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_635904bb23.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
