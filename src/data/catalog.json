@@ -3946,6 +3946,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_270",
+      "title": "Exorcismo",
+      "year": 2024,
+      "duration": 95,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Un actor atormentado empieza a desmoronarse mientras rueda una película de terror. Su hija se pregunta si ha recaído en sus adicciones o si hay algo mucho más siniestro detrás.",
+      "poster": "https://image.tmdb.org/t/p/w780/1Xp2vxva5Ov6XKJpV1ucq3qOQ0u.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/93dDAqtrFQk5zeofDtQGExPlYjC.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_9b429747f1.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
