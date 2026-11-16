@@ -3691,6 +3691,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_253",
+      "title": "Rápidos y furiosos 5in control",
+      "year": 2011,
+      "duration": 130,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Prófugos en Río de Janeiro, Dom y Brian reúnen a un equipo de élite para robar cien millones de dólares a un empresario corrupto, con el implacable agente Hobbs pisándoles los talones.",
+      "poster": "https://image.tmdb.org/t/p/w780/k1OKkkn6dekDTaZqzZK7sVI44eg.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/tQN9JEQ4N4aqej7O6AkQtt0dLpt.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_6701970d9e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
