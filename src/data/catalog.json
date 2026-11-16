@@ -3976,6 +3976,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_272",
+      "title": "Actividad paranormal 2",
+      "year": 2010,
+      "duration": 91,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Tras lo que parece una serie de robos, una familia instala cámaras de seguridad por toda la casa, solo para descubrir que lo que ocurre de noche es mucho más siniestro.",
+      "poster": "https://image.tmdb.org/t/p/w780/lWpl5SH15Bk9movTlexugxTXDd0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/lcw9r76AzazaUxRWVgC7YSPA4ua.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_906b5fe459.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
