@@ -4021,6 +4021,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_275",
+      "title": "Actividad paranormal: Los marcados",
+      "year": 2014,
+      "duration": 84,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Tras la muerte de una vecina con fama de bruja, Jesse despierta con una extraña marca en el brazo y descubre que ha sido elegido por una fuerza demoníaca que no piensa soltarlo.",
+      "poster": "https://image.tmdb.org/t/p/w780/8FuHCRqWU1TDx6iz4XutgLmND0u.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eAISoFMi29BVBKH1VRpne4mJ26K.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_761aed60a5.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
