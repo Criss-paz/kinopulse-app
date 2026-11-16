@@ -3856,6 +3856,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_264",
+      "title": "Jumper",
+      "year": 2008,
+      "duration": 88,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "David Rice descubre que puede teletransportarse a cualquier lugar del mundo, y pronto se ve perseguido por una organización secreta que lleva siglos dando caza a los que son como él.",
+      "poster": "https://image.tmdb.org/t/p/w780/jtd5jdh3rquFMr25qoRAENwlwa7.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1R4DZbEwWTPnRShBumJsOwsfAiB.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_5e19594ebb.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
