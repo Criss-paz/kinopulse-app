@@ -3751,6 +3751,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_257",
+      "title": "Rápidos y furiosos 8",
+      "year": 2017,
+      "duration": 136,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Una misteriosa ciberterrorista seduce a Dom para que traicione a los suyos y lo arrastra al mundo del crimen, obligando al equipo a aliarse con un antiguo enemigo para detenerlo.",
+      "poster": "https://image.tmdb.org/t/p/w780/q0iFgE8Ad8AAeabKor4czkWiuRL.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3IJ8kG8i84PncXkSovu0PaZQfjM.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b92d89db11.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
