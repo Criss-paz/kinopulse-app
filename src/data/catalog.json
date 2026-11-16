@@ -3661,6 +3661,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_251",
+      "title": "Rápido y furioso: Reto Tokio",
+      "year": 2006,
+      "duration": 104,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Para evitar la cárcel, el adolescente Sean Boswell se muda a Tokio con su padre y se sumerge en el peligroso mundo del drift, donde termina enfrentado al sobrino de un jefe de la yakuza.",
+      "poster": "https://image.tmdb.org/t/p/w780/hkHDmkL5abn3P005v6xfEG3ZyYT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dMARcKLrv0T7kVJ4iQR3vqTTdtT.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_bb03b56797.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
