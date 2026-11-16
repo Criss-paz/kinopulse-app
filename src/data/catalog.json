@@ -3826,6 +3826,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_262",
+      "title": "Deadpool & Wolverine",
+      "year": 2024,
+      "duration": 128,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Cuando la Autoridad de Variación Temporal amenaza con borrar su universo, Deadpool recluta a un Wolverine de otra realidad, amargado y reacio, para salvar a los suyos.",
+      "poster": "https://image.tmdb.org/t/p/w780/6aY3OzCIdxoBMYdiH5s17rWFFFA.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/by8z9Fe8y7p4jo2YlW2SZDnptyT.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_66a31dbe1c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
