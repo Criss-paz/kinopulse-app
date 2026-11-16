@@ -3706,6 +3706,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_254",
+      "title": "Rápidos y furiosos 6",
+      "year": 2013,
+      "duration": 132,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Hobbs ofrece a Dom y a su equipo el indulto total a cambio de ayudarlo a detener a una banda de mercenarios al volante, cuya segunda al mando resulta ser Letty, a quien todos creían muerta.",
+      "poster": "https://image.tmdb.org/t/p/w780/xR9qP1Yhymsl7XmtZ4N3YSsOzh4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/u1IfymTvKtftECKJR1vVF0mkvKV.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ac27cc31fe.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
