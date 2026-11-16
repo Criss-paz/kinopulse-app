@@ -11,30 +11,22 @@ android/local.properties
 .idea
 *.log
 
-scripts/upload-hf.py
 *.mp4
 *.mkv
 .env*
 
-scripts/batch-upload.py
-
 tsconfig.tsbuildinfo
 
-scripts/upload-pending51.py
-scripts/upload-batch10.py
 scripts/__pycache__/
-upload-lote.log
 scripts/.fps-cache.json
 scripts/.assets-huerfanos.txt
 src/data/.catalog.lock
 src/data/catalog.json.tmp
-arreglar-fps.log
-
-scripts/upload-batch21.py
 
 # Cloudflare (estado local de wrangler y secretos de desarrollo)
 .wrangler
 .dev.vars
 
-scripts/upload-batch22.py
-scripts/upload-batch23.py
+# Listas de subida: llevan títulos y nombres de archivo, no van al repo
+scripts/upload-batch*.py
+.pasada.tmp
