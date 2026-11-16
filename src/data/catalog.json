@@ -3616,6 +3616,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_248",
+      "title": "Percy Jackson y el mar de los monstruos",
+      "year": 2013,
+      "duration": 106,
+      "category": "fantasia",
+      "rating": "ATP",
+      "synopsis": "Para salvar el Campamento Mestizo, Percy y sus amigos se adentran en el Mar de los Monstruos en busca del mítico Vellocino de Oro, mientras un viejo enemigo intenta despertar a Cronos.",
+      "poster": "https://image.tmdb.org/t/p/w780/wXm9O0wrh8PVepCfA2Ohm9N4BCm.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fvrGb6zfQaQ8RD9pC8o9vv1b7W2.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_450aa08d55.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
