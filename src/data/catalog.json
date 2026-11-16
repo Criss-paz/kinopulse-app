@@ -3511,6 +3511,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_241",
+      "title": "¡Patos!",
+      "year": 2023,
+      "duration": 83,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Una familia de patos convence a su sobreprotector padre de salir del estanque y emprender las vacaciones de su vida: una migración de Nueva Inglaterra a Jamaica que se tuerce al pasar por Nueva York.",
+      "poster": "https://image.tmdb.org/t/p/w780/hy48coaN2eRaoXN5u1Qzt8xYpwM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/d1ECsrOqB17DamTMPtiUTd6HdXd.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_94bff45a6a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
