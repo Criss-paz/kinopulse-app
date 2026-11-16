@@ -4066,6 +4066,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_278",
+      "title": "Terrifier",
+      "year": 2016,
+      "duration": 84,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "En la noche de Halloween, dos amigas se cruzan con Art el Payaso, un maníaco silencioso que las acecha y las arrastra a una carnicería sin escapatoria.",
+      "poster": "https://image.tmdb.org/t/p/w780/fjXqhGmaeQpB73WerhrYU6HlyV5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/naNXYdBzTEb1KwOdi1RbBkM9Zv1.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ab0c58ce9e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
