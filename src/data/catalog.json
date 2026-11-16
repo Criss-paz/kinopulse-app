@@ -3991,6 +3991,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_273",
+      "title": "Actividad paranormal 3",
+      "year": 2011,
+      "duration": 84,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "En 1988, las pequeñas hermanas Katie y Kristi se hacen amigas de una entidad invisible que vive en su casa, y su padrastro decide grabarlo todo en vídeo.",
+      "poster": "https://image.tmdb.org/t/p/w780/dA01ARwqh5WtSzUhCW9O2LugTU9.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6NBgG4LvjP4TkH1FDSfoJqVoQ7J.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_c71040873d.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
