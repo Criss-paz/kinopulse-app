@@ -4081,6 +4081,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_279",
+      "title": "Terrifier 2",
+      "year": 2022,
+      "duration": 138,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Resucitado por una entidad siniestra, Art el Payaso vuelve al condado de Miles un año después para cazar a una adolescente y a su hermano pequeño en la noche de Halloween.",
+      "poster": "https://image.tmdb.org/t/p/w780/6ZfvF7ZS8MJXe0YwRkPAtXNpXrG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4QJtcL4D3abqdX6Snrk8ciRkroa.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b5563ec5d7.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
