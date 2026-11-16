@@ -3766,6 +3766,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_258",
+      "title": "Rápidos y furiosos 9",
+      "year": 2021,
+      "duration": 143,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Dom Toretto lleva una vida tranquila con Letty y su hijo, hasta que debe enfrentarse a un asesino y conductor de primer nivel que resulta ser Jakob, su hermano desaparecido.",
+      "poster": "https://image.tmdb.org/t/p/w780/aktMX3z3F2zfSFR1nm5CEWlC25o.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xXHZeb1yhJvnSHPzZDqee0zfMb6.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_95c359be2a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
