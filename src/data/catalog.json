@@ -3676,6 +3676,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_252",
+      "title": "Rápidos y furiosos",
+      "year": 2009,
+      "duration": 107,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Un asesinato hace volver a Dominic Toretto a Los Ángeles, donde se reencuentra con el agente Brian O'Conner. Juntos deben infiltrarse en la red de un capo de la heroína.",
+      "poster": "https://image.tmdb.org/t/p/w780/3E8bBvitg3LeaDsSE8fOnJUHU8T.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hpgda6P9GutvdkDX5MUJ92QG9aj.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_7753983d98.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
