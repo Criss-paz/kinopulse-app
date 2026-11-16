@@ -3961,6 +3961,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_271",
+      "title": "Actividad paranormal",
+      "year": 2007,
+      "duration": 86,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Una joven pareja que acaba de mudarse instala una cámara en su dormitorio para grabar los fenómenos que perturban sus noches, y lo que capta es mucho peor de lo que imaginaba.",
+      "poster": "https://image.tmdb.org/t/p/w780/919Xf5NshBIKuj4HP2XkGIfNaCF.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wfCdJ0MD1hYJzlaHulolNw5pYtR.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_cb100d1720.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
