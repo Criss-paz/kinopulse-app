@@ -3586,6 +3586,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_246",
+      "title": "El Lórax: En busca de la trúfula perdida",
+      "year": 2012,
+      "duration": 86,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Para conquistar a la chica de sus sueños, un niño de una ciudad de plástico busca un árbol de verdad y descubre la historia del Lórax, la gruñona criatura que habla en nombre de los árboles.",
+      "poster": "https://image.tmdb.org/t/p/w780/b7FMtquHglzxIi938cHIgVQuPx5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/71FjlP0qZPc1iymcHf8u5vXfH50.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_19a61dd1ac.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
