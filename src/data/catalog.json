@@ -4051,6 +4051,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_277",
+      "title": "Actividad paranormal: Vínculos familiares",
+      "year": 2021,
+      "duration": 98,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Margot, que fue abandonada de bebé, viaja con un equipo de documentalistas a una apartada comunidad amish en busca de su familia biológica, y descubre que esconde algo terrible.",
+      "poster": "https://image.tmdb.org/t/p/w780/cN1WYVV1NyQNoHcOTAQVH448ljY.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xAnSELun945cE4kFUD9mI7W3puI.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_2676515275.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
