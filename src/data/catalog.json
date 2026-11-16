@@ -4006,6 +4006,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_274",
+      "title": "Actividad paranormal 4",
+      "year": 2012,
+      "duration": 88,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Cinco años después de la desaparición de Katie y el pequeño Hunter, una familia de los suburbios empieza a vivir sucesos extraños cuando una mujer y un niño misterioso se mudan al vecindario.",
+      "poster": "https://image.tmdb.org/t/p/w780/rqlrTbNMlND28MZDmi1OGWJU2wH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iIXEKq51MS8SfVLUX1p6ofwFFQU.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_04220747ee.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
