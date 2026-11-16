@@ -3496,6 +3496,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_240",
+      "title": "Los tipos malos 2",
+      "year": 2025,
+      "duration": 104,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Los ya reformados Tipos Malos intentan con todas sus fuerzas ser buenos, pero una banda de criminales, las Tipas Malas, los arrastra a un último golpe de alcance mundial.",
+      "poster": "https://image.tmdb.org/t/p/w780/thcUnFRq0qqMTSYp4QFn8tQLIPH.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jvpkBenB6hv19WWYVlaiow8zklq.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_9df47e2059.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
