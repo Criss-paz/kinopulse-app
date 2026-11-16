@@ -3781,6 +3781,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_259",
+      "title": "Rápidos y furiosos X",
+      "year": 2023,
+      "duration": 141,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Dante Reyes, hijo del capo que Dom y su equipo arruinaron en Río, lleva doce años planeando su venganza: destruir a la familia Toretto y todo lo que Dom ama.",
+      "poster": "https://image.tmdb.org/t/p/w780/x3zlm6VxPvVrYWE3bHkYUQMR798.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4XM8DUTQb3lhLemJC51Jx4a2EuA.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_f14f21e89f.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
