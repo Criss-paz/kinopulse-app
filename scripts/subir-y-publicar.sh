@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Sube un lote y va publicando el catálogo según avanza, para que cada película aparezca
+# Sube uno o varios lotes, uno detrás de otro, y va publicando el catálogo según avanza, para que cada película aparezca
 # en la app en cuanto termina de subir (y no al final de todo el lote).
 #
-#   bash scripts/subir-y-publicar.sh scripts/upload-batch22.py
+#   bash scripts/subir-y-publicar.sh scripts/upload-batch22.py [scripts/upload-batch23.py ...]
 #
 # El registro queda en upload-lote.log. Es reanudable: se vuelve a lanzar y sigue donde iba.
 cd "$(dirname "$0")/.." || exit 1
-LOTE="${1:?Falta el script del lote}"
+[ $# -gt 0 ] || { echo "Falta el script del lote"; exit 1; }
 export PYTHONIOENCODING=utf-8
 if [ -z "$HF_TOKEN" ] && [ -f .env ]; then
   HF_TOKEN="$(sed -n 's/^[[:space:]]*HF_TOKEN[[:space:]]*=[[:space:]]*//p' .env | head -1 | tr -d '\r')"
@@ -25,10 +25,12 @@ publicar() {
 VIGIA=$!
 trap 'kill $VIGIA 2>/dev/null' EXIT
 
-for vuelta in 1 2 3; do
-  echo "=== Pasada $vuelta  $(date '+%F %T') ==="
-  python -u "$LOTE" 2>&1 | tee .pasada.tmp
-  grep -q "Lote terminado: 0/" .pasada.tmp && break
+for LOTE in "$@"; do
+  for vuelta in 1 2 3; do
+    echo "=== $LOTE, pasada $vuelta  $(date '+%F %T') ==="
+    python -u "$LOTE" 2>&1 | tee .pasada.tmp
+    grep -q "Lote terminado: 0/" .pasada.tmp && break
+  done
 done
 rm -f .pasada.tmp
 publicar
