@@ -3631,6 +3631,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_249",
+      "title": "Rápido y furioso",
+      "year": 2001,
+      "duration": 107,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "El policía Brian O'Conner se infiltra en el mundo de las carreras callejeras de Los Ángeles para investigar a Dominic Toretto, y termina dividido entre su deber y la lealtad a su nueva familia.",
+      "poster": "https://image.tmdb.org/t/p/w780/hkHDmkL5abn3P005v6xfEG3ZyYT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/dMARcKLrv0T7kVJ4iQR3vqTTdtT.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_d5cf6626d7.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
