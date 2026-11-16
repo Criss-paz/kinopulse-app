@@ -4036,6 +4036,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_276",
+      "title": "Actividad paranormal: La dimensión fantasma",
+      "year": 2015,
+      "duration": 98,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Una familia encuentra en su nueva casa una cámara de vídeo capaz de ver espíritus y una caja de cintas viejas, y descubre que su hija es el objetivo de una presencia maligna.",
+      "poster": "https://image.tmdb.org/t/p/w780/adEBp2GeRH69rnXnEuStDGvAXm6.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fk362aOdhEC6rGAQW082GIbavhO.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_56b297f31b.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
