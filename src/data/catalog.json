@@ -3571,6 +3571,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_245",
+      "title": "Bob Esponja: En busca de los pantalones cuadrados",
+      "year": 2025,
+      "duration": 89,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Decidido a demostrarle a Don Cangrejo que ya es un tipo grande, Bob Esponja sigue al Holandés Errante, un pirata fantasma, en una aventura por las profundidades más oscuras del mar.",
+      "poster": "https://image.tmdb.org/t/p/w780/s19EZefg4g1EOWx0zA11tQJjHe2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pMxO1beNNFYMDM7RcDyKW5Wheuz.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_84dd5d6f42.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
