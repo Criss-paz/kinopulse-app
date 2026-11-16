@@ -3916,6 +3916,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_268",
+      "title": "¿Por qué él?",
+      "year": 2016,
+      "duration": 111,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Un padre sobreprotector visita a su hija en la universidad y conoce a su peor pesadilla: el novio de ella, un millonario de Silicon Valley bienintencionado pero sin ningún filtro.",
+      "poster": "https://image.tmdb.org/t/p/w780/hxrDKXX0H0GQFbFP4vujo99EqoI.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zKwpFXBoZa3DZXIctZPpcWJBAmh.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_47e63754f0.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
