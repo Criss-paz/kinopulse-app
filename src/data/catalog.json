@@ -3601,6 +3601,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_247",
+      "title": "Percy Jackson y el ladrón del rayo",
+      "year": 2010,
+      "duration": 119,
+      "category": "fantasia",
+      "rating": "ATP",
+      "synopsis": "Percy Jackson descubre que es hijo de Poseidón justo cuando lo acusan de robar el rayo de Zeus, y debe cruzar Estados Unidos para encontrarlo antes de que estalle una guerra entre los dioses.",
+      "poster": "https://image.tmdb.org/t/p/w780/3MgiYcLDZiR92SX75hW9PGkPYEc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ugiV9SpJburMOPeIyjBJyAnO1So.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_77abe0f31f.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
