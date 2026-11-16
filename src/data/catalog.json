@@ -3721,6 +3721,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_255",
+      "title": "Cómo entrenar a tu dragón (2025)",
+      "year": 2025,
+      "duration": 126,
+      "category": "fantasia",
+      "rating": "ATP",
+      "synopsis": "En la isla de Berk, donde vikingos y dragones son enemigos desde hace generaciones, el joven Hipo desafía la tradición al hacerse amigo de Chimuelo, un temido Furia Nocturna.",
+      "poster": "https://image.tmdb.org/t/p/w780/9Zr7ZyiMpgMhhxJQi1tQJp9LGho.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8J6UlIFcU7eZfq9iCLbgc8Auklg.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_a4a5d64d8c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
