@@ -3886,6 +3886,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_266",
+      "title": "Hambre de poder (The Founder)",
+      "year": 2016,
+      "duration": 115,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "La historia de Ray Kroc, un vendedor de batidoras que conoce a los hermanos McDonald y maniobra hasta quedarse con su restaurante y convertirlo en un imperio multimillonario.",
+      "poster": "https://image.tmdb.org/t/p/w780/ca9V6iA0sk6Zc9aTvcgFidyVwDG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5WparwIlAtSZW0tcWbK2NHEZJC6.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_485488c55f.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
