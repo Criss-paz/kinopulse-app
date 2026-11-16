@@ -3646,6 +3646,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_250",
+      "title": "Más rápido, más furioso",
+      "year": 2003,
+      "duration": 108,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "El expolicía Brian O'Conner se une a su viejo amigo Roman Pearce para transportar dinero sucio de un narcotraficante de Miami, en una operación encubierta que puede limpiar sus antecedentes.",
+      "poster": "https://image.tmdb.org/t/p/w780/ppqtu5rhtECUZiNnPUXNnfp4gcF.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/90ooE5SbUEO0OVJHewNO7pgySb6.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_39ed66691a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
