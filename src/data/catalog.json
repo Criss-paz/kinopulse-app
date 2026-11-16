@@ -3931,6 +3931,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_269",
+      "title": "Longlegs: Coleccionista de almas",
+      "year": 2024,
+      "duration": 101,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "La agente del FBI Lee Harker recibe un caso sin resolver sobre un asesino en serie esquivo. La investigación destapa indicios de ocultismo y una conexión personal que debe descifrar antes de que vuelva a matar.",
+      "poster": "https://image.tmdb.org/t/p/w780/e4686PPqj8AOdTUnGZpjApT1cDi.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4CmxmxgiFdTaNmsscochV9rBcnF.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_485f3d9be4.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
