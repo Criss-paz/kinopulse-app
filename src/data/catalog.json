@@ -3796,6 +3796,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_260",
+      "title": "Deadpool",
+      "year": 2016,
+      "duration": 108,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "El exmercenario Wade Wilson se somete a un experimento clandestino que le da poderes de curación acelerada y le desfigura el cuerpo. Convertido en Deadpool, sale a cazar al hombre que casi destruye su vida.",
+      "poster": "https://image.tmdb.org/t/p/w780/3TUYy0XvhPQBhrXJwRIaOoYFOBO.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rFj9IKlL75B2pXhZA60jkNWvxeW.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_15f0638638.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
