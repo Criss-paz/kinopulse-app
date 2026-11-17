@@ -4171,6 +4171,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_285",
+      "title": "Masacre en Texas: Herencia maldita",
+      "year": 2013,
+      "duration": 92,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Una joven hereda de una abuela a la que nunca conoció una mansión en Texas, y al visitarla con sus amigos descubre que la casa viene con un inquilino en el sótano: Leatherface.",
+      "poster": "https://image.tmdb.org/t/p/w780/4lZXImW57lwzEYbZA9JgMM3Hh0A.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vTQ6fbyampB4lPwqIWRrsdBBxO0.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_a19a81bff2.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
