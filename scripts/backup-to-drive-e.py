@@ -3,6 +3,7 @@
 
     python scripts/backup-to-drive-e.py                  # originales de Telegram + catálogo
     python scripts/backup-to-drive-e.py --desde-hf       # además, las películas publicadas (se bajan de HF)
+    python scripts/backup-to-drive-e.py --desde-hf --ids lista.txt   # solo esas (un kp_xxx por línea)
     python scripts/backup-to-drive-e.py --esperar-fps    # espera a que termine arreglar-fps.py y luego corre
     python scripts/backup-to-drive-e.py --simular        # solo dice qué haría
 
@@ -195,6 +196,7 @@ def main():
     ap.add_argument("--desde-hf", action="store_true", help="bajar también las películas publicadas desde Hugging Face")
     ap.add_argument("--limite-mbps", type=float, default=0, help="tope de descarga en megabits/s para --desde-hf (0 = sin tope)")
     ap.add_argument("--esperar-fps", action="store_true", help="esperar a que termine arreglar-fps.py antes de empezar")
+    ap.add_argument("--ids", help="con --desde-hf, bajar solo estas películas (archivo con un kp_xxx por línea)")
     ap.add_argument("--simular", action="store_true", help="mostrar qué se copiaría, sin copiar")
     args = ap.parse_args()
 
@@ -217,6 +219,9 @@ def main():
     remotas = []
     if args.desde_hf:
         print(f"Comprobando {len(pubs)} películas publicadas contra {DESTINO / 'publicadas'}…")
+        if args.ids:
+            quiero = set(Path(args.ids).read_text(encoding="utf-8").split())
+            pubs = [p for p in pubs if p[2] in quiero]
         for nombre, url, _id, _titulo in pubs:
             dst = DESTINO / "publicadas" / nombre
             if dst.exists():

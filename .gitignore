@@ -30,3 +30,4 @@ src/data/catalog.json.tmp
 # Listas de subida: llevan títulos y nombres de archivo, no van al repo
 scripts/upload-batch*.py
 .pasada.tmp
+respaldo-ids.txt
