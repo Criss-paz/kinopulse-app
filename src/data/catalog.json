@@ -4276,6 +4276,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_292",
+      "title": "Spider-Man: De regreso a casa",
+      "year": 2017,
+      "duration": 133,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Tras su aventura con los Vengadores, el joven Peter Parker vuelve a su barrio e intenta demostrarle a Tony Stark que es algo más que el amigable vecino, hasta que aparece el Buitre.",
+      "poster": "https://image.tmdb.org/t/p/w780/h1Iq6WfE4RWc9klGvN8sdi5aR6V.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/lAsr1ytUq0ATWdCbcjf59pupPFy.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_dc96306c29.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
