@@ -4201,6 +4201,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_287",
+      "title": "Toy Story 5",
+      "year": 2026,
+      "duration": 102,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Woody, Buzz, Jessie y el resto de los juguetes se enfrentan a un rival inesperado: la tecnología, cuando una tableta inteligente amenaza con quitarles el tiempo de juego con su niña.",
+      "poster": "https://image.tmdb.org/t/p/w780/zkQmhKTszD48vEcjIfwAlqLnGSr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qjTqY5coNiz6sVtPng40IzltsoN.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b62fad967c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
