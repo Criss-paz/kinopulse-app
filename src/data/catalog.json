@@ -4231,6 +4231,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_289",
+      "title": "Spider-Man",
+      "year": 2002,
+      "duration": 121,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Tras la picadura de una araña modificada genéticamente, el tímido Peter Parker obtiene poderes extraordinarios y aprende, a un precio muy alto, que un gran poder conlleva una gran responsabilidad.",
+      "poster": "https://image.tmdb.org/t/p/w780/8eTbNzpjK9VJGu1g60j268MmXzm.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/zQ8AxTPiCiS5nnwXpwTBPBHSaa5.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_726cccd3bd.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
