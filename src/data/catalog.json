@@ -4246,6 +4246,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_290",
+      "title": "Spider-Man 2",
+      "year": 2004,
+      "duration": 136,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Agobiado por su doble vida, Peter Parker piensa en dejar de ser Spider-Man justo cuando el brillante doctor Otto Octavius se convierte en el temible Doctor Octopus.",
+      "poster": "https://image.tmdb.org/t/p/w780/9vAx9vN27TpRv98fREN4aXIdhbp.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6al048Lat3eLVQOuKtc9h6Tu94d.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_fe2b43b0e8.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
