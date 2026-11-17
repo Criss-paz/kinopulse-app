@@ -4336,6 +4336,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_296",
+      "title": "Spider-Man: A través del Spider-Verso",
+      "year": 2023,
+      "duration": 140,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Miles Morales viaja por el multiverso y conoce a la Sociedad Arácnida, un equipo de Spider-People encargado de protegerlo. Cuando chocan sobre cómo enfrentar una nueva amenaza, Miles queda solo contra todos.",
+      "poster": "https://image.tmdb.org/t/p/w780/rXhgHQmtjTIQOEDU8E2TbUFMjWM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kVd3a9YeLGkoeR50jGEXM6EqseS.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_872c23fe29.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
