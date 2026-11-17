@@ -4351,6 +4351,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_297",
+      "title": "The Batman",
+      "year": 2022,
+      "duration": 176,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "En su segundo año como justiciero, Batman persigue al Acertijo, un asesino en serie que mata a figuras poderosas de Gotham y deja pistas que destapan la corrupción de la ciudad y de su propia familia.",
+      "poster": "https://image.tmdb.org/t/p/w780/kOD0qxiUmSg7M5LeHNWT6KffsNQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_7352628ff9.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
