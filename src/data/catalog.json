@@ -4261,6 +4261,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_291",
+      "title": "Spider-Man 3",
+      "year": 2007,
+      "duration": 139,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Un simbionte alienígena se adhiere al traje de Peter Parker y saca su lado más oscuro, mientras el Hombre de Arena, el nuevo Duende y Venom amenazan todo lo que ama.",
+      "poster": "https://image.tmdb.org/t/p/w780/yqQRaD0uBWKLvSVe6LuMveb0ZLv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/FfAU0PUs8AJkMU2VbkVNFtRXR4.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_2bf9a05587.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
