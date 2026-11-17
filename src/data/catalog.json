@@ -4366,6 +4366,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_298",
+      "title": "Halloween (2018)",
+      "year": 2018,
+      "duration": 106,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Cuarenta años después de sobrevivir a la masacre de Michael Myers, Laurie Strode lleva toda una vida preparándose para su regreso. La noche de Halloween, él escapa.",
+      "poster": "https://image.tmdb.org/t/p/w780/tRwuTL3KhU03MA2EkXNdRXhH49V.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8VjIXC2x8SHwAO52rfFpejKL4wc.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_7376b4ee82.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
