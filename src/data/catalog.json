@@ -4141,6 +4141,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_283",
+      "title": "La masacre de Texas 2",
+      "year": 1986,
+      "duration": 101,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Una locutora de radio graba por accidente un asesinato de la familia Sawyer y se convierte en su siguiente presa, mientras un exranger obsesionado busca venganza motosierra en mano.",
+      "poster": "https://image.tmdb.org/t/p/w780/iyWaAhLyKxbISWrFSzXLwg90GOy.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5MMnUP4mzay6tVNZ8DF3HBeEUMX.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e0f1525e69.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
