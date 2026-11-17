@@ -4126,6 +4126,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_282",
+      "title": "La masacre de Texas: El inicio",
+      "year": 2006,
+      "duration": 91,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Camino a alistarse para Vietnam, dos hermanos y sus novias sufren un accidente en una carretera de Texas y caen en manos de la familia Hewitt, donde nace la leyenda de Leatherface.",
+      "poster": "https://image.tmdb.org/t/p/w780/w80rzkSFn8kJiXJvKAHnjOxzi1v.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bkuCWDEVAp97j7XHftziO9ROYDu.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_826c5b2f31.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
