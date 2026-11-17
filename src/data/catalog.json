@@ -4216,6 +4216,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_288",
+      "title": "Intensamente 2",
+      "year": 2024,
+      "duration": 96,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Riley entra en la adolescencia y en su mente aparecen emociones nuevas. Ansiedad toma el mando y destierra a Alegría y a las demás, que deberán volver antes de que Riley deje de ser quien es.",
+      "poster": "https://image.tmdb.org/t/p/w780/4HEJdpcmTGm3BWWic31G4aCnuC6.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/p5ozvmdgsmbWe0H8Xk7Rc8SCwAB.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_58b4751a60.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
