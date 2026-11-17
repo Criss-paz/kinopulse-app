@@ -4321,6 +4321,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_295",
+      "title": "Spider-Man: Un nuevo universo",
+      "year": 2018,
+      "duration": 117,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "El adolescente Miles Morales se convierte en el Spider-Man de su realidad y une fuerzas con otros hombres y mujeres araña de distintas dimensiones para detener una amenaza contra todas ellas.",
+      "poster": "https://image.tmdb.org/t/p/w780/e47p9fHR6jMrrLeoa7l5hU05vhR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1ntePsIqeklfmrQJqZPncCydsqY.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ed6159c29b.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
