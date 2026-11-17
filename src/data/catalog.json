@@ -4306,6 +4306,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_294",
+      "title": "Spider-Man: Sin camino a casa",
+      "year": 2021,
+      "duration": 148,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Con su identidad revelada, Peter Parker pide ayuda al Doctor Strange para que el mundo la olvide. El hechizo sale mal y abre la puerta a villanos de otros universos.",
+      "poster": "https://image.tmdb.org/t/p/w780/9OGkKMnYgSc0TzSIErcOOiKllrK.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_8c0f8f8703.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
