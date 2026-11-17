@@ -4111,6 +4111,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_281",
+      "title": "La masacre de Texas (2003)",
+      "year": 2003,
+      "duration": 98,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "En 1973, cinco jóvenes que cruzan Texas recogen a una autoestopista traumatizada y acaban a merced de Leatherface y su familia de asesinos.",
+      "poster": "https://image.tmdb.org/t/p/w780/cQpJwQWLdCRAjVXetXeiU0dDdHp.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xnShZK7y4lupUmXghz75HRSooW9.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e7743086d4.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
