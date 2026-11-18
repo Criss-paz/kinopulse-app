@@ -4636,6 +4636,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_316",
+      "title": "Kung Fu Panda 2",
+      "year": 2011,
+      "duration": 90,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Po y los Cinco Furiosos enfrentan al pavo real Lord Shen y su arma secreta, mientras el panda descubre la verdad sobre su origen.",
+      "poster": "https://image.tmdb.org/t/p/w780/aNji9U9SPTecmoqGippQUBEyouy.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iBUIS2duNa9aDfLgRr8thsUPRs0.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_80d510bbfb.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
