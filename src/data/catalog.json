@@ -4441,6 +4441,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_303",
+      "title": "Thor",
+      "year": 2011,
+      "duration": 115,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Desterrado a la Tierra por su arrogancia, el dios del trueno Thor debe aprender a ser digno de su martillo mientras su hermano Loki trama apoderarse de Asgard.",
+      "poster": "https://image.tmdb.org/t/p/w780/qFAVW4XJaxhj7PcpiUI5hhO9bOX.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cDJ61O1STtbWNBwefuqVrRe3d7l.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_9e49076490.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
