@@ -4801,6 +4801,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_327",
+      "title": "El gato",
+      "year": 2003,
+      "duration": 82,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Un gato parlante con sombrero aparece en casa de dos hermanos aburridos y convierte una tarde de lluvia en un caos de travesuras antes de que regrese su madre.",
+      "poster": "https://image.tmdb.org/t/p/w780/61lpYW9NTJ1UYsCuE78lEvlHXzx.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ihOd5W6qOgrBSLj0uDTnGs8k1aa.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_7f373fce1e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
