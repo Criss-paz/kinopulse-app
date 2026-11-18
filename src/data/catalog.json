@@ -4501,6 +4501,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_307",
+      "title": "Iron Man 2",
+      "year": 2010,
+      "duration": 125,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Con el mundo sabiendo que es Iron Man, Tony Stark enfrenta la presión del gobierno, su salud en declive y a Whiplash, un enemigo que busca venganza contra su familia.",
+      "poster": "https://image.tmdb.org/t/p/w780/ayyJVOV5I4MGjti7nIHC3mVCagR.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7lmBufEG7P7Y1HClYK3gCxYrkgS.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_721cba82b1.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
