@@ -4666,6 +4666,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_318",
+      "title": "Mi villano favorito",
+      "year": 2010,
+      "duration": 95,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Gru planea robar la Luna con ayuda de sus Minions, y para lograrlo adopta a tres niñas huérfanas que terminan cambiando su corazón de villano.",
+      "poster": "https://image.tmdb.org/t/p/w780/opIScoQb0ODZzatdwC9xcsjeXmz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2XSeKDmIa2KxaiJy4J9e8FrIZhk.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_901a46f1b9.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
