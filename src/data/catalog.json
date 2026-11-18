@@ -4531,6 +4531,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_309",
+      "title": "Coco",
+      "year": 2017,
+      "duration": 105,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Miguel sueña con ser músico pese a la prohibición de su familia. En Día de Muertos entra por accidente a la Tierra de los Muertos y descubre la verdadera historia de los suyos.",
+      "poster": "https://image.tmdb.org/t/p/w780/oburjHqzOrTtDLYbLunKLwUHhk1.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/g7CHF8gTLGooTbP4GznIGwaqAGL.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_335798830e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
