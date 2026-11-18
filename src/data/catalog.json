@@ -4726,6 +4726,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_322",
+      "title": "La leyenda del libro de la vida",
+      "year": 2014,
+      "duration": 95,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Manolo, dividido entre ser torero o músico, viaja por mundos fantásticos del más allá en Día de Muertos para recuperar a su amada María.",
+      "poster": "https://image.tmdb.org/t/p/w780/k669nOalwu7NKhW7aWNJKN7Nxvi.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/b0XkgWgCBurkCZdNXp7kEZdgxEi.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_98c4b7631c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
