@@ -4711,6 +4711,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_321",
+      "title": "El origen de los guardianes",
+      "year": 2012,
+      "duration": 97,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Santa, el Conejo de Pascua, el Hada de los Dientes y Meme reclutan a Jack Frost para impedir que Pitch, el Coco, llene de miedo los sueños de los niños del mundo.",
+      "poster": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_5de35381df.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
