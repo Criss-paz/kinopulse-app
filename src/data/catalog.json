@@ -4786,6 +4786,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_326",
+      "title": "Dolittle",
+      "year": 2020,
+      "duration": 101,
+      "category": "fantasia",
+      "rating": "ATP",
+      "synopsis": "El doctor Dolittle, que puede hablar con los animales, sale de su encierro y emprende un viaje a una isla mítica para encontrar la cura que salve a la joven reina Victoria.",
+      "poster": "https://image.tmdb.org/t/p/w780/aodZLzbl7JaKSsdV6EJzl86EjcX.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xcUf6yIheo78btFqihlRLftdR3M.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_5045dced5e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
