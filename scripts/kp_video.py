@@ -145,6 +145,7 @@ def revisar(path, size_gb=None):
     fps = _uno(path, "stream=r_frame_rate")
     pix = _uno(path, "stream=pix_fmt")
     perfil = _uno(path, "stream=profile")
+    transfer = _uno(path, "stream=color_transfer")
     try:
         ancho = int(_uno(path, "stream=width") or 0)
         alto = int(_uno(path, "stream=height") or 0)
@@ -191,6 +192,16 @@ def revisar(path, size_gb=None):
         motivos.append("contenedor antiguo")
 
     filtros = ["scale='min(1920,iw)':-2"]
+    color = []
+    if transfer in ("smpte2084", "arib-std-b67"):
+        # HDR (a veces en 8 bits): la tele entra en modo HDR y se ve deslavado o a saltos. Se pasa a SDR.
+        filtros.insert(0, "zscale=t=linear:npl=100,format=gbrpf32le,zscale=p=bt709,tonemap=hable:desat=0,"
+                          "zscale=t=bt709:m=bt709:r=tv,format=yuv420p")
+        color = ["-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709"]
+        motivos.append(f"HDR ({transfer}): las teles lo muestran raro; se pasa a SDR")
+    if os.getenv("KP_SAR_CUADRADO") == "1":
+        # Copias con una proporción de píxel falsa (p. ej. 2579:1920 en una imagen 16:9 normal).
+        filtros.append("setsar=1")
     rechazo = None
     # 1080p de verdad mide 1920 de ancho o 1080 de alto; se deja margen para las copias recortadas.
     baja = ancho and ancho < 1500 and alto < 1000
@@ -218,7 +229,7 @@ def revisar(path, size_gb=None):
             motivos.append(f"{fps} fps con repetidos: se devuelve a 24")
 
     if motivos:
-        video = ["-vf", ",".join(filtros), *RECODIFICAR]
+        video = ["-vf", ",".join(filtros), *RECODIFICAR, *color]
     elif reetiquetar:
         video = ["-c:v", "copy", "-bsf:v", "h264_metadata=level=4.1"]
         avisos.append(f"decía nivel {nivel / 10:.1f}: se corrige la etiqueta a 4.1 sin recodificar")
