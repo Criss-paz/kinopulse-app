@@ -4471,6 +4471,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_305",
+      "title": "Thor: Ragnarok",
+      "year": 2017,
+      "duration": 131,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Prisionero en un planeta lejano y sin su martillo, Thor debe ganarle una pelea de gladiadores a Hulk y volver a tiempo para impedir que Hela destruya Asgard.",
+      "poster": "https://image.tmdb.org/t/p/w780/rGaayCxGkHZLUyDDB3QQnDg2MHQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/vLmHH8jAy8Jq8uBsLucd3592WGh.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_3d1c8d4b4d.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
