@@ -4756,6 +4756,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_324",
+      "title": "Una aventura extraordinaria (Life of Pi)",
+      "year": 2012,
+      "duration": 127,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "Tras un naufragio, el joven Pi queda a la deriva en el océano Pacífico en un bote salvavidas con un tigre de Bengala, en una lucha por sobrevivir que pone a prueba su fe.",
+      "poster": "https://image.tmdb.org/t/p/w780/y7Uix8uMV6W4xEUyUyCGzACtTtb.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/21YsCNMub5455NQCn3jh9SmRFyG.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_1cbb63889b.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
