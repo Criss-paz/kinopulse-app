@@ -4696,6 +4696,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_320",
+      "title": "Mi villano favorito 3",
+      "year": 2017,
+      "duration": 90,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Gru conoce a Dru, su hermano gemelo perdido, que quiere seguir los pasos de su padre villano, mientras enfrenta a Balthazar Bratt, una estrella infantil de los ochenta.",
+      "poster": "https://image.tmdb.org/t/p/w780/1xQ6K6623qdjVkOwEjNneMSxdiB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ftRkFtAGuHngHnLiOxktq0aCVMF.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_d580c60483.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
