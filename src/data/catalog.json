@@ -4681,6 +4681,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_319",
+      "title": "Mi villano favorito 2",
+      "year": 2013,
+      "duration": 98,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Retirado del crimen, Gru es reclutado por la Liga Anti-Villanos para encontrar a quien robó un suero capaz de convertir a cualquiera en un monstruo.",
+      "poster": "https://image.tmdb.org/t/p/w780/nVqR5FXFLCXLsMBGFPT2Qdf9KbW.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uD267eSiACfWLxp47t3gYymOQRj.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_571396a828.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
