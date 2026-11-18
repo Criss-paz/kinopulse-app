@@ -4486,6 +4486,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_306",
+      "title": "Thor: Amor y trueno",
+      "year": 2022,
+      "duration": 119,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Thor busca la paz interior, pero Gorr, el carnicero de dioses, lo obliga a volver a la acción junto a Valquiria, Korg y una Jane Foster convertida en la Poderosa Thor.",
+      "poster": "https://image.tmdb.org/t/p/w780/4gHWDa9hngo4RJy4BImChkMHooi.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/jsoz1HlxczSuTx0mDl2h0lxy36l.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b464dcb944.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
