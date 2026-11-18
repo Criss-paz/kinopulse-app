@@ -4516,6 +4516,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_308",
+      "title": "Iron Man 3",
+      "year": 2013,
+      "duration": 131,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Tras los sucesos de Nueva York, un Tony Stark atormentado lo pierde todo ante el Mandarín y debe sobrevivir solo con su ingenio para proteger a quienes ama.",
+      "poster": "https://image.tmdb.org/t/p/w780/ky38H2S7bWVl46OtAH5kJv6pYAw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4TSqtluelcWByj8YZdqwzQVjI0O.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e75fe6e40d.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
