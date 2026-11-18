@@ -4456,6 +4456,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_304",
+      "title": "Thor: Un mundo oscuro",
+      "year": 2013,
+      "duration": 112,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Thor se alía con su traicionero hermano Loki para detener a Malekith, un antiguo elfo oscuro que quiere sumir el universo en las tinieblas.",
+      "poster": "https://image.tmdb.org/t/p/w780/cs5YLwGBCJBold74avD3NecO5Zc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5o88bbqcV5STn56jqOeovaaWbAE.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_8d717ea981.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
