@@ -4561,6 +4561,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_311",
+      "title": "Shrek",
+      "year": 2001,
+      "duration": 90,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Un ogro gruñón ve su pantano invadido por criaturas de cuento y, para recuperarlo, acepta rescatar a la princesa Fiona con la ayuda de un burro que no para de hablar.",
+      "poster": "https://image.tmdb.org/t/p/w780/5G1RjHMSt7nYONqCqSwFlP87Ckk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2Biv1mSzaaxWOqvcnDZn4GcYEAb.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_9c664ee66a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
