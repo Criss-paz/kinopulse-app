@@ -4771,6 +4771,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_325",
+      "title": "Zathura: Una aventura espacial",
+      "year": 2005,
+      "duration": 101,
+      "category": "fantasia",
+      "rating": "ATP",
+      "synopsis": "Dos hermanos encuentran un viejo juego de mesa que lanza su casa al espacio exterior, y solo podrán volver si terminan la partida entre meteoritos, robots y alienígenas.",
+      "poster": "https://image.tmdb.org/t/p/w780/34d0Raj5t0HLiaHMkLz3nPj9srM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/s9Bn7Mx4U9cWOR1WdFZjU1DTAkh.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_f63855c9db.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
