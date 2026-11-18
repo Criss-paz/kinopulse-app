@@ -4606,6 +4606,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_314",
+      "title": "Shrek para siempre",
+      "year": 2010,
+      "duration": 93,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Cansado de la vida familiar, Shrek firma un pacto con Rumpelstiltskin y termina en una realidad alterna donde nunca existió y Fiona no lo conoce.",
+      "poster": "https://image.tmdb.org/t/p/w780/3MyKXb1ozCfq61tPNKpIggwvP6J.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uzzTystB8lL0mRDII5Sfs5HxgkI.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_8d5ce767ea.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
