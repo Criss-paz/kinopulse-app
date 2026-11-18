@@ -4426,6 +4426,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_302",
+      "title": "El origen (Inception)",
+      "year": 2010,
+      "duration": 148,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "Dom Cobb roba secretos infiltrándose en los sueños. Su último encargo es el más difícil: en lugar de robar una idea, debe implantar una en la mente de un heredero.",
+      "poster": "https://image.tmdb.org/t/p/w780/xgPGDEKkBrXhPaNmwIlf8e2RCMk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8ZTVqvKDQ8emSGUEMjsS4yHAwrp.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_1df96bd4da.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
