@@ -31,6 +31,15 @@ const SAGAS: [name: string, ids: string[]][] = [
   ['Tierra de osos', ['kp_078', 'kp_079']],
   ['Una pareja de idiotas', ['kp_068', 'kp_069']],
   ['Viernes 13', ['kp_128', 'kp_129', 'kp_130', 'kp_131', 'kp_132', 'kp_133', 'kp_134', 'kp_135', 'kp_136', 'kp_137', 'kp_138']],
+  ['Spider-Man', ['kp_289', 'kp_290', 'kp_291', 'kp_292', 'kp_295', 'kp_293', 'kp_294', 'kp_296', 'kp_018']],
+  ['Rápidos y furiosos', ['kp_249', 'kp_250', 'kp_251', 'kp_252', 'kp_253', 'kp_254', 'kp_256', 'kp_257', 'kp_258', 'kp_259']],
+  ['Deadpool', ['kp_260', 'kp_261', 'kp_262']],
+  ['Actividad paranormal', ['kp_271', 'kp_272', 'kp_273', 'kp_274', 'kp_275', 'kp_276', 'kp_277']],
+  ['Terrifier', ['kp_278', 'kp_279', 'kp_280']],
+  ['La masacre de Texas', ['kp_283', 'kp_284', 'kp_281', 'kp_282', 'kp_285', 'kp_286']],
+  ['Percy Jackson', ['kp_247', 'kp_248']],
+  ['Halloween', ['kp_298', 'kp_193']],
+  ['El Grinch', ['kp_145', 'kp_146']],
   ['X-Men', ['kp_026', 'kp_027', 'kp_028', 'kp_029', 'kp_030', 'kp_031', 'kp_032', 'kp_025', 'kp_033']],
 ]
 
