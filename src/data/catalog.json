@@ -4621,6 +4621,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_315",
+      "title": "Kung Fu Panda",
+      "year": 2008,
+      "duration": 92,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Po, un panda torpe y fanático del kung fu, es elegido por sorpresa como el Guerrero Dragón y debe entrenar con los Cinco Furiosos para detener al temible Tai Lung.",
+      "poster": "https://image.tmdb.org/t/p/w780/zcORJ8s9zsBjvKxP0k4FASQSjpf.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qdthf9WrRDSaIkGVQGhhJ9pz1hn.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ac14ecb968.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
