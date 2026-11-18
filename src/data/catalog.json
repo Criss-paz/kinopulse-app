@@ -4546,6 +4546,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_310",
+      "title": "Up: Una aventura de altura",
+      "year": 2009,
+      "duration": 97,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Carl, un viudo de 78 años, ata miles de globos a su casa para volar a Sudamérica y cumplir la promesa que le hizo a su esposa, sin saber que lleva un joven explorador a bordo.",
+      "poster": "https://image.tmdb.org/t/p/w780/vSdpOU6rDK7IpmOD7iAvlZdMUCc.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/hGGC9gKo7CFE3fW07RA587e5kol.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_a683adc359.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
