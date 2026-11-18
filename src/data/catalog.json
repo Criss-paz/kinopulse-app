@@ -4411,6 +4411,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_301",
+      "title": "Pantera Negra",
+      "year": 2018,
+      "duration": 135,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "T'Challa regresa a Wakanda para ser coronado rey, pero un poderoso enemigo de su pasado reclama el trono y pone en peligro a su nación y al mundo entero.",
+      "poster": "https://image.tmdb.org/t/p/w780/7xqinV63L80sdeRELSkchFthEsp.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/b6ZJZHUdMEFECvGiDpJjlfUWela.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_01c3fc484e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
