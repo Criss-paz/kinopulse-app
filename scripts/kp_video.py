@@ -37,6 +37,10 @@ MAX_MBPS = 10
 # Por debajo de esto una copia 1080p ya se ve lavada en una tele (bloques en lo oscuro y en el movimiento).
 MIN_MBPS = 1.5
 JUSTO_MBPS = 3.5
+# Copias sin techo de bitrate (HandBrake sin VBV) tienen escenas de acción a 15-20 Mbps aunque la media
+# sea 2-3: por internet el reproductor no da abasto y se traba justo ahí. Se recodifican con techo.
+PICO_MBPS = 12
+MAX_SEG_PICO = 10
 MAX_SEG_ENTRE_CLAVES = 5
 
 # Los mismos ajustes que arreglar-fps.py: techo alto de bitrate para que las escenas con mucho
@@ -89,6 +93,25 @@ def max_entre_claves(path):
         except ValueError:
             pass
     return max((b - a for a, b in zip(t, t[1:])), default=0)
+
+
+def segundos_pico(path):
+    """Segundos de vídeo que pasan de PICO_MBPS, y el pico más alto."""
+    try:
+        out = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+                              "packet=pts_time,size", "-of", "csv=p=0", str(path)],
+                             capture_output=True, text=True, timeout=600).stdout
+    except Exception:
+        return 0, 0
+    por_seg = {}
+    for linea in out.split():
+        t, _, tam = linea.partition(",")
+        try:
+            por_seg[int(float(t))] = por_seg.get(int(float(t)), 0) + int(tam.strip(","))
+        except ValueError:
+            pass
+    mbps = [b * 8 / 1e6 for b in por_seg.values()]
+    return sum(m > PICO_MBPS for m in mbps), max(mbps, default=0)
 
 
 def mbps_video(path, dur):
@@ -153,6 +176,9 @@ def revisar(path, size_gb=None):
                 reetiquetar = True
             else:
                 motivos.append(f"nivel {nivel / 10:.1f} (máximo 4.2)")
+        n_pico, pico = segundos_pico(path)
+        if n_pico >= MAX_SEG_PICO:
+            motivos.append(f"picos de {pico:.0f} Mbps ({n_pico} s por encima de {PICO_MBPS}): por internet se traba")
         hueco = max_entre_claves(path)
         if hueco > MAX_SEG_ENTRE_CLAVES:
             avisos.append(f"fotogramas clave cada {hueco:.0f} s: saltar en la barra será lento")
