@@ -4846,6 +4846,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_330",
+      "title": "Minions",
+      "year": 2015,
+      "duration": 91,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Kevin, Stuart y Bob salen en busca de un nuevo amo malvado y llegan a una convención de villanos, donde Scarlet Overkill los recluta para robar la corona de Inglaterra.",
+      "poster": "https://image.tmdb.org/t/p/w780/ayvvnNES3Y8tFosd1yr1vNZDWWS.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wKrxeY6lbu7KFBsWVcMH6M8avwr.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b0afbe67aa.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
