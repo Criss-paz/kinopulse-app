@@ -4891,6 +4891,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_333",
+      "title": "Las aventuras de Peabody y Sherman",
+      "year": 2014,
+      "duration": 92,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Peabody, un perro genio, y su hijo adoptivo Sherman viajan en el tiempo con su máquina, pero un descuido altera la historia y deberán arreglarla antes de cambiar el universo para siempre.",
+      "poster": "https://image.tmdb.org/t/p/w780/jslyF6EUJcU47cGhY2zc1S8TmLx.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bJKoNFCLC0C3viZtsvP4lSDDXNO.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_7499042784.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
