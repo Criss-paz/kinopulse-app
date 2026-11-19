@@ -4861,6 +4861,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_331",
+      "title": "Frozen: Una aventura congelada",
+      "year": 2013,
+      "duration": 102,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Cuando los poderes de Elsa sumen a su reino en un invierno eterno, su hermana Anna emprende un viaje con Kristoff, el reno Sven y el muñeco Olaf para encontrarla.",
+      "poster": "https://image.tmdb.org/t/p/w780/8aAkLBwrnBuKWyWowgj9KTNnjzo.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rj58WQ9ImI0mYDptXdM7euX1Wjt.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_6a9289b57c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
