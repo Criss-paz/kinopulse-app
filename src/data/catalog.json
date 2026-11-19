@@ -4876,6 +4876,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_332",
+      "title": "El libro de los secretos",
+      "year": 2010,
+      "duration": 118,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "En un mundo devastado por la guerra, Eli cruza a pie lo que queda de Estados Unidos para proteger un libro sagrado del que depende el futuro, mientras un tirano hace lo que sea por arrebatárselo.",
+      "poster": "https://image.tmdb.org/t/p/w780/z4Ax9UFS9Lz0uTSaJFJ8Vb5I7JJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/aPrrrGtSjXbw8XnpzsVJgF0ioq3.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_16a18b31e3.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
