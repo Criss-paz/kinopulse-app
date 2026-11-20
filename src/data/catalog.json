@@ -4921,6 +4921,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_335",
+      "title": "Los Vengadores",
+      "year": 2012,
+      "duration": 143,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Nick Fury reúne a Iron Man, Capitán América, Thor, Hulk, Viuda Negra y Ojo de Halcón para detener a Loki y a un ejército alienígena que amenaza la Tierra.",
+      "poster": "https://image.tmdb.org/t/p/w780/cWNIua1iPA4kGyQxJGvnx7UIzoT.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9BBTo63ANSmhC4e6r62OJFuK2GL.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_417365038c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
