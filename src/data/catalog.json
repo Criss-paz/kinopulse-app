@@ -5116,6 +5116,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_348",
+      "title": "Minions: Nace un villano",
+      "year": 2022,
+      "duration": 88,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "En los años setenta, un Gru de doce años sueña con ser el mayor villano del mundo y, con la ayuda de sus Minions, intenta entrar a los Salvajes Seis.",
+      "poster": "https://image.tmdb.org/t/p/w780/8iqrdedeQuRLoRUB82eRmgfswVV.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wZS4xSfPtk1NPQnx9zsT5R2WhCu.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_fb29c413ae.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
