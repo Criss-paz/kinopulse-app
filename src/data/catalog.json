@@ -5251,6 +5251,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_357",
+      "title": "La hermanastra fea",
+      "year": 2025,
+      "duration": 109,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "En un reino de belleza implacable, Elvira hará todo lo necesario, por doloroso y grotesco que sea, para competir con su hermosa hermanastra por el amor del príncipe.",
+      "poster": "https://image.tmdb.org/t/p/w780/4KjMMLHqKcAxNRTd5mhMDtNXW1P.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kG8bBajeSTUxJGmS47WujcraZUk.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_a783184266.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
