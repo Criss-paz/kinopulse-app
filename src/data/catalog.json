@@ -4981,6 +4981,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_339",
+      "title": "Oppenheimer",
+      "year": 2023,
+      "duration": 180,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "La historia del físico J. Robert Oppenheimer, director del Proyecto Manhattan, y del enorme costo personal y moral de crear la bomba atómica.",
+      "poster": "https://image.tmdb.org/t/p/w780/mJRUREPjTqqMEKwEiM2sdmIGngz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/neeNHeXjMF5fXoCJRsOmkNGC7q.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_d53632a751.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
