@@ -5056,6 +5056,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_344",
+      "title": "El planeta de los simios: La guerra",
+      "year": 2017,
+      "duration": 140,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "César y sus simios se ven obligados a una guerra contra un ejército humano liderado por un despiadado coronel, en una lucha que decidirá el destino del planeta.",
+      "poster": "https://image.tmdb.org/t/p/w780/x7KLC1tQEbGjnPjjJNAM5Lc0SAk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ulMscezy9YX0bhknvJbZoUgQxO5.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b172d12c3b.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
