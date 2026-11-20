@@ -5176,6 +5176,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_352",
+      "title": "Yo antes de ti",
+      "year": 2016,
+      "duration": 110,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "Louisa consigue trabajo cuidando a Will, un joven adinerado que quedó paralítico tras un accidente, y entre ambos nace una relación que cambiará sus vidas.",
+      "poster": "https://image.tmdb.org/t/p/w780/5vftJe6vqxhx4DPJcGbzSy1QJRI.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3WK7p9EdZmmvB1IbB2Vw9Rf4lXH.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_c2cbbcb0cf.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
