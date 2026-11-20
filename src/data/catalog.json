@@ -5131,6 +5131,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_349",
+      "title": "Moana: Un mar de aventuras",
+      "year": 2016,
+      "duration": 107,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Moana, hija del jefe de su isla, zarpa en busca del semidiós Maui para devolver el corazón de Te Fiti y salvar a su pueblo de una oscuridad que se extiende por el océano.",
+      "poster": "https://image.tmdb.org/t/p/w780/hw4FlDdufQuLIsYiqBYIL0Bxn26.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qLVNZFHYUR6Li64He67SWl6BHQe.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_f985952f9f.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
