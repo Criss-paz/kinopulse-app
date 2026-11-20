@@ -5221,6 +5221,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_355",
+      "title": "Los cazanovias",
+      "year": 2005,
+      "duration": 119,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Dos amigos que se cuelan en bodas para conocer mujeres rompen sus propias reglas cuando uno se enamora de la hija de un poderoso político.",
+      "poster": "https://image.tmdb.org/t/p/w780/4ggYJCTPg2xs6AEYdce3OeoqRew.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/m1WSBzJ3uZ0WmxRBt1dpGUfNq7J.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_9542789dd1.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
