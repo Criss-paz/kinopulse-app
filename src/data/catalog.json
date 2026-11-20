@@ -5146,6 +5146,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_350",
+      "title": "Nueve (9)",
+      "year": 2009,
+      "duration": 79,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "En un mundo posapocalíptico donde los humanos desaparecieron, unos pequeños muñecos de trapo con vida deben enfrentarse a las máquinas que acabaron con todo.",
+      "poster": "https://image.tmdb.org/t/p/w780/mu1zDw4qxlUzrBizasO24unC766.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bxgbXWG7dBgNpaFw4BLwzNS7qLk.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_30e9b7b493.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
