@@ -4,6 +4,7 @@
     python scripts/backup-to-drive-e.py                  # originales de Telegram + catálogo
     python scripts/backup-to-drive-e.py --desde-hf       # además, las películas publicadas (se bajan de HF)
     python scripts/backup-to-drive-e.py --desde-hf --ids lista.txt   # solo esas (un kp_xxx por línea)
+    python scripts/backup-to-drive-e.py --lo-que-quepa  # si no cabe todo, copia lo que entre
     python scripts/backup-to-drive-e.py --esperar-fps    # espera a que termine arreglar-fps.py y luego corre
     python scripts/backup-to-drive-e.py --simular        # solo dice qué haría
 
@@ -197,6 +198,7 @@ def main():
     ap.add_argument("--limite-mbps", type=float, default=0, help="tope de descarga en megabits/s para --desde-hf (0 = sin tope)")
     ap.add_argument("--esperar-fps", action="store_true", help="esperar a que termine arreglar-fps.py antes de empezar")
     ap.add_argument("--ids", help="con --desde-hf, bajar solo estas películas (archivo con un kp_xxx por línea)")
+    ap.add_argument("--lo-que-quepa", action="store_true", help="si no cabe todo, copiar lo que quepa (las más chicas primero)")
     ap.add_argument("--simular", action="store_true", help="mostrar qué se copiaría, sin copiar")
     args = ap.parse_args()
 
@@ -245,7 +247,20 @@ def main():
     for s in saltados:
         print(f"  saltado: {s}")
     if total + MARGEN_LIBRE > libre:
-        sys.exit("No cabe en el disco. No copio nada.")
+        if not args.lo_que_quepa:
+            sys.exit("No cabe en el disco. No copio nada.")
+        # Las más chicas primero: caben más películas, y lo que no entra se queda en el disco local.
+        cabe = libre - MARGEN_LIBRE
+        elegidos = []
+        for item in sorted(locales + remotas, key=lambda x: x[-1]):
+            if item[-1] <= cabe:
+                elegidos.append(item)
+                cabe -= item[-1]
+        fuera = len(locales) + len(remotas) - len(elegidos)
+        locales = [x for x in locales if x in elegidos]
+        remotas = [x for x in remotas if x in elegidos]
+        total = sum(t for *_, t in locales) + sum(t for *_, t in remotas)
+        print(f"No cabe todo: copio {len(elegidos)} ({gb(total)}) y dejan de copiarse {fuera}.")
     if args.simular:
         for src, _dst, tam in locales:
             print(f"  copiaría {src.name} ({gb(tam)})")
