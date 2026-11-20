@@ -4906,6 +4906,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_334",
+      "title": "Iron Man",
+      "year": 2008,
+      "duration": 126,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Secuestrado en Afganistán, el millonario fabricante de armas Tony Stark construye una armadura para escapar y decide usarla para proteger al mundo como Iron Man.",
+      "poster": "https://image.tmdb.org/t/p/w780/bFj7XRg5avQDvuvWaag3IttjEAw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cKvDv2LpwVEqbdXWoQl4XgGN6le.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_472eb37188.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
