@@ -4966,6 +4966,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_338",
+      "title": "Pantera Negra: Wakanda por siempre",
+      "year": 2022,
+      "duration": 161,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Tras la muerte del rey T'Challa, Wakanda debe proteger su nación de las potencias mundiales y de Namor, el poderoso rey de un reino submarino oculto.",
+      "poster": "https://image.tmdb.org/t/p/w780/iQ4ydo7nSxIlFyq8sZcu0rCK6AN.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/83H0C66AcvkwpG2738VCTHMY9uv.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_15b9e5daf6.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
