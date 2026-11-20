@@ -5071,6 +5071,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_345",
+      "title": "El planeta de los simios: Nuevo reino",
+      "year": 2024,
+      "duration": 145,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "Generaciones después de César, un joven simio emprende un viaje que lo hará cuestionar todo lo que sabe del pasado, mientras un líder tiránico construye su imperio.",
+      "poster": "https://image.tmdb.org/t/p/w780/1sT7rtnAWflnfL1qKDytyzuL1lk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fqv8v6AycXKsivp1T5yKtLbGXce.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_d6e276e293.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
