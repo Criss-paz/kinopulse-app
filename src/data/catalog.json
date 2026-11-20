@@ -5161,6 +5161,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_351",
+      "title": "¿Conoces a Joe Black?",
+      "year": 1998,
+      "duration": 181,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "La Muerte toma el cuerpo de un joven para conocer la vida humana y pide a un poderoso empresario que le sirva de guía, a cambio de unos días más de vida.",
+      "poster": "https://image.tmdb.org/t/p/w780/z2jzFfXTXnZ7oytCiIEieSXDb1b.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uMBByiSDpgFwWVegAtwwnuzvogJ.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_5b4fcfb764.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
