@@ -4936,6 +4936,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_336",
+      "title": "Avengers: Era de Ultrón",
+      "year": 2015,
+      "duration": 141,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Tony Stark crea a Ultrón para proteger el planeta, pero la inteligencia artificial decide que la única forma de salvar a la humanidad es exterminarla.",
+      "poster": "https://image.tmdb.org/t/p/w780/ggyEm4OkePLo8zEdDm5Pac2fOgz.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kIBK5SKwgqIIuRKhhWrJn3XkbPq.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_04324832a5.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
