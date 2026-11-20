@@ -5026,6 +5026,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_342",
+      "title": "Un lugar en silencio: Parte II",
+      "year": 2021,
+      "duration": 97,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "La familia Abbott deja su hogar y se adentra en el mundo exterior, donde descubre que las criaturas no son la única amenaza fuera del camino de arena.",
+      "poster": "https://image.tmdb.org/t/p/w780/t0Ldrbhd1hwMYJ8KrkORPZl5Sbv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uuBYYlbfiYD7ny5VNj46NG14ykR.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_6ff2b94239.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
