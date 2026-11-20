@@ -5191,6 +5191,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_353",
+      "title": "Marty Supremo",
+      "year": 2025,
+      "duration": 150,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "Marty Mauser, un joven con un sueño que nadie respeta, hará lo que sea por convertirse en el mejor jugador de ping-pong del mundo en los años cincuenta.",
+      "poster": "https://image.tmdb.org/t/p/w780/guRmwb1r337m2tKBH9KcE3vOpGE.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qKWDHofjMHPSEOTLaixkC9ZmjTT.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_894fce51fc.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
