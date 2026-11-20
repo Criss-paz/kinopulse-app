@@ -5206,6 +5206,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_354",
+      "title": "Irene, yo y mi otro yo",
+      "year": 2000,
+      "duration": 117,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Charlie, un policía amable que se guarda todo, desarrolla una segunda personalidad agresiva, Hank, y ambas se enamoran de la misma mujer en plena persecución.",
+      "poster": "https://image.tmdb.org/t/p/w780/6DpK8Jq0WoUeJB09GQmGoZa19g4.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/8qLen3NLCVSu1I9aqGWbTUIoBLQ.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_2ce6a45298.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
