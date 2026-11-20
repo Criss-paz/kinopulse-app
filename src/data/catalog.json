@@ -4996,6 +4996,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_340",
+      "title": "Guasón (Joker)",
+      "year": 2019,
+      "duration": 122,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "Arthur Fleck, un comediante fracasado e ignorado por la sociedad de Ciudad Gótica, se hunde poco a poco en la locura hasta convertirse en el Guasón.",
+      "poster": "https://image.tmdb.org/t/p/w780/hKBFDwAcYMZWflc3Cj0lpbBxHue.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rlay2M5QYvi6igbGcFjq8jxeusY.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_1cd15591ff.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
