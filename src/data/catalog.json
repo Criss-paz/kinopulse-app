@@ -5011,6 +5011,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_341",
+      "title": "Un lugar en silencio",
+      "year": 2018,
+      "duration": 90,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "En un mundo dominado por criaturas que cazan guiadas por el sonido, una familia sobrevive en absoluto silencio mientras se prepara para la llegada de un bebé.",
+      "poster": "https://image.tmdb.org/t/p/w780/up1Awcd25rJHDy267K1IYNSslne.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/nHRUtBwFNnNN70vcQ7lAsjc2T6S.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b5ab301a36.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
