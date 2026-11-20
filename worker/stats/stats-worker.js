@@ -6,7 +6,11 @@
 //   GET  /top                                        ids of the most watched movies of the last 30 days (public, no counts)
 //   POST /sync   {id, code?, data}                   save a device's progress and list; without code, makes a new one
 //   GET  /sync?code=XXXXXXXX                         what was saved under that code
-//   GET  /stats  Authorization: Bearer <password>    everything the admin panel shows
+//   GET  /stats?from=YYYY-MM-DD&to=YYYY-MM-DD        everything the admin panel shows, for that range of days
+//        Authorization: Bearer <password>             (default: the last 7 days)
+//
+// Days are counted in local time, TZ_OFFSET_MIN minutes from UTC (wrangler.toml; -360 = Central America).
+// Before that setting existed they were UTC days, so the oldest history may be shifted by those hours.
 //
 // The device id is a random UUID the app makes up on first launch: it identifies an install, not a
 // person. No IP, name or account is stored. The admin password lives only here, as the
@@ -26,6 +30,8 @@ const REPORT_KINDS = ['err_network', 'err_decode', 'err_format', 'no_carga', 'ti
 const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 const CODE = /^[A-HJ-NP-Z2-9]{8}$/
 const MAX_SYNC_CHARS = 200000
+const MAX_RANGE_DAYS = 120
+const DAY = /^\d{4}-\d{2}-\d{2}$/
 
 const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS devices (
@@ -39,14 +45,48 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS reports (day TEXT NOT NULL, id TEXT NOT NULL, movie TEXT NOT NULL, kind TEXT NOT NULL, platform TEXT NOT NULL,
      PRIMARY KEY (day, id, movie, kind)) WITHOUT ROWID`,
   `CREATE TABLE IF NOT EXISTS sync (code TEXT PRIMARY KEY, owner TEXT NOT NULL, data TEXT NOT NULL, updated INTEGER NOT NULL)`,
+  // Who came each day and from what: kind of device (phone, tablet, tv, pc) and browser (or the app).
+  `CREATE TABLE IF NOT EXISTS visits (day TEXT NOT NULL, id TEXT NOT NULL, kind TEXT NOT NULL, browser TEXT NOT NULL,
+     PRIMARY KEY (day, id)) WITHOUT ROWID`,
 ]
+// Columns added after the first deploy. ALTER fails once the column exists, and that is fine.
+const MIGRATIONS = [`ALTER TABLE devices ADD COLUMN kind TEXT`, `ALTER TABLE devices ADD COLUMN browser TEXT`]
 
 // Tables are created on the first request of each isolate, so deploying needs no migration step.
 let ready
-const ensureSchema = (db) => (ready ??= db.batch(SCHEMA.map((q) => db.prepare(q))).catch((e) => ((ready = undefined), Promise.reject(e))))
+const ensureSchema = (db) =>
+  (ready ??= db
+    .batch(SCHEMA.map((q) => db.prepare(q)))
+    .then(() => Promise.all(MIGRATIONS.map((q) => db.prepare(q).run().catch(() => undefined))))
+    .catch((e) => ((ready = undefined), Promise.reject(e))))
 
 const now = () => Math.floor(Date.now() / 1000)
-const dayOf = (ts) => new Date(ts * 1000).toISOString().slice(0, 10)
+let offsetS = 0 // set from env.TZ_OFFSET_MIN on every request
+const dayOf = (ts) => new Date((ts + offsetS) * 1000).toISOString().slice(0, 10)
+// Seconds since the epoch at the local midnight that starts that day.
+const startOf = (day) => Date.parse(`${day}T00:00:00Z`) / 1000 - offsetS
+const addDays = (day, n) => new Date(Date.parse(`${day}T00:00:00Z`) + n * DAY_S * 1000).toISOString().slice(0, 10)
+
+// The app inside a TV or phone reports its platform; in a browser, the user agent says the rest.
+function kindOf(platform, ua) {
+  if (platform === 'tv') return 'tv'
+  if (platform === 'android') return 'phone'
+  if (/SmartTV|SMART-TV|Tizen|Web0S|webOS|HbbTV|BRAVIA|AFT\w|CrKey/i.test(ua)) return 'tv'
+  if (/iPad|Tablet/i.test(ua) || (/Android/i.test(ua) && !/Mobile/i.test(ua))) return 'tablet'
+  if (/Mobi|iPhone|iPod|Android/i.test(ua)) return 'phone'
+  return 'pc'
+}
+
+function browserOf(platform, ua) {
+  if (platform === 'tv' || platform === 'android') return 'App KinoPulse'
+  if (/SamsungBrowser/i.test(ua)) return 'Samsung Internet'
+  if (/Edg(e|A|iOS)?\//i.test(ua)) return 'Edge'
+  if (/OPR\/|Opera/i.test(ua)) return 'Opera'
+  if (/Firefox|FxiOS/i.test(ua)) return 'Firefox'
+  if (/CriOS|Chrome\//i.test(ua)) return 'Chrome'
+  if (/Safari\//i.test(ua)) return 'Safari'
+  return 'Otro'
+}
 
 function cors(origin, env) {
   const allowed = (env.ALLOWED_ORIGINS || '*').split(',').map((s) => s.trim())
@@ -83,20 +123,25 @@ async function readBody(request, maxChars = 500) {
   }
 }
 
-async function ping(db, body) {
+async function ping(db, body, ua) {
   const { id, platform, version, watching } = body
   if (!UUID.test(id) || !PLATFORMS.includes(platform)) return false
   const ver = String(version ?? '').slice(0, 20)
   const movie = typeof watching === 'string' && MOVIE.test(watching) ? watching : null
+  const kind = kindOf(platform, ua)
+  const browser = browserOf(platform, ua)
   const ts = now()
   await db.batch([
     db
       .prepare(
-        `INSERT INTO devices (id, platform, version, first_seen, last_seen, watching) VALUES (?1, ?2, ?3, ?4, ?4, ?5)
-         ON CONFLICT (id) DO UPDATE SET platform = ?2, version = ?3, last_seen = ?4, watching = ?5`,
+        `INSERT INTO devices (id, platform, version, first_seen, last_seen, watching, kind, browser) VALUES (?1, ?2, ?3, ?4, ?4, ?5, ?6, ?7)
+         ON CONFLICT (id) DO UPDATE SET platform = ?2, version = ?3, last_seen = ?4, watching = ?5, kind = ?6, browser = ?7`,
       )
-      .bind(id, platform, ver, ts, movie),
+      .bind(id, platform, ver, ts, movie, kind, browser),
     db.prepare(`INSERT OR IGNORE INTO daily (day, id) VALUES (?1, ?2)`).bind(dayOf(ts), id),
+    db
+      .prepare(`INSERT INTO visits (day, id, kind, browser) VALUES (?1, ?2, ?3, ?4) ON CONFLICT (day, id) DO UPDATE SET kind = ?3, browser = ?4`)
+      .bind(dayOf(ts), id, kind, browser),
   ])
   return true
 }
@@ -205,6 +250,69 @@ async function stats(db) {
   }
 }
 
+// What the panel shows for the days from..to (both included), plus what is happening right now.
+async function rangeStats(db, from, to) {
+  const ts = now()
+  const online = ts - ONLINE_WINDOW_S
+  const t0 = startOf(from)
+  const t1 = startOf(addDays(to, 1))
+  // Installs: the app on a TV or phone, or the web app installed on a computer or phone (PWA). A device
+  // that uninstalls never says so; "active" means it opened the app in the last 30 days.
+  const kindSql = `COALESCE(kind, CASE platform WHEN 'tv' THEN 'tv' WHEN 'android' THEN 'phone' ELSE 'pc' END)`
+  const [live, liveKinds, watching, installs, totals, perDay, newPerDay, playsPerDay, kinds, browsers, top, problems, first] = await db.batch([
+    db.prepare(`SELECT COUNT(*) AS online, SUM(watching IS NOT NULL) AS watching FROM devices WHERE last_seen >= ?1`).bind(online),
+    db.prepare(`SELECT ${kindSql} AS kind, COUNT(*) AS n FROM devices WHERE last_seen >= ?1 GROUP BY 1 ORDER BY n DESC`).bind(online),
+    db
+      .prepare(`SELECT watching AS movie, COUNT(*) AS devices FROM devices WHERE last_seen >= ?1 AND watching IS NOT NULL GROUP BY watching ORDER BY devices DESC LIMIT 20`)
+      .bind(online),
+    db
+      .prepare(
+        `SELECT ${kindSql} AS kind, COUNT(*) AS total, SUM(last_seen >= ?1) AS active FROM devices
+         WHERE platform IN ('tv', 'android', 'pwa') GROUP BY 1 ORDER BY total DESC`,
+      )
+      .bind(ts - 30 * DAY_S),
+    db
+      .prepare(
+        `SELECT
+           (SELECT COUNT(DISTINCT id) FROM daily WHERE day BETWEEN ?1 AND ?2) AS users,
+           (SELECT COUNT(*) FROM devices WHERE first_seen >= ?3 AND first_seen < ?4) AS new_devices,
+           (SELECT COALESCE(SUM(n), 0) FROM plays WHERE day BETWEEN ?1 AND ?2) AS plays,
+           (SELECT COUNT(*) FROM devices) AS devices_total,
+           (SELECT COALESCE(SUM(n), 0) FROM plays) AS plays_total`,
+      )
+      .bind(from, to, t0, t1),
+    db.prepare(`SELECT day, COUNT(*) AS users FROM daily WHERE day BETWEEN ?1 AND ?2 GROUP BY day`).bind(from, to),
+    db
+      .prepare(`SELECT date(first_seen + ?3, 'unixepoch') AS day, COUNT(*) AS n FROM devices WHERE first_seen >= ?1 AND first_seen < ?2 GROUP BY 1`)
+      .bind(t0, t1, offsetS),
+    db.prepare(`SELECT day, SUM(n) AS plays FROM plays WHERE day BETWEEN ?1 AND ?2 GROUP BY day`).bind(from, to),
+    db.prepare(`SELECT kind, COUNT(DISTINCT id) AS users FROM visits WHERE day BETWEEN ?1 AND ?2 GROUP BY kind ORDER BY users DESC`).bind(from, to),
+    db.prepare(`SELECT browser, COUNT(DISTINCT id) AS users FROM visits WHERE day BETWEEN ?1 AND ?2 GROUP BY browser ORDER BY users DESC`).bind(from, to),
+    db.prepare(`SELECT movie, SUM(n) AS plays FROM plays WHERE day BETWEEN ?1 AND ?2 GROUP BY movie ORDER BY plays DESC LIMIT 15`).bind(from, to),
+    db
+      .prepare(`SELECT movie, kind, platform, COUNT(*) AS n FROM reports WHERE day BETWEEN ?1 AND ?2 GROUP BY movie, kind, platform ORDER BY n DESC, movie LIMIT 40`)
+      .bind(from, to),
+    db.prepare(`SELECT MIN(day) AS daily, (SELECT MIN(day) FROM visits) AS visits FROM daily`),
+  ])
+  // Every day of the range, zeros included, so the chart has no gaps.
+  const users = new Map(perDay.results.map((r) => [r.day, r.users]))
+  const fresh = new Map(newPerDay.results.map((r) => [r.day, r.n]))
+  const plays = new Map(playsPerDay.results.map((r) => [r.day, r.plays]))
+  const days = []
+  for (let d = from; d <= to; d = addDays(d, 1)) days.push({ day: d, users: users.get(d) ?? 0, new: fresh.get(d) ?? 0, plays: plays.get(d) ?? 0 })
+  const sum = (rows, key) => rows.reduce((s, r) => s + (r[key] ?? 0), 0)
+  return {
+    from,
+    to,
+    today: dayOf(ts),
+    firstDay: first.results[0].daily,
+    detailSince: first.results[0].visits,
+    live: { online: live.results[0].online ?? 0, watching: live.results[0].watching ?? 0, byKind: liveKinds.results, watchingNow: watching.results },
+    installs: { total: sum(installs.results, 'total'), active: sum(installs.results, 'active'), byKind: installs.results },
+    range: { ...totals.results[0], days, byKind: kinds.results, byBrowser: browsers.results, top: top.results, problems: problems.results },
+  }
+}
+
 async function authorize(request, env, db) {
   if (!env.ADMIN_PASSWORD) return 503
   const ip = request.headers.get('CF-Connecting-IP') || 'unknown'
@@ -235,10 +343,11 @@ export default {
     const { pathname, searchParams } = new URL(request.url)
     try {
       await ensureSchema(env.DB)
+      offsetS = (Number(env.TZ_OFFSET_MIN) || 0) * 60
       const write = request.method === 'POST' && new Map([['/ping', ping], ['/play', play], ['/report', report]]).get(pathname)
       if (write) {
         const body = await readBody(request)
-        const ok = body && (await write(env.DB, body))
+        const ok = body && (await write(env.DB, body, request.headers.get('User-Agent') || ''))
         return reply(ok ? 204 : 400)
       }
       if (request.method === 'GET' && pathname === '/top') return reply(200, await top(env.DB), 'public, max-age=600')
@@ -254,7 +363,17 @@ export default {
       }
       if (request.method === 'GET' && pathname === '/stats') {
         const status = await authorize(request, env, env.DB)
-        return status === 200 ? reply(200, await stats(env.DB)) : reply(status, { error: status })
+        if (status !== 200) return reply(status, { error: status })
+        const today = dayOf(now())
+        let to = searchParams.get('to') || today
+        let from = searchParams.get('from') || addDays(to, -6)
+        if (!DAY.test(from) || !DAY.test(to) || from > to) return reply(400, { error: 400 })
+        if (to > today) to = today
+        if (from > to) from = to
+        if (from < addDays(to, -(MAX_RANGE_DAYS - 1))) from = addDays(to, -(MAX_RANGE_DAYS - 1))
+        // The older fields stay for installed apps whose admin panel still reads them.
+        const [legacy, range] = await Promise.all([stats(env.DB), rangeStats(env.DB, from, to)])
+        return reply(200, { ...legacy, ...range })
       }
       return reply(404, { error: 404 })
     } catch (e) {

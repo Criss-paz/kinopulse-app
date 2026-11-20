@@ -30,7 +30,30 @@ export interface Stats {
   topAll: { movie: string; plays: number }[]
   /** Missing until the worker is redeployed with the reports table. */
   problems?: { movie: string; kind: ReportKind; platform: Platform; n: number }[]
+  /** The fields below are missing until the worker is redeployed with date ranges. */
+  from?: string
+  to?: string
+  today?: string
+  /** Oldest day with any data, and the first one with device and browser detail. */
+  firstDay?: string | null
+  detailSince?: string | null
+  live?: { online: number; watching: number; byKind: { kind: DeviceKind; n: number }[]; watchingNow: { movie: string; devices: number }[] }
+  installs?: { total: number; active: number; byKind: { kind: DeviceKind; total: number; active: number }[] }
+  range?: {
+    users: number
+    new_devices: number
+    plays: number
+    devices_total: number
+    plays_total: number
+    days: { day: string; users: number; new: number; plays: number }[]
+    byKind: { kind: DeviceKind; users: number }[]
+    byBrowser: { browser: string; users: number }[]
+    top: { movie: string; plays: number }[]
+    problems: { movie: string; kind: ReportKind; platform: Platform; n: number }[]
+  }
 }
+
+export type DeviceKind = 'tv' | 'phone' | 'tablet' | 'pc'
 
 // err_* are sent by the player on its own when a movie fails; the rest are picked by the viewer.
 export type ReportKind = 'err_network' | 'err_decode' | 'err_format' | 'no_carga' | 'tirones' | 'audio' | 'subtitulos' | 'otro'
@@ -153,8 +176,10 @@ export class StatsError extends Error {
   }
 }
 
-export async function fetchStats(password: string): Promise<Stats> {
-  const res = await fetch(endpoint('/stats'), { headers: { Authorization: `Bearer ${password}` }, cache: 'no-store' })
+// from and to are YYYY-MM-DD, both included; without them the server answers for the last 7 days.
+export async function fetchStats(password: string, from?: string, to?: string): Promise<Stats> {
+  const query = from && to ? `?from=${from}&to=${to}` : ''
+  const res = await fetch(endpoint(`/stats${query}`), { headers: { Authorization: `Bearer ${password}` }, cache: 'no-store' })
   if (!res.ok) throw new StatsError(res.status)
   return (await res.json()) as Stats
 }

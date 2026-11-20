@@ -9,6 +9,8 @@ database_name = "kinopulse-stats"
 
 [vars]
 # Comma-separated list of app origins allowed to report and read stats ("*" = any).
+# Days are counted in this local time, in minutes from UTC (-360 = Central America, UTC-6).
+TZ_OFFSET_MIN = "-360"
 ALLOWED_ORIGINS = "https://kinopulse.vercel.app,https://criss-paz.github.io,http://localhost:5173"
 
 # The admin password is a secret, never a var:  npx wrangler secret put ADMIN_PASSWORD
