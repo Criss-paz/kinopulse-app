@@ -5101,6 +5101,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_347",
+      "title": "Mi villano favorito 4",
+      "year": 2024,
+      "duration": 94,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Gru, Lucy y las niñas reciben a un nuevo miembro, Gru Jr., y deben esconderse cuando Maxime Le Mal escapa de prisión con ganas de vengarse.",
+      "poster": "https://image.tmdb.org/t/p/w780/iE9Pi1hkiLUm88uF7o9L9Yzl4lW.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/twsxsfao6ZOVvT8LfudH603MMi6.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b201471f5a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
