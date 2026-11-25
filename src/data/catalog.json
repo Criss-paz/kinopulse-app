@@ -5596,6 +5596,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_380",
+      "title": "Cincuenta sombras liberadas",
+      "year": 2018,
+      "duration": 106,
+      "category": "drama",
+      "rating": "+18",
+      "synopsis": "Recién casados, Anastasia y Christian empiezan su vida juntos, pero un enemigo del pasado amenaza todo lo que han construido.",
+      "poster": "https://image.tmdb.org/t/p/w780/1J477oH6LxAAqTY4dCa7xTluvJE.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9ywA15OAiwjSTvg3cBs9B7kOCBF.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_05374ea3ed.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
