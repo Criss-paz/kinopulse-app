@@ -5266,6 +5266,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_358",
+      "title": "Transformers",
+      "year": 2007,
+      "duration": 143,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "El joven Sam Witwicky queda en medio de una guerra milenaria entre los Autobots y los Decepticons, robots alienígenas que llegan a la Tierra en busca del poderoso AllSpark.",
+      "poster": "https://image.tmdb.org/t/p/w780/jNZOozjyWKC0jTTvpZ3KOobGcED.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/iCDMBi6WLjUBnt24dNwHqqF81UL.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_7535f8745d.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
