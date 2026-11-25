@@ -5461,6 +5461,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_371",
+      "title": "Profecía sangrienta",
+      "year": 2014,
+      "duration": 90,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Un equipo de estudiantes filma un documental sobre una anciana con Alzheimer, pero su comportamiento se vuelve cada vez más aterrador e inexplicable.",
+      "poster": "https://image.tmdb.org/t/p/w780/e8ejbh2YsNPuwQU1PVHvVsWRzKr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/xqhTXB86dkKe4jalwUFIjiFgaYB.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_ec83538fae.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
