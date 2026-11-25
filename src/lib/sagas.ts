@@ -31,6 +31,16 @@ const SAGAS: [name: string, ids: string[]][] = [
   ['Tierra de osos', ['kp_078', 'kp_079']],
   ['Una pareja de idiotas', ['kp_068', 'kp_069']],
   ['Viernes 13', ['kp_128', 'kp_129', 'kp_130', 'kp_131', 'kp_132', 'kp_133', 'kp_134', 'kp_135', 'kp_136', 'kp_137', 'kp_138']],
+  ['Shrek', ['kp_311', 'kp_312', 'kp_313', 'kp_314']],
+  ['Kung Fu Panda', ['kp_315', 'kp_316', 'kp_317', 'kp_346']],
+  ['Mi villano favorito', ['kp_318', 'kp_319', 'kp_330', 'kp_320', 'kp_348', 'kp_347', 'kp_239']],
+  ['Iron Man', ['kp_334', 'kp_307', 'kp_308']],
+  ['Thor', ['kp_303', 'kp_304', 'kp_305', 'kp_306']],
+  ['Los Vengadores', ['kp_335', 'kp_336', 'kp_300', 'kp_337']],
+  ['Pantera Negra', ['kp_301', 'kp_338']],
+  ['El planeta de los simios', ['kp_343', 'kp_344', 'kp_345']],
+  ['Un lugar en silencio', ['kp_341', 'kp_342']],
+  ['Moana', ['kp_349', 'kp_237']],
   ['Spider-Man', ['kp_289', 'kp_290', 'kp_291', 'kp_292', 'kp_295', 'kp_293', 'kp_294', 'kp_296', 'kp_018']],
   ['Rápidos y furiosos', ['kp_249', 'kp_250', 'kp_251', 'kp_252', 'kp_253', 'kp_254', 'kp_256', 'kp_257', 'kp_258', 'kp_259']],
   ['Deadpool', ['kp_260', 'kp_261', 'kp_262']],
@@ -63,4 +73,33 @@ export function similarTo(movie: Movie, limit = 14): Movie[] {
     .filter((m) => m.id !== movie.id && m.category === movie.category && !saga.has(m.id))
     .sort((a, b) => Math.abs(a.year - movie.year) - Math.abs(b.year - movie.year))
     .slice(0, limit)
+}
+
+// Order of a category row, the same on every device: newest first, with each saga kept together in
+// viewing order at the place of its newest movie. Ties go to the one added last.
+export function categoryOrder(list: Movie[]): Movie[] {
+  const key = new Map<string, { year: number; saga: number; pos: number; added: number }>()
+  const added = (m: Movie) => Number(m.id.replace(/\D/g, '')) || 0
+  for (const m of list) {
+    const s = SAGAS.findIndex(([, ids]) => ids.includes(m.id))
+    if (s < 0) {
+      key.set(m.id, { year: m.year, saga: -1, pos: 0, added: added(m) })
+      continue
+    }
+    const members = list.filter((x) => SAGAS[s][1].includes(x.id))
+    key.set(m.id, {
+      year: Math.max(...members.map((x) => x.year)),
+      saga: s,
+      pos: SAGAS[s][1].indexOf(m.id),
+      added: Math.max(...members.map(added)),
+    })
+  }
+  return [...list].sort((a, b) => {
+    const x = key.get(a.id)!
+    const y = key.get(b.id)!
+    if (x.year !== y.year) return y.year - x.year
+    if (x.added !== y.added) return y.added - x.added
+    if (x.saga !== y.saga) return x.saga - y.saga
+    return x.pos - y.pos
+  })
 }

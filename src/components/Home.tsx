@@ -4,6 +4,7 @@ import { categories, formatDuration, movies, moviesByCategory, refreshLiveCatalo
 import { DONATE_URL } from '../lib/config'
 import { getLibrary, hideSeen, setHideSeen } from '../lib/library'
 import { getAllProgress } from '../lib/progress'
+import { categoryOrder } from '../lib/sagas'
 import { focusFirst } from '../lib/spatial'
 import { cachedTop, refreshTop } from '../lib/stats'
 import { MovieCard, Row } from './Row'
@@ -312,7 +313,7 @@ export default function Home({ onOpen, onPlay, searchQuery, selectedCategory, on
             )}
 
             {activeCategories.map((c) => {
-              const list = unseen(moviesByCategory(c.id))
+              const list = unseen(categoryOrder(moviesByCategory(c.id)))
               if (!list.length) return null
               return (
                 <section key={c.id}>

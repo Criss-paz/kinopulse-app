@@ -4,6 +4,8 @@
 //   POST /play   {id, movie}                         a movie was actually watched (not just opened)
 //   POST /report {id, movie, kind, platform}         a movie failed to play, or the viewer reported a problem with it
 //   GET  /top                                        ids of the most watched movies of the last 30 days (public, no counts)
+//   POST /suggest {id, text}                         a movie a viewer would like added (a few per device and day)
+//   POST /suggest/done {sid}  (admin password)       mark a suggestion as handled, so it leaves the list
 //   POST /sync   {id, code?, data}                   save a device's progress and list; without code, makes a new one
 //   GET  /sync?code=XXXXXXXX                         what was saved under that code
 //   GET  /stats?from=YYYY-MM-DD&to=YYYY-MM-DD        everything the admin panel shows, for that range of days
@@ -31,6 +33,8 @@ const CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'
 const CODE = /^[A-HJ-NP-Z2-9]{8}$/
 const MAX_SYNC_CHARS = 200000
 const MAX_RANGE_DAYS = 120
+const MAX_SUGGESTION_CHARS = 200
+const MAX_SUGGESTIONS_PER_DAY = 5 // per device
 const DAY = /^\d{4}-\d{2}-\d{2}$/
 
 const SCHEMA = [
@@ -46,6 +50,9 @@ const SCHEMA = [
      PRIMARY KEY (day, id, movie, kind)) WITHOUT ROWID`,
   `CREATE TABLE IF NOT EXISTS sync (code TEXT PRIMARY KEY, owner TEXT NOT NULL, data TEXT NOT NULL, updated INTEGER NOT NULL)`,
   // Who came each day and from what: kind of device (phone, tablet, tv, pc) and browser (or the app).
+  `CREATE TABLE IF NOT EXISTS suggestions (sid INTEGER PRIMARY KEY, day TEXT NOT NULL, id TEXT NOT NULL, text TEXT NOT NULL,
+     created INTEGER NOT NULL, done INTEGER NOT NULL DEFAULT 0)`,
+  `CREATE INDEX IF NOT EXISTS suggestions_day_id ON suggestions (day, id)`,
   `CREATE TABLE IF NOT EXISTS visits (day TEXT NOT NULL, id TEXT NOT NULL, kind TEXT NOT NULL, browser TEXT NOT NULL,
      PRIMARY KEY (day, id)) WITHOUT ROWID`,
 ]
@@ -163,6 +170,20 @@ async function report(db, body) {
   return true
 }
 
+async function suggest(db, body) {
+  const { id, text } = body
+  if (!UUID.test(id) || typeof text !== 'string') return false
+  // Plain text only: control characters out, spaces collapsed.
+  const clean = text.replace(/[\u0000-\u001f\u007f]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, MAX_SUGGESTION_CHARS)
+  if (clean.length < 2) return false
+  const ts = now()
+  const day = dayOf(ts)
+  const { n } = await db.prepare(`SELECT COUNT(*) AS n FROM suggestions WHERE day = ?1 AND id = ?2`).bind(day, id).first()
+  if (n >= MAX_SUGGESTIONS_PER_DAY) return false
+  await db.prepare(`INSERT INTO suggestions (day, id, text, created) VALUES (?1, ?2, ?3, ?4)`).bind(day, id, clean, ts).run()
+  return true
+}
+
 async function top(db) {
   const { results } = await db
     .prepare(`SELECT movie FROM plays WHERE day >= ?1 GROUP BY movie ORDER BY SUM(n) DESC LIMIT 20`)
@@ -259,7 +280,7 @@ async function rangeStats(db, from, to) {
   // Installs: the app on a TV or phone, or the web app installed on a computer or phone (PWA). A device
   // that uninstalls never says so; "active" means it opened the app in the last 30 days.
   const kindSql = `COALESCE(kind, CASE platform WHEN 'tv' THEN 'tv' WHEN 'android' THEN 'phone' ELSE 'pc' END)`
-  const [live, liveKinds, watching, installs, totals, perDay, newPerDay, playsPerDay, kinds, browsers, top, problems, first] = await db.batch([
+  const [live, liveKinds, watching, installs, totals, perDay, newPerDay, playsPerDay, kinds, browsers, top, problems, first, suggestions] = await db.batch([
     db.prepare(`SELECT COUNT(*) AS online, SUM(watching IS NOT NULL) AS watching FROM devices WHERE last_seen >= ?1`).bind(online),
     db.prepare(`SELECT ${kindSql} AS kind, COUNT(*) AS n FROM devices WHERE last_seen >= ?1 GROUP BY 1 ORDER BY n DESC`).bind(online),
     db
@@ -293,6 +314,7 @@ async function rangeStats(db, from, to) {
       .prepare(`SELECT movie, kind, platform, COUNT(*) AS n FROM reports WHERE day BETWEEN ?1 AND ?2 GROUP BY movie, kind, platform ORDER BY n DESC, movie LIMIT 40`)
       .bind(from, to),
     db.prepare(`SELECT MIN(day) AS daily, (SELECT MIN(day) FROM visits) AS visits FROM daily`),
+    db.prepare(`SELECT sid, text, created FROM suggestions WHERE done = 0 ORDER BY created DESC LIMIT 100`),
   ])
   // Every day of the range, zeros included, so the chart has no gaps.
   const users = new Map(perDay.results.map((r) => [r.day, r.users]))
@@ -310,6 +332,7 @@ async function rangeStats(db, from, to) {
     live: { online: live.results[0].online ?? 0, watching: live.results[0].watching ?? 0, byKind: liveKinds.results, watchingNow: watching.results },
     installs: { total: sum(installs.results, 'total'), active: sum(installs.results, 'active'), byKind: installs.results },
     range: { ...totals.results[0], days, byKind: kinds.results, byBrowser: browsers.results, top: top.results, problems: problems.results },
+    suggestions: suggestions.results,
   }
 }
 
@@ -344,7 +367,7 @@ export default {
     try {
       await ensureSchema(env.DB)
       offsetS = (Number(env.TZ_OFFSET_MIN) || 0) * 60
-      const write = request.method === 'POST' && new Map([['/ping', ping], ['/play', play], ['/report', report]]).get(pathname)
+      const write = request.method === 'POST' && new Map([['/ping', ping], ['/play', play], ['/report', report], ['/suggest', suggest]]).get(pathname)
       if (write) {
         const body = await readBody(request)
         const ok = body && (await write(env.DB, body, request.headers.get('User-Agent') || ''))
@@ -360,6 +383,14 @@ export default {
       if (pathname === '/sync' && request.method === 'GET') {
         const saved = await syncLoad(env.DB, searchParams.get('code'))
         return saved ? reply(200, saved) : reply(404, { error: 404 })
+      }
+      if (request.method === 'POST' && pathname === '/suggest/done') {
+        const status = await authorize(request, env, env.DB)
+        if (status !== 200) return reply(status, { error: status })
+        const body = await readBody(request)
+        if (!body || !Number.isInteger(body.sid)) return reply(400)
+        await env.DB.prepare(`UPDATE suggestions SET done = 1 WHERE sid = ?1`).bind(body.sid).run()
+        return reply(204)
       }
       if (request.method === 'GET' && pathname === '/stats') {
         const status = await authorize(request, env, env.DB)

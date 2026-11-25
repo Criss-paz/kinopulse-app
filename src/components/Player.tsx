@@ -144,6 +144,44 @@ export default function Player({ movie, startAt = 0, next, onNext, onExit }: Pro
     }
   }, [movie])
 
+  // Audio watchdog. On some Android TV WebViews the audio renderer dies after a stall: the picture
+  // carries on and the sound never comes back until the movie is reopened. While the video plays,
+  // the decoded-audio counter must keep growing; if it stops, a seek to the same spot rebuilds the
+  // pipeline, and if that doesn't bring it back, the source is reloaded where it was.
+  useEffect(() => {
+    type Counted = HTMLVideoElement & { webkitAudioDecodedByteCount?: number }
+    let lastBytes = -1
+    let lastTime = 0
+    let silentChecks = 0
+    let nudges = 0
+    const timer = window.setInterval(() => {
+      const v = videoRef.current as Counted | null
+      const bytes = v?.webkitAudioDecodedByteCount
+      if (!v || bytes === undefined || v.paused || v.seeking || v.readyState < 3 || v.muted) {
+        lastBytes = -1
+        return
+      }
+      const advanced = v.currentTime - lastTime > 1.5
+      lastTime = v.currentTime
+      if (lastBytes > 0 && advanced && bytes === lastBytes) silentChecks++
+      else if (bytes > lastBytes) silentChecks = nudges = 0
+      lastBytes = bytes
+      if (silentChecks < 2) return
+      silentChecks = 0
+      lastBytes = -1
+      const at = v.currentTime
+      if (nudges++ < 2) {
+        v.currentTime = at
+      } else {
+        nudges = 0
+        mirrorResumeAt.current = at
+        v.src = v.currentSrc || streamUrl(movie.stream)
+        v.play().catch(() => undefined)
+      }
+    }, 2000)
+    return () => window.clearInterval(timer)
+  }, [movie])
+
   useEffect(() => {
     setWatching(movie.id)
     const played = window.setTimeout(() => trackPlay(movie.id), PLAY_AFTER_MS)

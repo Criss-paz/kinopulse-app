@@ -51,6 +51,8 @@ export interface Stats {
     top: { movie: string; plays: number }[]
     problems: { movie: string; kind: ReportKind; platform: Platform; n: number }[]
   }
+  /** Movies viewers asked for, newest first, still not marked as handled. */
+  suggestions?: { sid: number; text: string; created: number }[]
 }
 
 export type DeviceKind = 'tv' | 'phone' | 'tablet' | 'pc'
@@ -182,4 +184,31 @@ export async function fetchStats(password: string, from?: string, to?: string): 
   const res = await fetch(endpoint(`/stats${query}`), { headers: { Authorization: `Bearer ${password}` }, cache: 'no-store' })
   if (!res.ok) throw new StatsError(res.status)
   return (await res.json()) as Stats
+}
+
+export const SUGGESTION_MAX = 200
+
+// A movie the viewer would like added. Resolves to false when the server turns it down (too many
+// from this device today) or can't be reached.
+export async function sendSuggestion(text: string): Promise<boolean> {
+  if (!statsEnabled()) return false
+  try {
+    const res = await fetch(endpoint('/suggest'), {
+      method: 'POST',
+      body: JSON.stringify({ id: deviceId(), text: text.slice(0, SUGGESTION_MAX) }),
+      headers: { 'Content-Type': 'text/plain' },
+    })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
+export async function markSuggestionDone(password: string, sid: number): Promise<boolean> {
+  const res = await fetch(endpoint('/suggest/done'), {
+    method: 'POST',
+    body: JSON.stringify({ sid }),
+    headers: { Authorization: `Bearer ${password}`, 'Content-Type': 'text/plain' },
+  })
+  return res.ok
 }

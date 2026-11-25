@@ -66,8 +66,7 @@ function move(dir: Dir): boolean {
   const curGroup = groupOf(cur)
   const horizontal = dir === 'left' || dir === 'right'
 
-  let best: HTMLElement | null = null
-  let bestScore = Infinity
+  const found: { el: HTMLElement; primary: number; cross: number }[] = []
   for (const el of list) {
     if (el === cur) continue
     if (horizontal && curGroup && groupOf(el) !== curGroup) continue
@@ -78,15 +77,21 @@ function move(dir: Dir): boolean {
     if (primary < -4) continue
     const along = dir === 'right' ? bx - ax : dir === 'left' ? ax - bx : dir === 'down' ? by - ay : ay - by
     if (along <= 0) continue
-    const cross = horizontal ? Math.abs(by - ay) : Math.abs(bx - ax)
-    // Rows matter more than columns vertically (land on the nearest row), the reverse horizontally.
-    const score = Math.max(primary, 0) + cross * (horizontal ? 2 : 0.4)
-    if (score < bestScore) {
-      bestScore = score
-      best = el
-    }
+    found.push({ el, primary: Math.max(primary, 0), cross: horizontal ? Math.abs(by - ay) : Math.abs(bx - ax) })
   }
-  if (!best) return false
+  if (!found.length) return false
+
+  let best: HTMLElement
+  if (horizontal) {
+    best = found.reduce((x, y) => (y.primary + y.cross * 2 < x.primary + x.cross * 2 ? y : x)).el
+  } else {
+    // Up and down always land on the nearest row, wherever its items sit sideways. Weighing the
+    // sideways distance let a far row (the top bar) win over the row just above when that row
+    // was scrolled to the other side, so "up" from deep in a row jumped to the top of the page.
+    const nearest = Math.min(...found.map((f) => f.primary))
+    const row = found.filter((f) => f.primary <= nearest + a.height / 2)
+    best = row.reduce((x, y) => (y.cross < x.cross ? y : x)).el
+  }
 
   // Entering another row: restore that row's remembered item when it is still on screen.
   const g = groupOf(best)

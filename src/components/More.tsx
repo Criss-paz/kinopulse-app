@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { DONATE_URL } from '../lib/config'
 import { focusFirst } from '../lib/spatial'
+import { sendSuggestion, statsEnabled, SUGGESTION_MAX } from '../lib/stats'
 import { createSync, formatCode, joinSync, leaveSync, syncCode, syncEnabled, syncNow } from '../lib/sync'
 
 export default function More({ onBack }: { onBack: () => void }) {
@@ -8,6 +9,17 @@ export default function More({ onBack }: { onBack: () => void }) {
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState('')
+  const [idea, setIdea] = useState('')
+  const [ideaState, setIdeaState] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle')
+
+  const suggest = async () => {
+    const text = idea.trim()
+    if (text.length < 2 || ideaState === 'sending') return
+    setIdeaState('sending')
+    const ok = await sendSuggestion(text)
+    setIdeaState(ok ? 'sent' : 'failed')
+    if (ok) setIdea('')
+  }
 
   useEffect(() => {
     focusFirst()
@@ -71,6 +83,44 @@ export default function More({ onBack }: { onBack: () => void }) {
               <p className="text-sm text-white/50">
                 ¿Estás en la tele? Entra desde tu teléfono a <span className="break-all font-mono text-white/80">{DONATE_URL.replace(/^https?:\/\//, '')}</span>
               </p>
+            </section>
+          )}
+
+          {statsEnabled() && (
+            <section className="kp-panel md:col-span-2">
+              <h2 className="kp-panel-title">🎬 ¿Qué película quieres ver aquí?</h2>
+              <p className="text-white/70">Escribe el nombre de la película (y el año, si lo sabes) que te gustaría que agreguemos. Leemos todas las sugerencias.</p>
+              <form
+                className="flex w-full flex-wrap items-center gap-3"
+                onSubmit={(e) => {
+                  e.preventDefault()
+                  suggest()
+                }}
+              >
+                <label htmlFor="kp-suggest" className="sr-only">
+                  Película que quieres que agreguemos
+                </label>
+                <input
+                  id="kp-suggest"
+                  data-nav
+                  value={idea}
+                  onChange={(e) => {
+                    setIdea(e.target.value)
+                    if (ideaState !== 'sending') setIdeaState('idle')
+                  }}
+                  placeholder="Ej.: Interestelar (2014)"
+                  maxLength={SUGGESTION_MAX}
+                  autoComplete="off"
+                  className="min-w-0 flex-1 rounded-full bg-white/10 px-4 py-3 text-white placeholder-white/30 outline-none focus:ring-4 focus:ring-pulse-cyan"
+                />
+                <button data-nav type="submit" className="kp-btn kp-btn-primary" disabled={idea.trim().length < 2 || ideaState === 'sending'}>
+                  {ideaState === 'sending' ? 'Enviando…' : 'Enviar sugerencia'}
+                </button>
+              </form>
+              {ideaState === 'sent' && <p className="font-medium text-pulse-cyan">¡Gracias! Recibimos tu sugerencia. Puedes enviar otra cuando quieras.</p>}
+              {ideaState === 'failed' && (
+                <p className="text-pulse-amber">No se pudo enviar. Revisa tu conexión o inténtalo mañana (hay un límite de 5 sugerencias por día).</p>
+              )}
             </section>
           )}
 

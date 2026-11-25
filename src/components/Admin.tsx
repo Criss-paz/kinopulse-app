@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { REPO } from '../lib/config'
 import { movies } from '../lib/catalog'
 import { focusFirst } from '../lib/spatial'
-import { fetchStats, statsEnabled, StatsError, type Stats } from '../lib/stats'
+import { fetchStats, markSuggestionDone, statsEnabled, StatsError, type Stats } from '../lib/stats'
 
 const PASS_KEY = 'kp_admin_pass'
 const REFRESH_MS = 10 * 1000
@@ -364,6 +364,35 @@ export default function Admin({ onBack }: { onBack: () => void }) {
               <Table title="Películas que se están viendo" empty="Nadie está viendo nada en este momento." rows={(live?.watchingNow ?? stats.watchingNow).map((w) => [titleOf(w.movie), w.devices])} />
               <Shares title="Conectados por dispositivo" empty="Nadie conectado en este momento." rows={(live?.byKind ?? []).map((k) => [KIND_LABEL[k.kind] ?? k.kind, k.n])} />
             </div>
+
+            {stats.suggestions && (
+              <section className="kp-panel mt-6">
+                <h2 className="kp-panel-title">🎬 Películas que piden los usuarios ({stats.suggestions.length})</h2>
+                {stats.suggestions.length === 0 ? (
+                  <p className="text-white/50">No hay sugerencias pendientes.</p>
+                ) : (
+                  <ul className="w-full divide-y divide-white/5">
+                    {stats.suggestions.map((s) => (
+                      <li key={s.sid} className="flex items-center gap-4 py-2">
+                        <span className="flex-1 break-words text-white/90">{s.text}</span>
+                        <span className="shrink-0 text-sm text-white/40">{new Date(s.created * 1000).toLocaleDateString()}</span>
+                        <button
+                          data-nav
+                          className="kp-btn kp-btn-sm shrink-0"
+                          onClick={() =>
+                            markSuggestionDone(password, s.sid).then((ok) => {
+                              if (ok) setStats((cur) => (cur ? { ...cur, suggestions: cur.suggestions?.filter((x) => x.sid !== s.sid) } : cur))
+                            }, () => undefined)
+                          }
+                        >
+                          ✓ Atendida
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </section>
+            )}
 
             <h2 className="mb-4 mt-10 text-2xl font-bold text-white">Descargas e instalaciones</h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
