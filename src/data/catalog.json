@@ -5521,6 +5521,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_375",
+      "title": "El joven manos de tijera",
+      "year": 1990,
+      "duration": 105,
+      "category": "fantasia",
+      "rating": "ATP",
+      "synopsis": "Edward, un joven creado por un inventor que murió antes de terminarle las manos, es acogido por una familia de los suburbios, donde su talento y su rareza lo cambian todo.",
+      "poster": "https://image.tmdb.org/t/p/w780/2U0rM1ZEXsRQjLSMEZvJAYzyXie.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uNLIMPxknsV4n3IAEDpS1iqF5dm.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_592f7b6a57.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
