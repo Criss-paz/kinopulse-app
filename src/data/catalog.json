@@ -5446,6 +5446,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_370",
+      "title": "Posesión infernal (Evil Dead)",
+      "year": 2013,
+      "duration": 92,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Cinco amigos se refugian en una cabaña aislada para ayudar a una de ellos a dejar las drogas, pero un antiguo libro de los muertos libera un mal que los posee uno a uno.",
+      "poster": "https://image.tmdb.org/t/p/w780/w0BrfbkdKReQsyilSpZtjEE9ZQ5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6RDgtEBzjuF7W25DVziXRABchpX.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_2552d97144.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
