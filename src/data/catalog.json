@@ -5356,6 +5356,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_364",
+      "title": "Sherlock Holmes",
+      "year": 2009,
+      "duration": 128,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Sherlock Holmes y el doctor Watson investigan a Lord Blackwood, un ocultista que parece haber vuelto de la muerte con un plan siniestro para dominar Inglaterra.",
+      "poster": "https://image.tmdb.org/t/p/w780/gf4eNEw79XVbKYDBEQKgWPezQNY.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/85g84VtSf9tu1A9JqqruXEHspb7.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_116b87fb2c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
