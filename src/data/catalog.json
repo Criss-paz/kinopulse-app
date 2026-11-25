@@ -5281,6 +5281,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_359",
+      "title": "Transformers: La venganza de los caídos",
+      "year": 2009,
+      "duration": 150,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "Sam intenta llevar una vida normal en la universidad, pero un antiguo Decepticon conocido como The Fallen regresa para vengarse y destruir la Tierra.",
+      "poster": "https://image.tmdb.org/t/p/w780/qzEIlhHivIcpKhKVOkb61eBz2Mv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/bH1bhjn37uA1zOPvyHbzJSvza7v.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_f1cc1ee653.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
