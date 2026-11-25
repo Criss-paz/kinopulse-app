@@ -5641,6 +5641,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_383",
+      "title": "Sombras tenebrosas",
+      "year": 2012,
+      "duration": 113,
+      "category": "fantasia",
+      "rating": "ATP",
+      "synopsis": "En 1972, el vampiro Barnabas Collins despierta tras dos siglos encerrado y vuelve a su mansión, donde encuentra a sus excéntricos descendientes y a la bruja que lo maldijo.",
+      "poster": "https://image.tmdb.org/t/p/w780/4MVwKquR2GgLXWAR4cyvKUBBYP2.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/cJYerfZVf2rNwfGMK3MQ8lTbMnY.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e6cc43cd89.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
