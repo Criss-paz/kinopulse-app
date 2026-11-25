@@ -5311,6 +5311,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_361",
+      "title": "Transformers: El último caballero",
+      "year": 2017,
+      "duration": 155,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "Con Optimus Prime desaparecido, humanos y Transformers están en guerra, y la clave para salvar el futuro está oculta en la historia secreta de los Transformers en la Tierra.",
+      "poster": "https://image.tmdb.org/t/p/w780/mXEBnMqFwTJCrddVhknCH9fq3fB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/1n00NlOGRFZVs8coBxyZLm5l4EC.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_d8b3268b06.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
