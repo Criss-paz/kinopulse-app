@@ -5416,6 +5416,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_368",
+      "title": "Un paseo por las tumbas",
+      "year": 2014,
+      "duration": 114,
+      "category": "suspenso",
+      "rating": "+16",
+      "synopsis": "Matt Scudder, un expolicía convertido en detective sin licencia, acepta ayudar a un traficante a encontrar a los hombres que secuestraron y asesinaron a su esposa.",
+      "poster": "https://image.tmdb.org/t/p/w780/uAO6y1WHji2rJewD5Mz214KB0jU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/k23FPWl97XKpJ1oTaDyADzxWxs6.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_4bfb634d4e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
