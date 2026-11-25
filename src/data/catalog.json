@@ -5386,6 +5386,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_366",
+      "title": "Beekeeper: Sentencia de muerte",
+      "year": 2024,
+      "duration": 105,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "Un apicultor solitario, antiguo agente de una organización secreta, busca venganza contra la red de estafadores telefónicos que arruinó a la mujer que lo acogió.",
+      "poster": "https://image.tmdb.org/t/p/w780/9X8EhbSpYrf6pGFGttWtVDAs9Hr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/f0ACHVpV707zqu4etZrXnWNdSgL.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_353a88fd77.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
