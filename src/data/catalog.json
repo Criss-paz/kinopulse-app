@@ -5506,6 +5506,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_374",
+      "title": "Beetlejuice Beetlejuice",
+      "year": 2024,
+      "duration": 105,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Tras una tragedia familiar, tres generaciones de la familia Deetz vuelven a Winter River, donde alguien pronuncia tres veces el nombre de Beetlejuice y el caos regresa.",
+      "poster": "https://image.tmdb.org/t/p/w780/fHLTsVtN8Xq1DwNqu1YiAAtu9tU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/A1dZ6faTjg0e6HYftBmEKujuXGQ.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_58839eb050.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
