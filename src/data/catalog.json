@@ -5581,6 +5581,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_379",
+      "title": "Cincuenta sombras más oscuras",
+      "year": 2017,
+      "duration": 131,
+      "category": "drama",
+      "rating": "+18",
+      "synopsis": "Anastasia y Christian Grey intentan darse una nueva oportunidad, pero los secretos del pasado de él y una amenaza inesperada ponen en riesgo su relación.",
+      "poster": "https://image.tmdb.org/t/p/w780/jvBAQOg2ObZKYXZGxYSz3Fkr7Qt.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/16aJtXO6lObbBUr11IvkjB1QD1f.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_bebfe29f31.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
