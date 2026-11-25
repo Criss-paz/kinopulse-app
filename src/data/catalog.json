@@ -5626,6 +5626,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_382",
+      "title": "Los próximos 365 días",
+      "year": 2022,
+      "duration": 114,
+      "category": "drama",
+      "rating": "+18",
+      "synopsis": "La relación de Laura y Massimo pende de un hilo mientras intentan superar los celos y la desconfianza, y un tercero hace todo lo posible por separarlos.",
+      "poster": "https://image.tmdb.org/t/p/w780/dvKpJZUxI1Rsgvrl8HHv62CpBBh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/6cpRpfD3isvluFwXDGSiDVyibPJ.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_cb0df2a5e8.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
