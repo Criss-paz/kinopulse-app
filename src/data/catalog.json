@@ -5296,6 +5296,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_360",
+      "title": "Transformers: La era de la extinción",
+      "year": 2014,
+      "duration": 165,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "Perseguidos por el gobierno, los Autobots casi han desaparecido, hasta que un inventor texano encuentra a Optimus Prime en un viejo camión y desata una nueva guerra.",
+      "poster": "https://image.tmdb.org/t/p/w780/owqV5Qo2DMMomfB1fS6xYWv3yEh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/wxr4Z6E83h14CogsZOzDm1vuDX3.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_0f47bed503.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
