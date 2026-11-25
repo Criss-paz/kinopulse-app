@@ -5551,6 +5551,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_377",
+      "title": "Bee Movie: La historia de una abeja",
+      "year": 2007,
+      "duration": 91,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Barry, una abeja recién graduada, descubre que los humanos venden la miel de las abejas y decide demandar a la humanidad, con consecuencias que nadie esperaba.",
+      "poster": "https://image.tmdb.org/t/p/w780/9VaLteeXJub8VDbBNNDSW12LgcF.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/uRZhr7zzaxeidLq2eYL59ulh4vn.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_f733b2d953.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
