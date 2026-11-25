@@ -5491,6 +5491,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_373",
+      "title": "Beetlejuice: El súper fantasma",
+      "year": 1988,
+      "duration": 92,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Un matrimonio de fantasmas recurre a Beetlejuice, un bioexorcista tan desquiciado como peligroso, para espantar a la excéntrica familia que se mudó a su casa.",
+      "poster": "https://image.tmdb.org/t/p/w780/bQ5cJ5OEFjUXqCfrherAgcDWYgK.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/yRKyJJYIzfeiVDHBe4LXguPQCvD.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_cf85c1fe7c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
