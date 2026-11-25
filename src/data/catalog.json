@@ -5326,6 +5326,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_362",
+      "title": "Transformers: El despertar de las bestias",
+      "year": 2023,
+      "duration": 131,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "En los años noventa, los Autobots se unen a los Maximals, unos Transformers con forma de animales, para impedir que Unicron, un devorador de planetas, destruya la Tierra.",
+      "poster": "https://image.tmdb.org/t/p/w780/peIB7KBBrqW0JsCLQBt9ChEtZ7m.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/2vFuG6bWGyQUzYS9d69E5l85nIz.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e4d553632a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
