@@ -5686,6 +5686,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_386",
+      "title": "Avengers: Endgame (Encore)",
+      "year": 2019,
+      "duration": 185,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "El reestreno especial de Avengers: Endgame, un poco más largo que la versión original. Los Vengadores que quedan tras el chasquido de Thanos reúnen a sus aliados para un último intento de revertir la catástrofe.",
+      "poster": "https://image.tmdb.org/t/p/w780/uIPTS25whXkAAfRqptuPX4y4XiS.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_c447ea7af2.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
