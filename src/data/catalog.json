@@ -5701,6 +5701,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_387",
+      "title": "Transformers: El lado oscuro de la luna",
+      "year": 2011,
+      "duration": 154,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "Los Autobots descubren que una nave cybertroniana se estrelló en la Luna hace décadas y que su carga es la clave de un plan de los Decepticons para esclavizar a la humanidad.",
+      "poster": "https://image.tmdb.org/t/p/w780/fMqXNNgzTaxalU1ve9KevpELiGe.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/h3js4rulxzKMOokM2oO5Kr0mBZU.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_87ecdd4556.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
