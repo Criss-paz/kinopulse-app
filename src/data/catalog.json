@@ -5656,6 +5656,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_384",
+      "title": "365 días",
+      "year": 2020,
+      "duration": 115,
+      "category": "drama",
+      "rating": "+18",
+      "synopsis": "Massimo, un poderoso jefe de la mafia siciliana, secuestra a Laura y le da 365 días para que se enamore de él.",
+      "poster": "https://image.tmdb.org/t/p/w780/jz8T3hrU6GuMqSuQ4Rbd4MJUeaq.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/29mZ5bR5m2w3xuvwJH7BHMFQQwH.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_457ebdad1a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
