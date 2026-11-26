@@ -5671,6 +5671,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_385",
+      "title": "El Hobbit: La batalla de los cinco ejércitos",
+      "year": 2014,
+      "duration": 144,
+      "category": "epica",
+      "rating": "+16",
+      "synopsis": "Tras despertar al dragón Smaug, Bilbo, Thorin y su compañía ven cómo enanos, elfos, hombres y orcos se enfrentan por el tesoro de la Montaña Solitaria en una batalla decisiva.",
+      "poster": "https://image.tmdb.org/t/p/w780/6OiNSLcRKJsBLXwb6DEi6IQ0JFk.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/3UbaCMmqOd7mca4Y5DOzY2ZVTyX.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_6de56d4f98.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
