@@ -5986,6 +5986,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_406",
+      "title": "Spiderhead",
+      "year": 2022,
+      "duration": 107,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "En una prisión de alta tecnología, los reclusos reducen su condena a cambio de probar drogas que alteran las emociones, hasta que uno de ellos empieza a dudar del experimento.",
+      "poster": "https://image.tmdb.org/t/p/w780/5eNrWoqKwpvrH8N4gajZsw0yUee.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ulkWS7Atv0vv33KVCSAmNizAmJd.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_c49d13f462.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
