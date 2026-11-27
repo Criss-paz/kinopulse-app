@@ -6091,6 +6091,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_413",
+      "title": "La familia de mi novia 2: Los Fockers",
+      "year": 2004,
+      "duration": 115,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Greg y Pam reúnen por fin a sus familias: el estricto Jack Byrnes conoce a los padres de Greg, unos Fockers tan liberales como excéntricos.",
+      "poster": "https://image.tmdb.org/t/p/w780/yR9VJWQNmENSi39DqQQf7mij0K0.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/porZOny3iVvs5LK0osW1b52wWik.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e28340e68c.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
