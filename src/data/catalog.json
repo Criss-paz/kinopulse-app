@@ -6076,6 +6076,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_412",
+      "title": "La familia de mi novia",
+      "year": 2000,
+      "duration": 108,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Greg planea pedirle matrimonio a su novia, pero primero debe sobrevivir a un fin de semana con su desconfiado suegro, un exagente de la CIA.",
+      "poster": "https://image.tmdb.org/t/p/w780/yJioJIJn3cWZhK1mj4SYP44enUh.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/qcVrlyPFlPgCsmzorvELvpJN9Be.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_09ec70f647.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
