@@ -5941,6 +5941,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_403",
+      "title": "No hables con extraños",
+      "year": 2024,
+      "duration": 110,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Una familia estadounidense acepta pasar un fin de semana en la casa de campo de una encantadora familia británica, pero la estancia idílica se convierte en una pesadilla.",
+      "poster": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80",
+      "backdrop": "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_6323fc34de.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
