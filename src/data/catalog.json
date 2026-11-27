@@ -6016,6 +6016,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_408",
+      "title": "Al filo del mañana",
+      "year": 2014,
+      "duration": 114,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "Un oficial sin experiencia en combate muere en una batalla contra alienígenas y queda atrapado en un ciclo que lo hace revivir ese mismo día una y otra vez.",
+      "poster": "https://image.tmdb.org/t/p/w780/vNjwi0STOwzmwE9laZSMYYh2JPE.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/4V1yIoAKPMRQwGBaSses8Bp2nsi.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_4af0dd8d10.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
