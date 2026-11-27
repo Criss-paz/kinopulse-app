@@ -5821,6 +5821,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_395",
+      "title": "Creed II: Defendiendo el legado",
+      "year": 2018,
+      "duration": 130,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "Adonis Creed enfrenta al hijo de Ivan Drago, el hombre que mató a su padre en el ring, en una pelea donde se juega el legado de toda su familia.",
+      "poster": "https://image.tmdb.org/t/p/w780/76L2V05c4e6bWsIkWXz4GFXUYYG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/9il7qNbeYnPMYlutsVYDsj4hRyb.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_1707e9d836.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
