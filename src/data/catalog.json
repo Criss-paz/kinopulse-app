@@ -5896,6 +5896,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_400",
+      "title": "El conjuro 3: El diablo me obligó a hacerlo",
+      "year": 2021,
+      "duration": 112,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Los Warren investigan el caso de un joven acusado de asesinato que asegura haber sido poseído por un demonio, el primero en que se usó la posesión como defensa en un juicio.",
+      "poster": "https://image.tmdb.org/t/p/w780/k8HN29t4VxiOagq9jaVVwZJ6wIB.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/p26c040MErns7DJYhisa1CpVB5i.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_09eb79ff6d.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
