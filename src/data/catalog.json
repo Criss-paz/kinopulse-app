@@ -5731,6 +5731,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_389",
+      "title": "Venom",
+      "year": 2018,
+      "duration": 112,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "El periodista Eddie Brock se une a un simbionte alienígena que le da poderes increíbles, y juntos se convierten en Venom, un antihéroe tan letal como impredecible.",
+      "poster": "https://image.tmdb.org/t/p/w780/j2CfbjdXRYBui1tZcPkCGg7xIUU.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/VuukZLgaCrho2Ar8Scl9HtV3yD.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_8ca8ab9d99.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
