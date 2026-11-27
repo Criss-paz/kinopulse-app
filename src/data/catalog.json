@@ -6136,6 +6136,36 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_416",
+      "title": "El conjuro",
+      "year": 2013,
+      "duration": 112,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Los investigadores paranormales Ed y Lorraine Warren ayudan a una familia aterrorizada por una presencia oscura en su granja de Rhode Island.",
+      "poster": "https://image.tmdb.org/t/p/w780/10ir0eISr3p1MF1mjZwGTx7u4vv.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/ecKQlAEG95k62SMGhvX83oEqANK.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_4061f5f1fb.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_417",
+      "title": "Niños grandes",
+      "year": 2010,
+      "duration": 102,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Cinco amigos de la infancia se reúnen con sus familias tras la muerte de su antiguo entrenador de básquetbol y pasan juntos un fin de semana en una casa junto al lago.",
+      "poster": "https://image.tmdb.org/t/p/w780/poUK5Gg7IkPokaBTjadzjPfJgKw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/kARonxQpuSZdFraTKlCThWOBCtu.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_85ee44a3a2.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
