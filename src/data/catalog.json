@@ -5926,6 +5926,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_402",
+      "title": "Los extraños: Capítulo 2",
+      "year": 2025,
+      "duration": 98,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Maya sobrevive a la primera noche de terror en un pueblo aislado, pero los tres extraños enmascarados no han terminado con ella.",
+      "poster": "https://image.tmdb.org/t/p/w780/fSRRH7UasrE6q240H00dww3vE1c.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/AkzGC9vQbKMHGebetpjBF4bU4VS.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_b098dfb49d.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
