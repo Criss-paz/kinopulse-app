@@ -6031,6 +6031,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_409",
+      "title": "Equipaje de mano",
+      "year": 2024,
+      "duration": 120,
+      "category": "accion",
+      "rating": "+16",
+      "synopsis": "En plena víspera de Navidad, un joven agente de seguridad de aeropuerto es chantajeado por un misterioso viajero para que deje pasar un paquete peligroso en un vuelo.",
+      "poster": "https://image.tmdb.org/t/p/w780/xQzQIrVbwft9nICAt6S6BWkthF5.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/rhc8Mtuo3Kh8CndnlmTNMF8o9pU.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_1e2e43ea1a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
