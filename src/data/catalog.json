@@ -5791,6 +5791,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_393",
+      "title": "El sorprendente Hombre Araña 2: La amenaza de Electro",
+      "year": 2014,
+      "duration": 142,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Spider-Man se enfrenta a Electro y al Duende Verde mientras Peter intenta mantener su promesa de alejarse de Gwen Stacy y descubre más secretos sobre su pasado.",
+      "poster": "https://image.tmdb.org/t/p/w780/5SXqjWJqtBTzeWJvWAB8rw74tvi.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/k0hlAzTryCYX1O1LyC6P8tAa8s0.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_e9f0ccbd67.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
