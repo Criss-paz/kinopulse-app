@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { REPO } from '../lib/config'
-import { movies } from '../lib/catalog'
+import { categories, formatDuration, movies, refreshLiveCatalog } from '../lib/catalog'
 import { focusFirst } from '../lib/spatial'
 import { fetchStats, markSuggestionDone, statsEnabled, StatsError, type Stats } from '../lib/stats'
 
@@ -209,6 +209,79 @@ function Calendar({ selected, today, firstDay, onPick }: { selected?: string; to
   )
 }
 
+// Every published movie, with a filter: the admin's quick check of what is in the catalog.
+function Published() {
+  const [open, setOpen] = useState(false)
+  const [filter, setFilter] = useState('')
+  const [, setTick] = useState(0)
+  // The count must be today's: fetch the live catalog instead of trusting this device's copy.
+  useEffect(() => {
+    const rerender = () => setTick((t) => t + 1)
+    window.addEventListener('kp-catalog-updated', rerender)
+    refreshLiveCatalog()
+    return () => window.removeEventListener('kp-catalog-updated', rerender)
+  }, [])
+  const q = filter.trim().toLowerCase()
+  const catName = (id: string) => categories.find((c) => c.id === id)?.name ?? id
+  const list = [...movies]
+    .sort((a, b) => a.title.localeCompare(b.title, 'es'))
+    .filter((m) => !q || m.title.toLowerCase().includes(q) || String(m.year).includes(q) || catName(m.category).toLowerCase().includes(q))
+  return (
+    <section className="kp-panel mb-8">
+      <div className="flex w-full flex-wrap items-center gap-4">
+        <div className="mr-auto">
+          <p className="text-4xl font-black tabular-nums text-pulse-cyan md:text-5xl">{movies.length}</p>
+          <p className="text-sm text-white/60 md:text-base">Películas publicadas en la app</p>
+        </div>
+        <button data-nav className={`kp-btn ${open ? 'kp-btn-active' : ''}`} onClick={() => setOpen((o) => !o)} aria-expanded={open}>
+          {open ? 'Ocultar la lista' : '🎞 Ver todas las películas'}
+        </button>
+      </div>
+      {open && (
+        <>
+          <label htmlFor="kp-admin-filter" className="sr-only">
+            Buscar en la lista
+          </label>
+          <input
+            id="kp-admin-filter"
+            data-nav
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder="Buscar por título, año o categoría"
+            autoComplete="off"
+            className="w-full rounded-full bg-white/10 px-4 py-3 text-white placeholder-white/30 outline-none focus:ring-4 focus:ring-pulse-cyan"
+          />
+          <p className="text-sm text-white/50">{q ? `${list.length} de ${movies.length}` : `${movies.length} películas, de la A a la Z`}</p>
+          <table className="w-full text-left">
+            <thead>
+              <tr className="text-sm text-white/50">
+                <th className="pb-2 pr-4 font-medium">#</th>
+                <th className="pb-2 pr-4 font-medium">Película</th>
+                <th className="pb-2 pr-4 font-medium">Año</th>
+                <th className="hidden pb-2 pr-4 font-medium md:table-cell">Categoría</th>
+                <th className="hidden pb-2 pr-4 font-medium md:table-cell">Duración</th>
+                <th className="pb-2 text-right font-medium">Edad</th>
+              </tr>
+            </thead>
+            <tbody>
+              {list.map((m, i) => (
+                <tr key={m.id} className="border-t border-white/5">
+                  <td className="py-2 pr-4 tabular-nums text-white/40">{i + 1}</td>
+                  <td className="py-2 pr-4 text-white/90">{m.title}</td>
+                  <td className="py-2 pr-4 tabular-nums text-white/60">{m.year}</td>
+                  <td className="hidden py-2 pr-4 text-white/60 md:table-cell">{catName(m.category)}</td>
+                  <td className="hidden py-2 pr-4 tabular-nums text-white/60 md:table-cell">{formatDuration(m.duration)}</td>
+                  <td className="py-2 text-right text-white/60">{m.rating}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
+      )}
+    </section>
+  )
+}
+
 export default function Admin({ onBack }: { onBack: () => void }) {
   const [password, setPassword] = useState(savedPass)
   const [draft, setDraft] = useState('')
@@ -351,6 +424,8 @@ export default function Admin({ onBack }: { onBack: () => void }) {
         ) : (
           <>
             {error && <p className="mb-4 text-pulse-amber">{error}</p>}
+
+            <Published />
 
             <h2 className="mb-4 text-2xl font-bold text-white">Ahora mismo</h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
