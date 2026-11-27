@@ -5971,6 +5971,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_405",
+      "title": "Ready Player One: Comienza el juego",
+      "year": 2018,
+      "duration": 140,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "En 2045, el joven Wade Watts busca un premio oculto en OASIS, un universo de realidad virtual, que dará a quien lo encuentre el control total de ese mundo.",
+      "poster": "https://image.tmdb.org/t/p/w780/fdfE1EtrGgfjxOMaPZ2FBrgMIgG.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/5a7lMDn3nAj2ByO0X1fg6BhUphR.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_4bdecf283f.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
