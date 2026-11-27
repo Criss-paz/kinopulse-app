@@ -6121,6 +6121,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_415",
+      "title": "ParaNorman",
+      "year": 2012,
+      "duration": 92,
+      "category": "animacion",
+      "rating": "ATP",
+      "synopsis": "Norman, un niño que puede hablar con los muertos, debe salvar a su pueblo de una antigua maldición cuando los zombis empiezan a levantarse de sus tumbas.",
+      "poster": "https://image.tmdb.org/t/p/w780/hw4hMkRxtZ2zA8Ll1J44zGDqFyf.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/fRhpdmaA1wTAboeiKW2ZHvDezIm.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_6e83d16eb4.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
