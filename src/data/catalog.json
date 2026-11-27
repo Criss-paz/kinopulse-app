@@ -5866,6 +5866,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_398",
+      "title": "El conjuro 4: Últimos ritos",
+      "year": 2025,
+      "duration": 136,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Los investigadores paranormales Ed y Lorraine Warren enfrentan un último caso aterrador ligado a entidades misteriosas que deberán confrontar a toda costa.",
+      "poster": "https://image.tmdb.org/t/p/w780/mCzTN28knc7dNFFwBPyQ3MVXzU8.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/i8MupUe4xgmYXoRNAQMYvuoexSU.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_6e3419b22f.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
