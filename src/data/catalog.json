@@ -6166,6 +6166,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_418",
+      "title": "Niños grandes 2",
+      "year": 2013,
+      "duration": 101,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Lenny se muda con su familia de vuelta a su pueblo natal y descubre, junto a sus viejos amigos, que las lecciones más importantes llegan de quien menos se espera.",
+      "poster": "https://image.tmdb.org/t/p/w780/bGvxZQOyvvjJMJENo9OnBzXOQzQ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/7JhsJxNmdW0y4IyNrHy10cECrAz.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_3ab5608d3b.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
