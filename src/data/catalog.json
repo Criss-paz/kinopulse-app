@@ -6046,6 +6046,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_410",
+      "title": "Anaconda (2025)",
+      "year": 2025,
+      "duration": 98,
+      "category": "comedia",
+      "rating": "+16",
+      "synopsis": "Un grupo de amigos en plena crisis de la mediana edad viaja a la Amazonía para rehacer su película favorita de la infancia, pero una anaconda gigante real los convierte en su presa.",
+      "poster": "https://image.tmdb.org/t/p/w780/9PBECvTohqOnh9nYr6huoA7UQ4J.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/swxhEJsAWms6X1fDZ4HdbvYBSf9.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_7cd2d4f11e.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
