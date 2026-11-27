@@ -5911,6 +5911,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_401",
+      "title": "Los extraños: Cacería nocturna",
+      "year": 2018,
+      "duration": 86,
+      "category": "terror",
+      "rating": "+16",
+      "synopsis": "Una familia de viaje se detiene en un parque de casas rodantes aislado, donde tres desconocidos enmascarados empiezan a cazarlos uno por uno.",
+      "poster": "https://image.tmdb.org/t/p/w780/jGKNZ0SqSFJgZjsux6s4vr6Jzbr.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/huK2HB1JwVqCPqKBjhiaW4tbEuE.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_10ccc669ad.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
