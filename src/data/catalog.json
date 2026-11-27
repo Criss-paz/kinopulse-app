@@ -5746,6 +5746,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_390",
+      "title": "Venom: Carnage liberado",
+      "year": 2021,
+      "duration": 98,
+      "category": "superheroes",
+      "rating": "+16",
+      "synopsis": "Eddie Brock y Venom aún aprenden a convivir cuando el asesino en serie Cletus Kasady se convierte en Carnage, un simbionte aún más violento y despiadado.",
+      "poster": "https://image.tmdb.org/t/p/w780/kviQ0gYXjBug7JEYteV8IbZzE3l.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/eENEf62tMXbhyVvdcXlnQz2wcuT.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_4881fc1f8b.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
