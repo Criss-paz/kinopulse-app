@@ -5836,6 +5836,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_396",
+      "title": "Creed III",
+      "year": 2023,
+      "duration": 117,
+      "category": "drama",
+      "rating": "+16",
+      "synopsis": "En la cima de su carrera, Adonis Creed ve volver a Damian, un amigo de la infancia que salió de prisión con ganas de reclamar todo lo que cree que le quitaron.",
+      "poster": "https://image.tmdb.org/t/p/w780/fcFMd3HdyX7r5gtFwVnn2qr5Yhq.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/gOIztYywR291pC4k3IpDq7Vj3Kj.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_4ba849e947.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
