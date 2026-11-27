@@ -6001,6 +6001,21 @@
       "type": "mp4",
       "license": "Private Stream",
       "source": "HuggingFace CDN"
+    },
+    {
+      "id": "kp_407",
+      "title": "El precio del mañana (In Time)",
+      "year": 2011,
+      "duration": 109,
+      "category": "ciencia_ficcion",
+      "rating": "+16",
+      "synopsis": "En un futuro donde el tiempo es la moneda y las personas dejan de envejecer a los 25, un joven acusado de asesinato huye con una rehén mientras intenta derrumbar el sistema.",
+      "poster": "https://image.tmdb.org/t/p/w780/aNK0Pn4PegJeSkCuvBHgFdTbHlw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/w1280/pxL08w7Eq0vKrQ3mJzYp0VHGaKG.jpg",
+      "stream": "https://huggingface.co/datasets/Criss-paz/kp-media-vault/resolve/main/kp_asset_2e83ed059a.mp4",
+      "type": "mp4",
+      "license": "Private Stream",
+      "source": "HuggingFace CDN"
     }
   ]
 }
